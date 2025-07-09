@@ -1,4 +1,4 @@
-import { CATEGORY_API_TESTS, KEY_NOTIFY_TEST } from '../core/constants';
+import { CATEGORY_API_TESTS, KEY_TEST_NOTIFY } from '../core/constants';
 
 import type { IngredientDefinition, InputType, NotificationType, ResultType, SpiceDefinition } from 'baratie';
 
@@ -49,25 +49,23 @@ const NOTIFY_TEST_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-function runNotifyTest(input: InputType<unknown>, spices: NotifyTestSpice): ResultType<string> {
-  const { action, message, type, title } = spices;
-
-  if (action === 'show') {
-    Baratie.helpers.notification.show(message, type, title || undefined);
-    return input.update(`Notification helper called with message: "${message}"`);
-  }
-
-  Baratie.helpers.notification.clearAll();
-  return input.update('Cleared all notifications.');
-}
-
-const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice, unknown, string> = {
-  id: KEY_NOTIFY_TEST,
+const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice> = {
+  id: KEY_TEST_NOTIFY,
   name: 'Test: Notification Helper',
   category: CATEGORY_API_TESTS,
   description: 'Tests the notification helper API.',
   spices: NOTIFY_TEST_SPICES,
-  run: runNotifyTest,
+  run: (input: InputType<unknown>, spices: NotifyTestSpice): ResultType<string> => {
+    const { action, message, type, title } = spices;
+
+    if (action === 'show') {
+      Baratie.helpers.notification.show(message, type, title || undefined);
+      return input.update(`Notification helper called with message: "${message}"`);
+    }
+
+    Baratie.helpers.notification.clearAll();
+    return input.update('Cleared all notifications.');
+  },
 };
 
 Baratie.ingredientRegistry.registerIngredient(NOTIFY_TEST_DEFINITION);

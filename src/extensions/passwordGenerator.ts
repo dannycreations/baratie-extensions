@@ -62,46 +62,44 @@ const PASSWORD_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-function runPasswordGenerator(input: InputType<unknown>, spices: PasswordSpice): ResultType<string> {
-  const { length, hasUppercase, hasLowercase, hasNumbers, hasSymbols, excludeAmbiguous, excludedChars } = spices;
-  const exclusionSet = new Set(excludedChars.split(''));
-  if (excludeAmbiguous) {
-    for (const char of DEFAULT_CHARS.ambiguous) {
-      exclusionSet.add(char);
-    }
-  }
-  const charSets = [
-    { include: hasUppercase, source: DEFAULT_CHARS.uppercase },
-    { include: hasLowercase, source: DEFAULT_CHARS.lowercase },
-    { include: hasNumbers, source: DEFAULT_CHARS.numbers },
-    { include: hasSymbols, source: DEFAULT_CHARS.symbols },
-  ];
-  let charPool = '';
-  for (const set of charSets) {
-    if (set.include) {
-      const availableChars = set.source.split('').filter((char) => !exclusionSet.has(char));
-      charPool += availableChars.join('');
-    }
-  }
-  if (charPool === '') {
-    return input.update('Error: No character types selected. Please enable at least one character set.');
-  }
-  const passwordChars: string[] = [];
-  const randomIndices = new Uint32Array(length);
-  crypto.getRandomValues(randomIndices);
-  for (let i = 0; i < length; i++) {
-    passwordChars.push(charPool[randomIndices[i] % charPool.length]);
-  }
-  return input.update(passwordChars.join(''));
-}
-
-const PASSWORD_GENERATOR_DEFINITION: IngredientDefinition<PasswordSpice, unknown, string> = {
+const PASSWORD_GENERATOR_DEFINITION: IngredientDefinition<PasswordSpice> = {
   id: KEY_RANDOM_PASSWORD,
   name: 'Generate Password',
   category: CATEGORY_GENERATORS,
   description: 'Generates strong, random passwords with customizable options.',
   spices: PASSWORD_SPICES,
-  run: runPasswordGenerator,
+  run: (input: InputType<unknown>, spices: PasswordSpice): ResultType<string> => {
+    const { length, hasUppercase, hasLowercase, hasNumbers, hasSymbols, excludeAmbiguous, excludedChars } = spices;
+    const exclusionSet = new Set(excludedChars.split(''));
+    if (excludeAmbiguous) {
+      for (const char of DEFAULT_CHARS.ambiguous) {
+        exclusionSet.add(char);
+      }
+    }
+    const charSets = [
+      { include: hasUppercase, source: DEFAULT_CHARS.uppercase },
+      { include: hasLowercase, source: DEFAULT_CHARS.lowercase },
+      { include: hasNumbers, source: DEFAULT_CHARS.numbers },
+      { include: hasSymbols, source: DEFAULT_CHARS.symbols },
+    ];
+    let charPool = '';
+    for (const set of charSets) {
+      if (set.include) {
+        const availableChars = set.source.split('').filter((char) => !exclusionSet.has(char));
+        charPool += availableChars.join('');
+      }
+    }
+    if (charPool === '') {
+      return input.update('Error: No character types selected. Please enable at least one character set.');
+    }
+    const passwordChars: string[] = [];
+    const randomIndices = new Uint32Array(length);
+    crypto.getRandomValues(randomIndices);
+    for (let i = 0; i < length; i++) {
+      passwordChars.push(charPool[randomIndices[i] % charPool.length]);
+    }
+    return input.update(passwordChars.join(''));
+  },
 };
 
 Baratie.ingredientRegistry.registerIngredient(PASSWORD_GENERATOR_DEFINITION);

@@ -247,66 +247,64 @@ function buildAnyInTerm(value: string | undefined, prefix: string): string[] {
     .map((term: string): string => `${prefix}${term}`);
 }
 
-function runGoogleDork(input: InputType<unknown>, spices: GoogleDorkSpice): ResultType<string> {
-  const queryParts: string[] = [];
-
-  if (spices.mainQuery?.trim()) {
-    queryParts.push(spices.mainQuery.trim());
-  }
-  if (spices.exactPhrase?.trim()) {
-    queryParts.push(`"${spices.exactPhrase.trim()}"`);
-  }
-
-  queryParts.push(...buildAllInTerm(spices.allInTitle, 'allintitle:'));
-  queryParts.push(...buildAnyInTerm(spices.anyInTitle, 'intitle:'));
-  queryParts.push(...buildAllInTerm(spices.allInText, 'allintext:'));
-  queryParts.push(...buildAnyInTerm(spices.anyInText, 'intext:'));
-  queryParts.push(...buildAllInTerm(spices.allInUrl, 'allinurl:'));
-  queryParts.push(...buildAnyInTerm(spices.anyInUrl, 'inurl:'));
-  queryParts.push(...buildAllInTerm(spices.allInAnchor, 'allinanchor:'));
-  queryParts.push(...buildAnyInTerm(spices.anyInAnchor, 'inanchor:'));
-  queryParts.push(...buildAnyInTerm(spices.excludedTerms, '-'));
-
-  if (spices.siteFilter?.trim()) {
-    queryParts.push(`site:${spices.siteFilter.trim()}`);
-  }
-
-  if (spices.isAround && spices.aroundTerm1?.trim() && spices.aroundTerm2?.trim() && spices.aroundDistance && spices.aroundDistance > 0) {
-    queryParts.push(`${spices.aroundTerm1.trim()} AROUND(${spices.aroundDistance}) ${spices.aroundTerm2.trim()}`);
-  }
-
-  if (spices.isDateFiltered) {
-    if (spices.dateBefore?.trim()) queryParts.push(`before:${spices.dateBefore.trim()}`);
-    if (spices.dateAfter?.trim()) queryParts.push(`after:${spices.dateAfter.trim()}`);
-  }
-
-  if (spices.defineTerm?.trim()) {
-    queryParts.push(`define:${spices.defineTerm.trim()}`);
-  }
-
-  if (spices.fileType?.trim()) {
-    queryParts.push(`filetype:${spices.fileType.trim().replace(/^\./, '')}`);
-  }
-
-  if (spices.isNumberRange && spices.numberRangeStart?.trim() && spices.numberRangeEnd?.trim()) {
-    const rangePrefix = spices.numberRangePrefix?.trim() ? `${spices.numberRangePrefix.trim()} ` : '';
-    queryParts.push(`${rangePrefix}${spices.numberRangeStart.trim()}..${spices.numberRangeEnd.trim()}`);
-  }
-
-  const query: string = queryParts
-    .join(' ')
-    .trim()
-    .replace(/\s{2,}/g, ' ');
-  return input.update(query);
-}
-
-const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice, unknown, string> = {
+const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
   id: KEY_GOOGLE_DORK,
   name: 'Google Dork',
   category: CATEGORY_WEB_TOOLS,
   description: 'Constructs advanced Google Dork queries using various operators.',
   spices: GOOGLE_DORK_SPICES,
-  run: runGoogleDork,
+  run: (input: InputType<unknown>, spices: GoogleDorkSpice): ResultType<string> => {
+    const queryParts: string[] = [];
+
+    if (spices.mainQuery?.trim()) {
+      queryParts.push(spices.mainQuery.trim());
+    }
+    if (spices.exactPhrase?.trim()) {
+      queryParts.push(`"${spices.exactPhrase.trim()}"`);
+    }
+
+    queryParts.push(...buildAllInTerm(spices.allInTitle, 'allintitle:'));
+    queryParts.push(...buildAnyInTerm(spices.anyInTitle, 'intitle:'));
+    queryParts.push(...buildAllInTerm(spices.allInText, 'allintext:'));
+    queryParts.push(...buildAnyInTerm(spices.anyInText, 'intext:'));
+    queryParts.push(...buildAllInTerm(spices.allInUrl, 'allinurl:'));
+    queryParts.push(...buildAnyInTerm(spices.anyInUrl, 'inurl:'));
+    queryParts.push(...buildAllInTerm(spices.allInAnchor, 'allinanchor:'));
+    queryParts.push(...buildAnyInTerm(spices.anyInAnchor, 'inanchor:'));
+    queryParts.push(...buildAnyInTerm(spices.excludedTerms, '-'));
+
+    if (spices.siteFilter?.trim()) {
+      queryParts.push(`site:${spices.siteFilter.trim()}`);
+    }
+
+    if (spices.isAround && spices.aroundTerm1?.trim() && spices.aroundTerm2?.trim() && spices.aroundDistance && spices.aroundDistance > 0) {
+      queryParts.push(`${spices.aroundTerm1.trim()} AROUND(${spices.aroundDistance}) ${spices.aroundTerm2.trim()}`);
+    }
+
+    if (spices.isDateFiltered) {
+      if (spices.dateBefore?.trim()) queryParts.push(`before:${spices.dateBefore.trim()}`);
+      if (spices.dateAfter?.trim()) queryParts.push(`after:${spices.dateAfter.trim()}`);
+    }
+
+    if (spices.defineTerm?.trim()) {
+      queryParts.push(`define:${spices.defineTerm.trim()}`);
+    }
+
+    if (spices.fileType?.trim()) {
+      queryParts.push(`filetype:${spices.fileType.trim().replace(/^\./, '')}`);
+    }
+
+    if (spices.isNumberRange && spices.numberRangeStart?.trim() && spices.numberRangeEnd?.trim()) {
+      const rangePrefix = spices.numberRangePrefix?.trim() ? `${spices.numberRangePrefix.trim()} ` : '';
+      queryParts.push(`${rangePrefix}${spices.numberRangeStart.trim()}..${spices.numberRangeEnd.trim()}`);
+    }
+
+    const query: string = queryParts
+      .join(' ')
+      .trim()
+      .replace(/\s{2,}/g, ' ');
+    return input.update(query);
+  },
 };
 
 Baratie.ingredientRegistry.registerIngredient(GOOGLE_DORK_DEFINITION);
