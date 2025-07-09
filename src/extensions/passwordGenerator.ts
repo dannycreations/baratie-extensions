@@ -1,4 +1,4 @@
-import { CATEGORY_GENERATORS, KEY_RANDOM_PASSWORD } from '../core/constants';
+import { CATEGORY_GENERATORS } from '../core/constants';
 
 import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
 
@@ -63,8 +63,7 @@ const PASSWORD_SPICES: readonly SpiceDefinition[] = [
 ];
 
 const PASSWORD_GENERATOR_DEFINITION: IngredientDefinition<PasswordSpice> = {
-  id: KEY_RANDOM_PASSWORD,
-  name: 'Generate Password',
+  name: Symbol('Generate Password'),
   category: CATEGORY_GENERATORS,
   description: 'Generates strong, random passwords with customizable options.',
   spices: PASSWORD_SPICES,
@@ -102,4 +101,4 @@ const PASSWORD_GENERATOR_DEFINITION: IngredientDefinition<PasswordSpice> = {
   },
 };
 
-Baratie.ingredientRegistry.registerIngredient(PASSWORD_GENERATOR_DEFINITION);
+Baratie.ingredient.registerIngredient(PASSWORD_GENERATOR_DEFINITION);

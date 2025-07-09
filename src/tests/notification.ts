@@ -1,4 +1,4 @@
-import { CATEGORY_API_TESTS, KEY_TEST_NOTIFY } from '../core/constants';
+import { CATEGORY_API_TESTS } from '../core/constants';
 
 import type { IngredientDefinition, InputType, NotificationType, ResultType, SpiceDefinition } from 'baratie';
 
@@ -50,8 +50,7 @@ const NOTIFY_TEST_SPICES: readonly SpiceDefinition[] = [
 ];
 
 const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice> = {
-  id: KEY_TEST_NOTIFY,
-  name: 'Test: Notification Helper',
+  name: Symbol('Test: Notification Helper'),
   category: CATEGORY_API_TESTS,
   description: 'Tests the notification helper API.',
   spices: NOTIFY_TEST_SPICES,
@@ -63,9 +62,9 @@ const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice> = {
       return input.update(`Notification helper called with message: "${message}"`);
     }
 
-    Baratie.helpers.notification.clearAll();
+    Baratie.helpers.notification.clear();
     return input.update('Cleared all notifications.');
   },
 };
 
-Baratie.ingredientRegistry.registerIngredient(NOTIFY_TEST_DEFINITION);
+Baratie.ingredient.registerIngredient(NOTIFY_TEST_DEFINITION);

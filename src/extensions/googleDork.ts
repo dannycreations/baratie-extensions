@@ -1,4 +1,4 @@
-import { CATEGORY_WEB_TOOLS, KEY_GOOGLE_DORK } from '../core/constants';
+import { CATEGORY_WEB_TOOLS } from '../core/constants';
 
 import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
 
@@ -248,8 +248,7 @@ function buildAnyInTerm(value: string | undefined, prefix: string): string[] {
 }
 
 const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
-  id: KEY_GOOGLE_DORK,
-  name: 'Google Dork',
+  name: Symbol('Google Dork'),
   category: CATEGORY_WEB_TOOLS,
   description: 'Constructs advanced Google Dork queries using various operators.',
   spices: GOOGLE_DORK_SPICES,
@@ -307,4 +306,4 @@ const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
   },
 };
 
-Baratie.ingredientRegistry.registerIngredient(GOOGLE_DORK_DEFINITION);
+Baratie.ingredient.registerIngredient(GOOGLE_DORK_DEFINITION);

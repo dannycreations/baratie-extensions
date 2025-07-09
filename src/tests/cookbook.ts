@@ -1,4 +1,4 @@
-import { CATEGORY_API_TESTS, KEY_TEST_COOKBOOK } from '../core/constants';
+import { CATEGORY_API_TESTS } from '../core/constants';
 
 import type { Ingredient, IngredientDefinition, InputType, RecipeBookItem, ResultType, SpiceDefinition } from 'baratie';
 
@@ -24,8 +24,7 @@ const COOKBOOK_TEST_SPICES: readonly SpiceDefinition[] = [
 ];
 
 const COOKBOOK_TEST_DEFINITION: IngredientDefinition<CookbookTestSpice> = {
-  id: KEY_TEST_COOKBOOK,
-  name: 'Test: Cookbook Helper',
+  name: Symbol('Test: Cookbook Helper'),
   category: CATEGORY_API_TESTS,
   description: 'Tests saving, deleting, and exporting recipes using the cookbook helper.',
   spices: COOKBOOK_TEST_SPICES,
@@ -101,4 +100,4 @@ const COOKBOOK_TEST_DEFINITION: IngredientDefinition<CookbookTestSpice> = {
   },
 };
 
-Baratie.ingredientRegistry.registerIngredient(COOKBOOK_TEST_DEFINITION);
+Baratie.ingredient.registerIngredient(COOKBOOK_TEST_DEFINITION);
