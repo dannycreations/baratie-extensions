@@ -6,6 +6,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "dev": "vite",
     "build": "vite build && tsx scripts/output.build.ts",
     "clean": "rimraf -g \"*.tsbuildinfo\" \"dist\"",
     "update": "npm-check-updates -u -x @types/node"
