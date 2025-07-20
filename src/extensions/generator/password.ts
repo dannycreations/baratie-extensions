@@ -101,9 +101,9 @@ const PASSWORD_DEFINITION: IngredientDefinition<PasswordSpice> = {
     }
 
     const passwordChars: string[] = [];
-    const randomIndices = new Uint32Array(length);
+    const randomIndices = new Uint32Array(spices.length);
     crypto.getRandomValues(randomIndices);
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < spices.length; i++) {
       passwordChars.push(charPool[randomIndices[i] % charPool.length]);
     }
 
