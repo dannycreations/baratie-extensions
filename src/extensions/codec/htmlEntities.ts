@@ -33,7 +33,6 @@ const HTML_ENTITIES_DEFINITION: IngredientDefinition<HtmlEntitiesSpice> = {
 
     let result = '';
     const textarea = document.createElement('textarea');
-
     if (spices.operation === 'encode') {
       textarea.textContent = text;
       result = textarea.innerHTML;

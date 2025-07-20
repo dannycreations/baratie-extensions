@@ -259,6 +259,7 @@ const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
     if (mainQueryTrimmed) {
       queryParts.push(mainQueryTrimmed);
     }
+
     const exactPhraseTrimmed = spices.exactPhrase.trim();
     if (exactPhraseTrimmed) {
       queryParts.push(`"${exactPhraseTrimmed}"`);
@@ -310,11 +311,12 @@ const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
       queryParts.push(`${rangePrefix}${numberRangeStartTrimmed}..${numberRangeEndTrimmed}`);
     }
 
-    const query: string = queryParts
-      .join(' ')
-      .trim()
-      .replace(/\s{2,}/g, ' ');
-    return input.update(query);
+    return input.update(
+      queryParts
+        .join(' ')
+        .trim()
+        .replace(/\s{2,}/g, ' '),
+    );
   },
 };
 

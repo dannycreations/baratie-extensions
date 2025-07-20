@@ -32,14 +32,10 @@ const URL_DEFINITION: IngredientDefinition<URLSpice> = {
     }
 
     let result = '';
-    try {
-      if (spices.operation === 'encode') {
-        result = encodeURIComponent(text);
-      } else {
-        result = decodeURIComponent(text);
-      }
-    } catch (e: unknown) {
-      return input.update(`Error: ${(e as Error).message}`);
+    if (spices.operation === 'encode') {
+      result = encodeURIComponent(text);
+    } else {
+      result = decodeURIComponent(text);
     }
 
     return input.update(result);

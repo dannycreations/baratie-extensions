@@ -68,39 +68,45 @@ const PASSWORD_DEFINITION: IngredientDefinition<PasswordSpice> = {
   description: 'Generates strong, random passwords with customizable options.',
   spices: PASSWORD_SPICES,
   run: (input: InputType, spices: PasswordSpice): ResultType<string> => {
-    const { length, hasUppercase, hasLowercase, hasNumbers, hasSymbols, excludeAmbiguous, excludedChars } = spices;
-    const exclusionSet = new Set(excludedChars.split(''));
-    if (excludeAmbiguous) {
+    const exclusionSet = new Set(spices.excludedChars.split(''));
+    if (spices.excludeAmbiguous) {
       for (const char of DEFAULT_CHARS.ambiguous) {
         exclusionSet.add(char);
       }
     }
+
     const charSets = [
-      { include: hasUppercase, source: DEFAULT_CHARS.uppercase },
-      { include: hasLowercase, source: DEFAULT_CHARS.lowercase },
-      { include: hasNumbers, source: DEFAULT_CHARS.numbers },
-      { include: hasSymbols, source: DEFAULT_CHARS.symbols },
+      { include: spices.hasUppercase, source: DEFAULT_CHARS.uppercase },
+      { include: spices.hasLowercase, source: DEFAULT_CHARS.lowercase },
+      { include: spices.hasNumbers, source: DEFAULT_CHARS.numbers },
+      { include: spices.hasSymbols, source: DEFAULT_CHARS.symbols },
     ];
+
     const charPoolArray: string[] = [];
     for (const set of charSets) {
-      if (set.include) {
-        for (const char of set.source) {
-          if (!exclusionSet.has(char)) {
-            charPoolArray.push(char);
-          }
+      if (!set.include) {
+        continue;
+      }
+
+      for (const char of set.source) {
+        if (!exclusionSet.has(char)) {
+          charPoolArray.push(char);
         }
       }
     }
+
     const charPool = charPoolArray.join('');
-    if (charPool === '') {
+    if (!charPool) {
       return input.update('Error: No character types selected. Please enable at least one character set.');
     }
+
     const passwordChars: string[] = [];
     const randomIndices = new Uint32Array(length);
     crypto.getRandomValues(randomIndices);
     for (let i = 0; i < length; i++) {
       passwordChars.push(charPool[randomIndices[i] % charPool.length]);
     }
+
     return input.update(passwordChars.join(''));
   },
 };

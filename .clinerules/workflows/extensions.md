@@ -75,27 +75,19 @@ const YOUR_EXTENSION_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const YOUR_EXTENSION_DEFINITION: IngredientDefinition<YourExtensionSpice, unknown, string> = {
+const YOUR_EXTENSION_DEFINITION: IngredientDefinition<YourExtensionSpice> = {
   name: Symbol('YourExtensionName'),
   category: CATEGORY_YOUR_CATEGORY,
-  description: 'A brief description of what this extension does, leveraging detailed type information.',
+  description: 'A brief description of what this extension does.',
   spices: YOUR_EXTENSION_SPICES,
   run: (input: InputType, spices: YourExtensionSpice, context: IngredientContext): ResultType<string> => {
-    // Access input value
     const inputValue = input.cast('string').getValue();
 
-    // Access spice values
-    const { someParam, someBoolean } = spices;
-
-    // Access context (e.g., current recipe, initial input)
-    console.log('Current recipe length:', context.recipe.length);
-
-    let result = `Processed "${inputValue}" with param: ${someParam}`;
-    if (someBoolean) {
+    let result = `Processed "${inputValue}" with param: ${spices.someParam}`;
+    if (spices.someBoolean) {
       result += ' (Feature Enabled)';
     }
 
-    // Return the result
     return input.update(result);
   },
 };
@@ -103,11 +95,7 @@ const YOUR_EXTENSION_DEFINITION: IngredientDefinition<YourExtensionSpice, unknow
 Baratie.ingredient.registerIngredient(YOUR_EXTENSION_DEFINITION);
 ```
 
-### Step 3: Register the Ingredient
-
-At the end of your extension file, register your ingredient with Baratie using `Baratie.ingredient.registerIngredient(YOUR_EXTENSION_DEFINITION);`.
-
-### Step 4: Import the New Extension
+### Step 3: Import the New Extension
 
 Open `src/index.ts` and add an import statement for your new extension file. This ensures that your extension is loaded when the application starts.
 

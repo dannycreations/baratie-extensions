@@ -21,13 +21,6 @@ const NOTIFY_TEST_SPICES: readonly SpiceDefinition[] = [
     ],
   },
   {
-    id: 'message',
-    label: 'Message',
-    type: 'string',
-    value: 'This is a test notification.',
-    dependsOn: [{ spiceId: 'action', value: 'show' }],
-  },
-  {
     id: 'type',
     label: 'Type',
     type: 'select',
@@ -41,8 +34,15 @@ const NOTIFY_TEST_SPICES: readonly SpiceDefinition[] = [
     dependsOn: [{ spiceId: 'action', value: 'show' }],
   },
   {
+    id: 'message',
+    label: 'Message',
+    type: 'string',
+    value: 'This is a test notification.',
+    dependsOn: [{ spiceId: 'action', value: 'show' }],
+  },
+  {
     id: 'title',
-    label: 'Title (Optional)',
+    label: 'Title',
     type: 'string',
     value: 'API Test',
     dependsOn: [{ spiceId: 'action', value: 'show' }],
@@ -55,11 +55,9 @@ const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice> = {
   description: 'Tests the notification helper API.',
   spices: NOTIFY_TEST_SPICES,
   run: (input: InputType, spices: NotifyTestSpice): ResultType<string> => {
-    const { action, message, type, title } = spices;
-
-    if (action === 'show') {
-      Baratie.helpers.notification.show(message, type, title || undefined);
-      return input.update(`Notification helper called with message: "${message}"`);
+    if (spices.action === 'show') {
+      Baratie.helpers.notification.show(spices.message, spices.type, spices.title);
+      return input.update(`Notification helper called with message: "${spices.message}"`);
     }
 
     Baratie.helpers.notification.clear();

@@ -30,9 +30,8 @@ const COOKBOOK_TEST_DEFINITION: IngredientDefinition<CookbookTestSpice> = {
   spices: COOKBOOK_TEST_SPICES,
   run: (input: InputType, spices: CookbookTestSpice): ResultType<string> | null => {
     const { cookbook, recipe } = Baratie.helpers;
-    const { action } = spices;
 
-    switch (action) {
+    switch (spices.action) {
       case 'save_current': {
         const activeIngredients: readonly Ingredient[] = recipe.getAll();
         if (activeIngredients.length === 0) {

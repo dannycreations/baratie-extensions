@@ -32,14 +32,10 @@ const BASE64_DEFINITION: IngredientDefinition<Base64Spice> = {
     }
 
     let result = '';
-    try {
-      if (spices.operation === 'encode') {
-        result = btoa(text);
-      } else {
-        result = atob(text);
-      }
-    } catch (e: unknown) {
-      return input.update(`Error: ${(e as Error).message}`);
+    if (spices.operation === 'encode') {
+      result = btoa(text);
+    } else {
+      result = atob(text);
     }
 
     return input.update(result);

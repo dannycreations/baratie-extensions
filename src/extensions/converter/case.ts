@@ -56,48 +56,45 @@ const CASE_DEFINITION: IngredientDefinition<CaseSpice> = {
       return null;
     }
 
-    let convertedText = '';
-
+    let result = text;
     switch (spices.conversionType) {
       case 'upperCase':
-        convertedText = text.toUpperCase();
+        result = text.toUpperCase();
         break;
       case 'lowerCase':
-        convertedText = text.toLowerCase();
+        result = text.toLowerCase();
         break;
       case 'titleCase':
-        convertedText = splitIntoWords(text)
+        result = splitIntoWords(text)
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
         break;
       case 'camelCase': {
         const words = splitIntoWords(text);
-        convertedText = words.map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))).join('');
+        result = words.map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))).join('');
         break;
       }
       case 'pascalCase':
-        convertedText = splitIntoWords(text)
+        result = splitIntoWords(text)
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join('');
         break;
       case 'snakeCase':
-        convertedText = splitIntoWords(text).join('_');
+        result = splitIntoWords(text).join('_');
         break;
       case 'kebabCase':
-        convertedText = splitIntoWords(text).join('-');
+        result = splitIntoWords(text).join('-');
         break;
       case 'constantCase':
-        convertedText = splitIntoWords(text).join('_').toUpperCase();
+        result = splitIntoWords(text).join('_').toUpperCase();
         break;
       case 'customCase':
         const delimiter = spices.customDelimiter || '';
-        convertedText = text.split(/\s+/).join(delimiter);
+        result = text.split(/\s+/).join(delimiter);
         break;
-      default:
-        convertedText = text;
     }
 
-    return input.update(convertedText);
+    return input.update(result);
   },
 };
 
