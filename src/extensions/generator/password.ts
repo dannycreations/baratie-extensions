@@ -67,7 +67,7 @@ const PASSWORD_DEFINITION: IngredientDefinition<PasswordSpice> = {
   category: CATEGORY_GENERATORS,
   description: 'Generates strong, random passwords with customizable options.',
   spices: PASSWORD_SPICES,
-  run: (input: InputType<unknown>, spices: PasswordSpice): ResultType<string> => {
+  run: (input: InputType, spices: PasswordSpice): ResultType<string> => {
     const { length, hasUppercase, hasLowercase, hasNumbers, hasSymbols, excludeAmbiguous, excludedChars } = spices;
     const exclusionSet = new Set(excludedChars.split(''));
     if (excludeAmbiguous) {

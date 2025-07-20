@@ -54,7 +54,7 @@ const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice> = {
   category: CATEGORY_API_TESTS,
   description: 'Tests the notification helper API.',
   spices: NOTIFY_TEST_SPICES,
-  run: (input: InputType<unknown>, spices: NotifyTestSpice): ResultType<string> => {
+  run: (input: InputType, spices: NotifyTestSpice): ResultType<string> => {
     const { action, message, type, title } = spices;
 
     if (action === 'show') {

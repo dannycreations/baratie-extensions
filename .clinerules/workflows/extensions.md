@@ -80,7 +80,7 @@ const YOUR_EXTENSION_DEFINITION: IngredientDefinition<YourExtensionSpice, unknow
   category: CATEGORY_YOUR_CATEGORY,
   description: 'A brief description of what this extension does, leveraging detailed type information.',
   spices: YOUR_EXTENSION_SPICES,
-  run: (input: InputType<unknown>, spices: YourExtensionSpice, context: IngredientContext): ResultType<string> => {
+  run: (input: InputType, spices: YourExtensionSpice, context: IngredientContext): ResultType<string> => {
     // Access input value
     const inputValue = input.cast('string').getValue();
 

@@ -252,7 +252,7 @@ const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
   category: CATEGORY_WEB_TOOLS,
   description: 'Constructs advanced Google Dork queries using various operators.',
   spices: GOOGLE_DORK_SPICES,
-  run: (input: InputType<unknown>, spices: GoogleDorkSpice): ResultType<string> => {
+  run: (input: InputType, spices: GoogleDorkSpice): ResultType<string> => {
     const queryParts: string[] = [];
 
     const mainQueryTrimmed = spices.mainQuery.trim();

@@ -50,7 +50,7 @@ const CASE_DEFINITION: IngredientDefinition<CaseSpice> = {
   category: CATEGORY_CONVERTERS,
   description: 'Converts text between various case formats (e.g., UPPER CASE, lower case, Title Case, camelCase).',
   spices: CASE_SPICES,
-  run: (input: InputType<unknown>, spices: CaseSpice): ResultType<string> => {
+  run: (input: InputType, spices: CaseSpice): ResultType<string> => {
     const text = input.cast('string').getValue();
     if (!text) {
       return null;

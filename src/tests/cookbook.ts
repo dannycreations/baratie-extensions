@@ -28,7 +28,7 @@ const COOKBOOK_TEST_DEFINITION: IngredientDefinition<CookbookTestSpice> = {
   category: CATEGORY_API_TESTS,
   description: 'Tests saving, deleting, and exporting recipes using the cookbook helper.',
   spices: COOKBOOK_TEST_SPICES,
-  run: (input: InputType<unknown>, spices: CookbookTestSpice): ResultType<string> | null => {
+  run: (input: InputType, spices: CookbookTestSpice): ResultType<string> | null => {
     const { cookbook, recipe } = Baratie.helpers;
     const { action } = spices;
 
