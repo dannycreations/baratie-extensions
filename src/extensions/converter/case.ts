@@ -8,11 +8,21 @@ interface CaseSpice {
 }
 
 function splitIntoWords(str: string): string[] {
-  const normalized = str.replace(/[-_\s]+/g, ' ').trim();
-  return normalized
-    .split(/(?=[A-Z])|\s+/)
-    .filter(Boolean)
-    .map((word) => word.toLowerCase());
+  // Replace non-alphanumeric characters (except spaces) with spaces
+  let result = str.replace(/[^a-zA-Z0-9]+/g, ' ');
+
+  // Add spaces between camelCase/PascalCase transitions
+  result = result.replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
+  result = result.replace(/([a-z\d])([A-Z])/g, '$1 $2');
+
+  // Normalize multiple spaces to a single space and trim
+  result = result.replace(/\s+/g, ' ').trim();
+
+  // Split by space and convert to lowercase
+  return result
+    .split(' ')
+    .map((word) => word.toLowerCase())
+    .filter(Boolean);
 }
 
 const CASE_SPICES: readonly SpiceDefinition[] = [
