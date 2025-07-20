@@ -1,31 +1,13 @@
-import { CATEGORY_CONVERTERS } from '../../core/constants';
+import { CATEGORY_FORMATTER } from '../../core/constants';
 
-import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface CaseSpice {
   readonly conversionType: string;
   readonly customDelimiter?: string;
 }
 
-function splitIntoWords(str: string): string[] {
-  // Replace non-alphanumeric characters (except spaces) with spaces
-  let result = str.replace(/[^a-zA-Z0-9]+/g, ' ');
-
-  // Add spaces between camelCase/PascalCase transitions
-  result = result.replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
-  result = result.replace(/([a-z\d])([A-Z])/g, '$1 $2');
-
-  // Normalize multiple spaces to a single space and trim
-  result = result.replace(/\s+/g, ' ').trim();
-
-  // Split by space and convert to lowercase
-  return result
-    .split(' ')
-    .map((word) => word.toLowerCase())
-    .filter(Boolean);
-}
-
-const CASE_SPICES: readonly SpiceDefinition[] = [
+const caseSpices: readonly SpiceDefinition[] = [
   {
     id: 'conversionType',
     label: 'Conversion Type',
@@ -55,52 +37,70 @@ const CASE_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const CASE_DEFINITION: IngredientDefinition<CaseSpice> = {
+function splitIntoWords(str: string): string[] {
+  // Replace non-alphanumeric characters (except spaces) with spaces
+  let result = str.replace(/[^a-zA-Z0-9]+/g, ' ');
+
+  // Add spaces between camelCase/PascalCase transitions
+  result = result.replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
+  result = result.replace(/([a-z\d])([A-Z])/g, '$1 $2');
+
+  // Normalize multiple spaces to a single space and trim
+  result = result.replace(/\s+/g, ' ').trim();
+
+  // Split by space and convert to lowercase
+  return result
+    .split(' ')
+    .map((word) => word.toLowerCase())
+    .filter(Boolean);
+}
+
+const caseDefinition: IngredientDefinition<CaseSpice> = {
   name: Symbol('Case'),
-  category: CATEGORY_CONVERTERS,
-  description: 'Converts text between various case formats (e.g., UPPER CASE, lower case, Title Case, camelCase).',
-  spices: CASE_SPICES,
-  run: (input: InputType, spices: CaseSpice): ResultType<string> => {
-    const text = input.cast('string').getValue();
-    if (!text) {
+  category: CATEGORY_FORMATTER,
+  description: 'Converts text between various case formats.',
+  spices: caseSpices,
+  run: (input, spices) => {
+    const inputValue = input.cast('string').getValue();
+    if (!inputValue) {
       return null;
     }
 
-    let result = text;
+    let result = inputValue;
     switch (spices.conversionType) {
       case 'upperCase':
-        result = text.toUpperCase();
+        result = inputValue.toUpperCase();
         break;
       case 'lowerCase':
-        result = text.toLowerCase();
+        result = inputValue.toLowerCase();
         break;
       case 'titleCase':
-        result = splitIntoWords(text)
+        result = splitIntoWords(inputValue)
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
         break;
       case 'camelCase': {
-        const words = splitIntoWords(text);
+        const words = splitIntoWords(inputValue);
         result = words.map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))).join('');
         break;
       }
       case 'pascalCase':
-        result = splitIntoWords(text)
+        result = splitIntoWords(inputValue)
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join('');
         break;
       case 'snakeCase':
-        result = splitIntoWords(text).join('_');
+        result = splitIntoWords(inputValue).join('_');
         break;
       case 'kebabCase':
-        result = splitIntoWords(text).join('-');
+        result = splitIntoWords(inputValue).join('-');
         break;
       case 'constantCase':
-        result = splitIntoWords(text).join('_').toUpperCase();
+        result = splitIntoWords(inputValue).join('_').toUpperCase();
         break;
       case 'customCase':
         const delimiter = spices.customDelimiter || '';
-        result = text.split(/\s+/).join(delimiter);
+        result = inputValue.split(/\s+/).join(delimiter);
         break;
     }
 
@@ -108,4 +108,4 @@ const CASE_DEFINITION: IngredientDefinition<CaseSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(CASE_DEFINITION);
+Baratie.ingredient.registerIngredient(caseDefinition);

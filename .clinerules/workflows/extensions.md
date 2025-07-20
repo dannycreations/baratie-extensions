@@ -6,7 +6,7 @@ This workflow outlines the steps to add a new extension (Ingredient) to the Bara
 
 ### Step 1: Create the Extension File
 
-Create a new TypeScript file for your extension. It's recommended to organize extensions into logical categories (e.g., `converter`, `generator`, `web`) within the `src/extensions/` directory.
+Create a new TypeScript file for your extension. It's recommended to organize extensions into logical categories (e.g., `formatter`, `generator`, `web`) within the `src/extensions/` directory.
 
 **Example File Path:** `src/extensions/your_category/yourExtensionName.ts`
 
@@ -33,32 +33,29 @@ Inside your new extension file, define an `IngredientDefinition`. This involves:
   - `value`: The default value for the spice.
   - `description?`: An optional `string` for a tooltip or help text.
   - `dependsOn?`: An optional `readonly SpiceDependency[]` to control visibility based on other spice values.
-- **`IngredientRunner<T, InType, OutType>`**:
+- **`IngredientRunner<T>`**:
   - `T`: The TypeScript interface for your custom spices (e.g., `YourExtensionSpice`).
-  - `InType`: The type of the input value received by the `run` function.
-  - `OutType`: The type of the output value produced by the `run` function.
   - `context`: Provides additional runtime information about the current ingredient and recipe execution.
   - **Important Note on Input Validation**: If your extension requires input to function and that input is missing or invalid (e.g., `input.cast('string').getValue()` returns `null` or an empty string), it is good practice to return `null` from the `run` function. This signals that the extension cannot produce a meaningful output without the necessary input, preventing errors or misleading results.
 
 - **`ResultType<OutType>`**: The return type of the `run` function, which can be:
-  - `InputType<OutType>`: To update the main input/output panel with a new value.
+  - `InputType<OutType>`: To update the main input/output panel with a new value or error message.
   - `PanelControlSignal<OutType>`: To control specific UI panels (e.g., switch input mode).
   - `null`: If the extension doesn't produce an output for the main panel (e.g., due to missing input).
 
-**Example Structure (simplified):**
+**Example Structure:**
 
 ```typescript
-import { CATEGORY_YOUR_CATEGORY } from '../../core/constants';
+import { CATEGORY_YOUR_EXTENSION } from '../../core/constants';
 
-import type { IngredientContext, IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface YourExtensionSpice {
-  // Define your spices here, e.g.,
   readonly someParam: string;
   readonly someBoolean: boolean;
 }
 
-const YOUR_EXTENSION_SPICES: readonly SpiceDefinition[] = [
+const yourExtensionSpices: readonly SpiceDefinition[] = [
   {
     id: 'someParam',
     label: 'Some Parameter',
@@ -75,12 +72,12 @@ const YOUR_EXTENSION_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const YOUR_EXTENSION_DEFINITION: IngredientDefinition<YourExtensionSpice> = {
-  name: Symbol('YourExtensionName'),
-  category: CATEGORY_YOUR_CATEGORY,
+const yourExtensionDefinition: IngredientDefinition<YourExtensionSpice> = {
+  name: Symbol('Your Extension Name'),
+  category: CATEGORY_YOUR_EXTENSION,
   description: 'A brief description of what this extension does.',
-  spices: YOUR_EXTENSION_SPICES,
-  run: (input: InputType, spices: YourExtensionSpice, context: IngredientContext): ResultType<string> => {
+  spices: yourExtensionSpices,
+  run: (input, spices, context) => {
     const inputValue = input.cast('string').getValue();
 
     let result = `Processed "${inputValue}" with param: ${spices.someParam}`;
@@ -92,7 +89,7 @@ const YOUR_EXTENSION_DEFINITION: IngredientDefinition<YourExtensionSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(YOUR_EXTENSION_DEFINITION);
+Baratie.ingredient.registerIngredient(yourExtensionDefinition);
 ```
 
 ### Step 3: Import the New Extension

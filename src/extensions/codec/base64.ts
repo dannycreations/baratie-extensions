@@ -1,12 +1,12 @@
 import { CATEGORY_CODEC } from '../../core/constants';
 
-import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface Base64Spice {
   readonly operation: 'encode' | 'decode';
 }
 
-const BASE64_SPICES: readonly SpiceDefinition[] = [
+const base64Spices: readonly SpiceDefinition[] = [
   {
     id: 'operation',
     label: 'Operation',
@@ -20,26 +20,26 @@ const BASE64_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const BASE64_DEFINITION: IngredientDefinition<Base64Spice> = {
+const base64Definition: IngredientDefinition<Base64Spice> = {
   name: Symbol('Base64'),
   category: CATEGORY_CODEC,
   description: 'Encodes or decodes text using Base64.',
-  spices: BASE64_SPICES,
-  run: (input: InputType, spices: Base64Spice): ResultType<string> => {
-    const text = input.cast('string').getValue();
-    if (!text) {
+  spices: base64Spices,
+  run: (input, spices) => {
+    const inputValue = input.cast('string').getValue();
+    if (!inputValue) {
       return null;
     }
 
     let result = '';
     if (spices.operation === 'encode') {
-      result = btoa(text);
+      result = btoa(inputValue);
     } else {
-      result = atob(text);
+      result = atob(inputValue);
     }
 
     return input.update(result);
   },
 };
 
-Baratie.ingredient.registerIngredient(BASE64_DEFINITION);
+Baratie.ingredient.registerIngredient(base64Definition);

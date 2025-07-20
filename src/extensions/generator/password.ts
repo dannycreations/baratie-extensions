@@ -1,6 +1,6 @@
-import { CATEGORY_GENERATORS } from '../../core/constants';
+import { CATEGORY_GENERATOR } from '../../core/constants';
 
-import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface PasswordSpice {
   readonly excludedChars: string;
@@ -31,7 +31,7 @@ function makeCharSpices(idPrefix: CharType): SpiceDefinition {
   };
 }
 
-const PASSWORD_SPICES: readonly SpiceDefinition[] = [
+const passwordSpices: readonly SpiceDefinition[] = [
   {
     id: 'length',
     label: 'Password Length',
@@ -62,12 +62,12 @@ const PASSWORD_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const PASSWORD_DEFINITION: IngredientDefinition<PasswordSpice> = {
+const passwordDefinition: IngredientDefinition<PasswordSpice> = {
   name: Symbol('Password'),
-  category: CATEGORY_GENERATORS,
+  category: CATEGORY_GENERATOR,
   description: 'Generates strong, random passwords with customizable options.',
-  spices: PASSWORD_SPICES,
-  run: (input: InputType, spices: PasswordSpice): ResultType<string> => {
+  spices: passwordSpices,
+  run: (input, spices) => {
     const exclusionSet = new Set(spices.excludedChars.split(''));
     if (spices.excludeAmbiguous) {
       for (const char of DEFAULT_CHARS.ambiguous) {
@@ -111,4 +111,4 @@ const PASSWORD_DEFINITION: IngredientDefinition<PasswordSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(PASSWORD_DEFINITION);
+Baratie.ingredient.registerIngredient(passwordDefinition);

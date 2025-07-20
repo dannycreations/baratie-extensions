@@ -1,12 +1,12 @@
 import { CATEGORY_CODEC } from '../../core/constants';
 
-import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface HtmlEntitiesSpice {
   readonly operation: 'encode' | 'decode';
 }
 
-const HTML_ENTITIES_SPICES: readonly SpiceDefinition[] = [
+const htmlEntitiesSpices: readonly SpiceDefinition[] = [
   {
     id: 'operation',
     label: 'Operation',
@@ -20,24 +20,24 @@ const HTML_ENTITIES_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const HTML_ENTITIES_DEFINITION: IngredientDefinition<HtmlEntitiesSpice> = {
+const htmlEntitiesDefinition: IngredientDefinition<HtmlEntitiesSpice> = {
   name: Symbol('HTML Entities'),
   category: CATEGORY_CODEC,
   description: 'Encodes or decodes HTML special characters to/from HTML entities.',
-  spices: HTML_ENTITIES_SPICES,
-  run: (input: InputType, spices: HtmlEntitiesSpice): ResultType<string> => {
-    const text = input.cast('string').getValue();
-    if (!text) {
+  spices: htmlEntitiesSpices,
+  run: (input, spices) => {
+    const inputValue = input.cast('string').getValue();
+    if (!inputValue) {
       return null;
     }
 
     let result = '';
     const textarea = document.createElement('textarea');
     if (spices.operation === 'encode') {
-      textarea.textContent = text;
+      textarea.textContent = inputValue;
       result = textarea.innerHTML;
     } else {
-      textarea.innerHTML = text;
+      textarea.innerHTML = inputValue;
       result = textarea.textContent || '';
     }
 
@@ -45,4 +45,4 @@ const HTML_ENTITIES_DEFINITION: IngredientDefinition<HtmlEntitiesSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(HTML_ENTITIES_DEFINITION);
+Baratie.ingredient.registerIngredient(htmlEntitiesDefinition);

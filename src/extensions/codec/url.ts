@@ -1,12 +1,12 @@
 import { CATEGORY_CODEC } from '../../core/constants';
 
-import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface URLSpice {
   readonly operation: 'encode' | 'decode';
 }
 
-const URL_SPICES: readonly SpiceDefinition[] = [
+const urlSpices: readonly SpiceDefinition[] = [
   {
     id: 'operation',
     label: 'Operation',
@@ -20,26 +20,26 @@ const URL_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const URL_DEFINITION: IngredientDefinition<URLSpice> = {
+const urlDefinition: IngredientDefinition<URLSpice> = {
   name: Symbol('Url'),
   category: CATEGORY_CODEC,
   description: 'Encodes or decodes URL components.',
-  spices: URL_SPICES,
-  run: (input: InputType, spices: URLSpice): ResultType<string> => {
-    const text = input.cast('string').getValue();
-    if (!text) {
+  spices: urlSpices,
+  run: (input, spices) => {
+    const inputValue = input.cast('string').getValue();
+    if (!inputValue) {
       return null;
     }
 
     let result = '';
     if (spices.operation === 'encode') {
-      result = encodeURIComponent(text);
+      result = encodeURIComponent(inputValue);
     } else {
-      result = decodeURIComponent(text);
+      result = decodeURIComponent(inputValue);
     }
 
     return input.update(result);
   },
 };
 
-Baratie.ingredient.registerIngredient(URL_DEFINITION);
+Baratie.ingredient.registerIngredient(urlDefinition);

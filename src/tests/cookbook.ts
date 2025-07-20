@@ -1,12 +1,12 @@
-import { CATEGORY_API_TESTS } from '../core/constants';
+import { CATEGORY_API_TEST } from '../core/constants';
 
-import type { Ingredient, IngredientDefinition, InputType, RecipeBookItem, ResultType, SpiceDefinition } from 'baratie';
+import type { Ingredient, IngredientDefinition, RecipeBookItem, SpiceDefinition } from 'baratie';
 
-interface CookbookTestSpice {
+interface CookbookSpice {
   readonly action: 'save_current' | 'delete_last' | 'export_last' | 'load_last' | 'get_all' | 'merge';
 }
 
-const COOKBOOK_TEST_SPICES: readonly SpiceDefinition[] = [
+const cookbookSpices: readonly SpiceDefinition[] = [
   {
     id: 'action',
     label: 'Action',
@@ -23,12 +23,12 @@ const COOKBOOK_TEST_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const COOKBOOK_TEST_DEFINITION: IngredientDefinition<CookbookTestSpice> = {
+const cookbookDefinition: IngredientDefinition<CookbookSpice> = {
   name: Symbol('Test: Cookbook Helper'),
-  category: CATEGORY_API_TESTS,
+  category: CATEGORY_API_TEST,
   description: 'Tests saving, deleting, and exporting recipes using the cookbook helper.',
-  spices: COOKBOOK_TEST_SPICES,
-  run: (input: InputType, spices: CookbookTestSpice): ResultType<string> | null => {
+  spices: cookbookSpices,
+  run: (input, spices) => {
     const { cookbook, recipe } = Baratie.helpers;
 
     switch (spices.action) {
@@ -99,4 +99,4 @@ const COOKBOOK_TEST_DEFINITION: IngredientDefinition<CookbookTestSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(COOKBOOK_TEST_DEFINITION);
+Baratie.ingredient.registerIngredient(cookbookDefinition);

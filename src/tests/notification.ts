@@ -1,15 +1,15 @@
-import { CATEGORY_API_TESTS } from '../core/constants';
+import { CATEGORY_API_TEST } from '../core/constants';
 
-import type { IngredientDefinition, InputType, NotificationType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, NotificationType, SpiceDefinition } from 'baratie';
 
-interface NotifyTestSpice {
-  readonly action: 'show' | 'clear_all';
+interface NotificationSpice {
+  readonly action: 'show' | 'clear';
   readonly message: string;
   readonly type: NotificationType;
   readonly title: string;
 }
 
-const NOTIFY_TEST_SPICES: readonly SpiceDefinition[] = [
+const notificationSpices: readonly SpiceDefinition[] = [
   {
     id: 'action',
     label: 'Action',
@@ -17,7 +17,7 @@ const NOTIFY_TEST_SPICES: readonly SpiceDefinition[] = [
     value: 'show',
     options: [
       { label: 'Show Notification', value: 'show' },
-      { label: 'Clear All Notifications', value: 'clear_all' },
+      { label: 'Clear Notifications', value: 'clear' },
     ],
   },
   {
@@ -49,12 +49,12 @@ const NOTIFY_TEST_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice> = {
+const notificationDefinition: IngredientDefinition<NotificationSpice> = {
   name: Symbol('Test: Notification Helper'),
-  category: CATEGORY_API_TESTS,
+  category: CATEGORY_API_TEST,
   description: 'Tests the notification helper API.',
-  spices: NOTIFY_TEST_SPICES,
-  run: (input: InputType, spices: NotifyTestSpice): ResultType<string> => {
+  spices: notificationSpices,
+  run: (input, spices) => {
     if (spices.action === 'show') {
       Baratie.helpers.notification.show(spices.message, spices.type, spices.title);
       return input.update(`Notification helper called with message: "${spices.message}"`);
@@ -65,4 +65,4 @@ const NOTIFY_TEST_DEFINITION: IngredientDefinition<NotifyTestSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(NOTIFY_TEST_DEFINITION);
+Baratie.ingredient.registerIngredient(notificationDefinition);

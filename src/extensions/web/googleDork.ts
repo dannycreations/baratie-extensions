@@ -1,6 +1,6 @@
-import { CATEGORY_WEB_TOOLS } from '../../core/constants';
+import { CATEGORY_WEB } from '../../core/constants';
 
-import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface GoogleDorkSpice {
   readonly allInAnchor: string;
@@ -30,7 +30,7 @@ interface GoogleDorkSpice {
   readonly siteFilter: string;
 }
 
-const GOOGLE_DORK_SPICES: readonly SpiceDefinition[] = [
+const googleDorkSpices: readonly SpiceDefinition[] = [
   {
     id: 'mainQuery',
     label: 'Base Keywords',
@@ -247,12 +247,12 @@ function buildAnyInTerm(value: string, prefix: string): string[] {
     .map((term: string): string => `${prefix}${term}`);
 }
 
-const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
+const googleDorkDefinition: IngredientDefinition<GoogleDorkSpice> = {
   name: Symbol('Google Dork'),
-  category: CATEGORY_WEB_TOOLS,
-  description: 'Constructs advanced Google Dork queries using various operators.',
-  spices: GOOGLE_DORK_SPICES,
-  run: (input: InputType, spices: GoogleDorkSpice): ResultType<string> => {
+  category: CATEGORY_WEB,
+  description: 'Constructs Google Dork queries using various operators.',
+  spices: googleDorkSpices,
+  run: (input, spices) => {
     const queryParts: string[] = [];
 
     const mainQueryTrimmed = spices.mainQuery.trim();
@@ -320,4 +320,4 @@ const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(GOOGLE_DORK_DEFINITION);
+Baratie.ingredient.registerIngredient(googleDorkDefinition);
