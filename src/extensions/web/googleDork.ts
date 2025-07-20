@@ -1,4 +1,4 @@
-import { CATEGORY_WEB_TOOLS } from '../core/constants';
+import { CATEGORY_WEB_TOOLS } from '../../core/constants';
 
 import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
 
@@ -231,13 +231,13 @@ const GOOGLE_DORK_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-function buildAllInTerm(value: string | undefined, prefix: string): string[] {
-  const trimmed = value?.trim();
+function buildAllInTerm(value: string, prefix: string): string[] {
+  const trimmed = value.trim();
   return trimmed ? [`${prefix}${trimmed}`] : [];
 }
 
-function buildAnyInTerm(value: string | undefined, prefix: string): string[] {
-  const trimmed = value?.trim();
+function buildAnyInTerm(value: string, prefix: string): string[] {
+  const trimmed = value.trim();
   if (!trimmed) {
     return [];
   }
@@ -255,11 +255,13 @@ const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
   run: (input: InputType<unknown>, spices: GoogleDorkSpice): ResultType<string> => {
     const queryParts: string[] = [];
 
-    if (spices.mainQuery?.trim()) {
-      queryParts.push(spices.mainQuery.trim());
+    const mainQueryTrimmed = spices.mainQuery.trim();
+    if (mainQueryTrimmed) {
+      queryParts.push(mainQueryTrimmed);
     }
-    if (spices.exactPhrase?.trim()) {
-      queryParts.push(`"${spices.exactPhrase.trim()}"`);
+    const exactPhraseTrimmed = spices.exactPhrase.trim();
+    if (exactPhraseTrimmed) {
+      queryParts.push(`"${exactPhraseTrimmed}"`);
     }
 
     queryParts.push(...buildAllInTerm(spices.allInTitle, 'allintitle:'));
@@ -272,30 +274,40 @@ const GOOGLE_DORK_DEFINITION: IngredientDefinition<GoogleDorkSpice> = {
     queryParts.push(...buildAnyInTerm(spices.anyInAnchor, 'inanchor:'));
     queryParts.push(...buildAnyInTerm(spices.excludedTerms, '-'));
 
-    if (spices.siteFilter?.trim()) {
-      queryParts.push(`site:${spices.siteFilter.trim()}`);
+    const siteFilterTrimmed = spices.siteFilter.trim();
+    if (siteFilterTrimmed) {
+      queryParts.push(`site:${siteFilterTrimmed}`);
     }
 
-    if (spices.isAround && spices.aroundTerm1?.trim() && spices.aroundTerm2?.trim() && spices.aroundDistance && spices.aroundDistance > 0) {
-      queryParts.push(`${spices.aroundTerm1.trim()} AROUND(${spices.aroundDistance}) ${spices.aroundTerm2.trim()}`);
+    const aroundTerm1Trimmed = spices.aroundTerm1.trim();
+    const aroundTerm2Trimmed = spices.aroundTerm2.trim();
+    if (spices.isAround && aroundTerm1Trimmed && aroundTerm2Trimmed && spices.aroundDistance && spices.aroundDistance > 0) {
+      queryParts.push(`${aroundTerm1Trimmed} AROUND(${spices.aroundDistance}) ${aroundTerm2Trimmed}`);
     }
 
     if (spices.isDateFiltered) {
-      if (spices.dateBefore?.trim()) queryParts.push(`before:${spices.dateBefore.trim()}`);
-      if (spices.dateAfter?.trim()) queryParts.push(`after:${spices.dateAfter.trim()}`);
+      const dateBeforeTrimmed = spices.dateBefore.trim();
+      if (dateBeforeTrimmed) queryParts.push(`before:${dateBeforeTrimmed}`);
+      const dateAfterTrimmed = spices.dateAfter.trim();
+      if (dateAfterTrimmed) queryParts.push(`after:${dateAfterTrimmed}`);
     }
 
-    if (spices.defineTerm?.trim()) {
-      queryParts.push(`define:${spices.defineTerm.trim()}`);
+    const defineTermTrimmed = spices.defineTerm.trim();
+    if (defineTermTrimmed) {
+      queryParts.push(`define:${defineTermTrimmed}`);
     }
 
-    if (spices.fileType?.trim()) {
-      queryParts.push(`filetype:${spices.fileType.trim().replace(/^\./, '')}`);
+    const fileTypeTrimmed = spices.fileType.trim();
+    if (fileTypeTrimmed) {
+      queryParts.push(`filetype:${fileTypeTrimmed.replace(/^\./, '')}`);
     }
 
-    if (spices.isNumberRange && spices.numberRangeStart?.trim() && spices.numberRangeEnd?.trim()) {
-      const rangePrefix = spices.numberRangePrefix?.trim() ? `${spices.numberRangePrefix.trim()} ` : '';
-      queryParts.push(`${rangePrefix}${spices.numberRangeStart.trim()}..${spices.numberRangeEnd.trim()}`);
+    const numberRangeStartTrimmed = spices.numberRangeStart.trim();
+    const numberRangeEndTrimmed = spices.numberRangeEnd.trim();
+    if (spices.isNumberRange && numberRangeStartTrimmed && numberRangeEndTrimmed) {
+      const rangePrefixTrimmed = spices.numberRangePrefix.trim();
+      const rangePrefix = rangePrefixTrimmed ? `${rangePrefixTrimmed} ` : '';
+      queryParts.push(`${rangePrefix}${numberRangeStartTrimmed}..${numberRangeEndTrimmed}`);
     }
 
     const query: string = queryParts

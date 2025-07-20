@@ -40,7 +40,7 @@ const COOKBOOK_TEST_DEFINITION: IngredientDefinition<CookbookTestSpice> = {
         }
         const recipeName: string = `Test Recipe ${new Date().toLocaleTimeString()}`;
         const activeRecipeId = recipe.getActiveId();
-        cookbook.addOrUpdate(recipeName, activeIngredients, activeRecipeId);
+        cookbook.upsert(recipeName, activeIngredients, activeRecipeId);
         const foundRecipe = cookbook.getAll().find((recipeItem) => recipeItem.name === recipeName);
         return input.update(`Called addOrUpdate with name: "${recipeName}". Success: ${!!foundRecipe}`);
       }

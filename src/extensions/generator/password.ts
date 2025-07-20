@@ -1,4 +1,4 @@
-import { CATEGORY_GENERATORS } from '../core/constants';
+import { CATEGORY_GENERATORS } from '../../core/constants';
 
 import type { IngredientDefinition, InputType, ResultType, SpiceDefinition } from 'baratie';
 
@@ -62,8 +62,8 @@ const PASSWORD_SPICES: readonly SpiceDefinition[] = [
   },
 ];
 
-const PASSWORD_GENERATOR_DEFINITION: IngredientDefinition<PasswordSpice> = {
-  name: Symbol('Generate Password'),
+const PASSWORD_DEFINITION: IngredientDefinition<PasswordSpice> = {
+  name: Symbol('Password'),
   category: CATEGORY_GENERATORS,
   description: 'Generates strong, random passwords with customizable options.',
   spices: PASSWORD_SPICES,
@@ -81,13 +81,17 @@ const PASSWORD_GENERATOR_DEFINITION: IngredientDefinition<PasswordSpice> = {
       { include: hasNumbers, source: DEFAULT_CHARS.numbers },
       { include: hasSymbols, source: DEFAULT_CHARS.symbols },
     ];
-    let charPool = '';
+    const charPoolArray: string[] = [];
     for (const set of charSets) {
       if (set.include) {
-        const availableChars = set.source.split('').filter((char) => !exclusionSet.has(char));
-        charPool += availableChars.join('');
+        for (const char of set.source) {
+          if (!exclusionSet.has(char)) {
+            charPoolArray.push(char);
+          }
+        }
       }
     }
+    const charPool = charPoolArray.join('');
     if (charPool === '') {
       return input.update('Error: No character types selected. Please enable at least one character set.');
     }
@@ -101,4 +105,4 @@ const PASSWORD_GENERATOR_DEFINITION: IngredientDefinition<PasswordSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(PASSWORD_GENERATOR_DEFINITION);
+Baratie.ingredient.registerIngredient(PASSWORD_DEFINITION);
