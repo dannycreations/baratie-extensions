@@ -1,4 +1,3 @@
-dist/
+.clinerules/
 
-manifest.json
 pnpm-lock.yaml

@@ -34,7 +34,7 @@ jobs:
           cp -R dist public
           cp manifest.json public
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to dist branch
         uses: crazy-max/ghaction-github-pages@v4
         with:
           build_dir: public
