@@ -10,7 +10,7 @@
     "build": "vite build",
     "format": "prettier --write .",
     "update": "npm-check-updates -u -x @types/node",
-    "prepare": "husky && pnpm run build",
+    "prepare": "husky",
     "release": "pnpm run prepare && changeset publish --no-git-tag"
   },
   "files": [

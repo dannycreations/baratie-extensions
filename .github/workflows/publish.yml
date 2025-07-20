@@ -1,0 +1,41 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: publish
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install pnpm and build
+        run: |
+          npm install -g pnpm tsx
+          pnpm install && pnpm run build
+          tsx scripts/output.build.ts
+
+      - name: Deploy to dist branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout dist || git checkout --orphan dist
+          git rm -rf .
+          cp -R dist .
+          cp manifest.json .
+          git add .
+          git commit -m "Deploy to dist branch"
+          git push origin dist --force
