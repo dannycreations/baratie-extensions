@@ -10,14 +10,14 @@ importers:
     dependencies:
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/0d87dcd72d48a31042a1ef93e8f373aff473e84f(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zustand@5.0.6(react@19.1.0))
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/5cd414435b938069f882c42a3bdf123d4c700a15(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zustand@5.0.6(react@19.1.0))
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.5.1
         version: 4.5.1(prettier@3.6.2)
       '@types/node':
-        specifier: 22.15.34
-        version: 22.15.34
+        specifier: 22.16.5
+        version: 22.16.5
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -41,10 +41,10 @@ importers:
         version: 5.8.3
       vite:
         specifier: ^7.0.5
-        version: 7.0.5(@types/node@22.15.34)(terser@5.43.1)(tsx@4.20.3)
+        version: 7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
       vite-plugin-checker:
         specifier: ^0.10.0
-        version: 0.10.0(typescript@5.8.3)(vite@7.0.5(@types/node@22.15.34)(terser@5.43.1)(tsx@4.20.3))
+        version: 0.10.0(typescript@5.8.3)(vite@7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3))
 
 packages:
 
@@ -384,8 +384,8 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/node@22.15.34':
-    resolution: {integrity: sha512-8Y6E5WUupYy1Dd0II32BsWAx5MWdcnRd8L84Oys3veg1YrYtNtzgO4CFhiBg6MDSjk7Ay36HYOnU7/tuOzIzcw==}
+  '@types/node@22.16.5':
+    resolution: {integrity: sha512-bJFoMATwIGaxxx8VJPeM8TonI8t579oRvgAuT8zFugJsJZgzqv0Fu8Mhp68iecjzG7cnN3mO2dJQ5uUM2EFrgQ==}
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -408,8 +408,8 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/0d87dcd72d48a31042a1ef93e8f373aff473e84f:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/0d87dcd72d48a31042a1ef93e8f373aff473e84f}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/5cd414435b938069f882c42a3bdf123d4c700a15:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/5cd414435b938069f882c42a3bdf123d4c700a15}
     version: 0.0.1
     peerDependencies:
       react: 19.1.0
@@ -1013,7 +1013,7 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
-  '@types/node@22.15.34':
+  '@types/node@22.16.5':
     dependencies:
       undici-types: 6.21.0
 
@@ -1029,7 +1029,7 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/0d87dcd72d48a31042a1ef93e8f373aff473e84f(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zustand@5.0.6(react@19.1.0)):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/5cd414435b938069f882c42a3bdf123d4c700a15(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zustand@5.0.6(react@19.1.0)):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -1285,7 +1285,7 @@ snapshots:
 
   unicorn-magic@0.3.0: {}
 
-  vite-plugin-checker@0.10.0(typescript@5.8.3)(vite@7.0.5(@types/node@22.15.34)(terser@5.43.1)(tsx@4.20.3)):
+  vite-plugin-checker@0.10.0(typescript@5.8.3)(vite@7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)):
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
@@ -1295,12 +1295,12 @@ snapshots:
       strip-ansi: 7.1.0
       tiny-invariant: 1.3.3
       tinyglobby: 0.2.14
-      vite: 7.0.5(@types/node@22.15.34)(terser@5.43.1)(tsx@4.20.3)
+      vite: 7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
       vscode-uri: 3.1.0
     optionalDependencies:
       typescript: 5.8.3
 
-  vite@7.0.5(@types/node@22.15.34)(terser@5.43.1)(tsx@4.20.3):
+  vite@7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3):
     dependencies:
       esbuild: 0.25.6
       fdir: 6.4.6(picomatch@4.0.2)
@@ -1309,7 +1309,7 @@ snapshots:
       rollup: 4.44.2
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 22.15.34
+      '@types/node': 22.16.5
       fsevents: 2.3.3
       terser: 5.43.1
       tsx: 4.20.3
