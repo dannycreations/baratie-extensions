@@ -5,5 +5,3 @@ import './extensions/formatter/case';
 import './extensions/formatter/json';
 import './extensions/generator/password';
 import './extensions/web/googleDork';
-import './tests/cookbook';
-import './tests/notification';
