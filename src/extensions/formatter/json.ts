@@ -54,7 +54,7 @@ const jsonSpices: readonly SpiceDefinition[] = [
 ];
 
 const jsonDefinition: IngredientDefinition<JsonSpice> = {
-  name: Symbol('Json'),
+  name: 'Json',
   category: CATEGORY_FORMATTER,
   description: 'Formats and validates JSON input.',
   spices: jsonSpices,

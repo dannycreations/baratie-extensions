@@ -21,7 +21,7 @@ const htmlEntitiesSpices: readonly SpiceDefinition[] = [
 ];
 
 const htmlEntitiesDefinition: IngredientDefinition<HtmlEntitiesSpice> = {
-  name: Symbol('HTML Entities'),
+  name: 'HTML Entities',
   category: CATEGORY_CODEC,
   description: 'Encodes or decodes HTML special characters to/from HTML entities.',
   spices: htmlEntitiesSpices,

@@ -21,7 +21,7 @@ const base64Spices: readonly SpiceDefinition[] = [
 ];
 
 const base64Definition: IngredientDefinition<Base64Spice> = {
-  name: Symbol('Base64'),
+  name: 'Base64',
   category: CATEGORY_CODEC,
   description: 'Encodes or decodes text using Base64.',
   spices: base64Spices,

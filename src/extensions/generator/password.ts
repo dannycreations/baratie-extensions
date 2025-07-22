@@ -63,7 +63,7 @@ const passwordSpices: readonly SpiceDefinition[] = [
 ];
 
 const passwordDefinition: IngredientDefinition<PasswordSpice> = {
-  name: Symbol('Password'),
+  name: 'Password',
   category: CATEGORY_GENERATOR,
   description: 'Generates strong, random passwords with customizable options.',
   spices: passwordSpices,

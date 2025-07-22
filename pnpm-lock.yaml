@@ -10,7 +10,7 @@ importers:
     dependencies:
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/7aa70983fa4a1cb09263ead2089bd8387a588ac3(typescript@5.8.3)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/46baf23cab51e354bd858fd8275d6ecdff00ce5a(typescript@5.8.3)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -384,8 +384,8 @@ packages:
     resolution: {integrity: sha512-7HSX4QQb4CspciLpVFwyRe79O3xsIZDDLER21kERQ71oaPodF8jL725AgJMFAYbooIqolJoRLuM81SpeUkpkvA==}
     engines: {node: '>=12'}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/7aa70983fa4a1cb09263ead2089bd8387a588ac3:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/7aa70983fa4a1cb09263ead2089bd8387a588ac3}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/46baf23cab51e354bd858fd8275d6ecdff00ce5a:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/46baf23cab51e354bd858fd8275d6ecdff00ce5a}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -889,7 +889,7 @@ snapshots:
 
   ansi-regex@6.1.0: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/7aa70983fa4a1cb09263ead2089bd8387a588ac3(typescript@5.8.3):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/46baf23cab51e354bd858fd8275d6ecdff00ce5a(typescript@5.8.3):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)

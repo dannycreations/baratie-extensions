@@ -248,7 +248,7 @@ function buildAnyInTerm(value: string, prefix: string): string[] {
 }
 
 const googleDorkDefinition: IngredientDefinition<GoogleDorkSpice> = {
-  name: Symbol('Google Dork'),
+  name: 'Google Dork',
   category: CATEGORY_WEB,
   description: 'Constructs Google Dork queries using various operators.',
   spices: googleDorkSpices,

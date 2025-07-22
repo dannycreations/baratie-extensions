@@ -18,8 +18,8 @@ Inside your new extension file, define an `IngredientDefinition`. This involves:
 2.  **Spice Interface (Optional but Recommended)**: Define an interface for your extension's spices (parameters), if any.
 3.  **Spices Definition (Optional)**: Define an array of `SpiceDefinition` objects if your extension requires user input or configuration.
 4.  **Ingredient Definition**: Create the `IngredientDefinition` object with the following properties:
-    - `name`: A unique `symbol` that identifies your ingredient (e.g., `Symbol('YourExtensionName')`).
-    - `category`: A `symbol` representing the category of your ingredient, imported from `../../core/constants` (e.g., `CATEGORY_CONVERTERS`).
+    - `name`: A `string` that identifies your ingredient.
+    - `category`: A `string` representing the category of your ingredient, imported from `../../core/constants`.
     - `description`: A `string` providing a brief explanation of what your extension does.
     - `spices?`: An optional `readonly SpiceDefinition[]` array defining the input parameters for your extension. Each `SpiceDefinition` specifies a UI control (string, number, boolean, select, textarea) for user input.
     - `run`: The core logic of your extension, defined as an `IngredientRunner` function. This function takes `input: InputType<InType>`, `spices: T` (your custom spice interface), and `context: IngredientContext` as arguments, and must return a `ResultType<OutType>` or `Promise<ResultType<OutType>>`.
@@ -73,7 +73,7 @@ const yourExtensionSpices: readonly SpiceDefinition[] = [
 ];
 
 const yourExtensionDefinition: IngredientDefinition<YourExtensionSpice> = {
-  name: Symbol('Your Extension Name'),
+  name: 'Your Extension Name',
   category: CATEGORY_YOUR_EXTENSION,
   description: 'A brief description of what this extension does.',
   spices: yourExtensionSpices,

@@ -56,7 +56,7 @@ function splitIntoWords(str: string): string[] {
 }
 
 const caseDefinition: IngredientDefinition<CaseSpice> = {
-  name: Symbol('Case'),
+  name: 'Case',
   category: CATEGORY_FORMATTER,
   description: 'Converts text between various case formats.',
   spices: caseSpices,
