@@ -27,7 +27,7 @@ const base64Definition: IngredientDefinition<Base64Spice> = {
   spices: base64Spices,
   run: (input, spices) => {
     const inputValue = input.cast('string').getValue();
-    if (!inputValue) {
+    if (!inputValue.trim()) {
       return null;
     }
 

@@ -27,7 +27,7 @@ const htmlEntitiesDefinition: IngredientDefinition<HtmlEntitiesSpice> = {
   spices: htmlEntitiesSpices,
   run: (input, spices) => {
     const inputValue = input.cast('string').getValue();
-    if (!inputValue) {
+    if (!inputValue.trim()) {
       return null;
     }
 

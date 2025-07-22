@@ -62,7 +62,7 @@ const caseDefinition: IngredientDefinition<CaseSpice> = {
   spices: caseSpices,
   run: (input, spices) => {
     const inputValue = input.cast('string').getValue();
-    if (!inputValue) {
+    if (!inputValue.trim()) {
       return null;
     }
 

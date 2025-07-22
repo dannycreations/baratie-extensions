@@ -27,7 +27,7 @@ const urlDefinition: IngredientDefinition<URLSpice> = {
   spices: urlSpices,
   run: (input, spices) => {
     const inputValue = input.cast('string').getValue();
-    if (!inputValue) {
+    if (!inputValue.trim()) {
       return null;
     }
 
