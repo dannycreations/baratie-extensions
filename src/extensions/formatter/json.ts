@@ -7,6 +7,8 @@ import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 interface JsonSpice {
   readonly formatMode: 'beautify' | 'minify';
   readonly space: number;
+  readonly quoteStyle: 'double' | 'single';
+  readonly sortKeys: boolean;
 }
 
 const jsonSpices: readonly SpiceDefinition[] = [
@@ -22,6 +24,17 @@ const jsonSpices: readonly SpiceDefinition[] = [
     description: 'Select JSON formatting mode.',
   },
   {
+    id: 'quoteStyle',
+    label: 'Quote Style',
+    type: 'select',
+    value: 'double',
+    options: [
+      { value: 'double', label: 'Double Quotes' },
+      { value: 'single', label: 'Single Quotes' },
+    ],
+    description: 'Select the quote style for strings.',
+  },
+  {
     id: 'space',
     label: 'Indentation Spaces',
     type: 'number',
@@ -30,6 +43,13 @@ const jsonSpices: readonly SpiceDefinition[] = [
     step: 1,
     description: 'Number of spaces for JSON indentation.',
     dependsOn: [{ spiceId: 'formatMode', value: 'beautify' }],
+  },
+  {
+    id: 'sortKeys',
+    label: 'Sort Keys',
+    type: 'boolean',
+    value: false,
+    description: 'Sort JSON object keys alphabetically.',
   },
 ];
 
@@ -46,15 +66,27 @@ const jsonDefinition: IngredientDefinition<JsonSpice> = {
 
     try {
       const parsedData = JSON5.parse(inputValue);
-      let formattedData: string;
 
-      if (spices.formatMode === 'minify') {
-        formattedData = JSON5.stringify(parsedData);
-      } else {
-        formattedData = JSON5.stringify(parsedData, null, spices.space);
-      }
+      const stringifyOptions = {
+        replacer: spices.sortKeys
+          ? (_key: string, value: unknown) => {
+              if (value && typeof value === 'object' && !Array.isArray(value)) {
+                return Object.keys(value)
+                  .sort()
+                  .reduce((sorted: { [key: string]: unknown }, k) => {
+                    sorted[k] = (value as { [key: string]: unknown })[k];
+                    return sorted;
+                  }, {});
+              }
+              return value;
+            }
+          : undefined,
+        space: spices.formatMode === 'beautify' ? spices.space : undefined,
+        quote: spices.quoteStyle === 'single' ? "'" : '"',
+      };
 
-      return input.update(formattedData);
+      const result = JSON5.stringify(parsedData, stringifyOptions);
+      return input.update(result);
     } catch (error) {
       return input.update(`Error: ${(error as Error).message}.`);
     }
