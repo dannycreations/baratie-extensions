@@ -16,6 +16,7 @@ export default defineConfig({
       formats: ['iife'],
     },
     rollupOptions: {
+      external: ['baratie'],
       output: {
         entryFileNames: 'index.js',
       },
