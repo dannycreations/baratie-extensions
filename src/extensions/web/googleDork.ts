@@ -30,7 +30,7 @@ interface GoogleDorkSpice {
   readonly siteFilter: string;
 }
 
-const googleDorkSpices: readonly SpiceDefinition[] = [
+const googleDorkSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'mainQuery',
     label: 'Base Keywords',

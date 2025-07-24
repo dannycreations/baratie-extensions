@@ -7,7 +7,7 @@ interface CaseSpice {
   readonly customDelimiter?: string;
 }
 
-const caseSpices: readonly SpiceDefinition[] = [
+const caseSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'conversionType',
     label: 'Conversion Type',
@@ -38,17 +38,10 @@ const caseSpices: readonly SpiceDefinition[] = [
 ];
 
 function splitIntoWords(str: string): string[] {
-  // Replace non-alphanumeric characters (except spaces) with spaces
   let result = str.replace(/[^a-zA-Z0-9]+/g, ' ');
-
-  // Add spaces between camelCase/PascalCase transitions
   result = result.replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
   result = result.replace(/([a-z\d])([A-Z])/g, '$1 $2');
-
-  // Normalize multiple spaces to a single space and trim
   result = result.replace(/\s+/g, ' ').trim();
-
-  // Split by space and convert to lowercase
   return result
     .split(' ')
     .map((word) => word.toLowerCase())

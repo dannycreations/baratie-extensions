@@ -11,7 +11,7 @@ interface JsonSpice {
   readonly sortKeys: boolean;
 }
 
-const jsonSpices: readonly SpiceDefinition[] = [
+const jsonSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'formatMode',
     label: 'Format Mode',

@@ -6,7 +6,7 @@ interface HtmlEntitiesSpice {
   readonly operation: 'encode' | 'decode';
 }
 
-const htmlEntitiesSpices: readonly SpiceDefinition[] = [
+const htmlEntitiesSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'operation',
     label: 'Operation',

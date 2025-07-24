@@ -362,7 +362,7 @@ interface GeminiPromptSpice {
   readonly systemInstruction: string;
 }
 
-const geminiPromptSpices: readonly SpiceDefinition[] = [
+const geminiPromptSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'model',
     label: 'Model',

@@ -16,7 +16,7 @@ interface IdentitySpice {
   readonly gender: 'male' | 'female' | 'other' | 'none';
 }
 
-const identitySpices: readonly SpiceDefinition[] = [
+const identitySpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'includeId',
     label: 'Include ID Number',

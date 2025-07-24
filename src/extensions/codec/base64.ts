@@ -6,7 +6,7 @@ interface Base64Spice {
   readonly operation: 'encode' | 'decode';
 }
 
-const base64Spices: readonly SpiceDefinition[] = [
+const base64Spices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'operation',
     label: 'Operation',

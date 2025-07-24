@@ -6,7 +6,7 @@ interface URLSpice {
   readonly operation: 'encode' | 'decode';
 }
 
-const urlSpices: readonly SpiceDefinition[] = [
+const urlSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'operation',
     label: 'Operation',

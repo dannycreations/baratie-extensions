@@ -13,7 +13,7 @@ importers:
         version: 9.9.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/67cab64aa9a1d8eb4292fdb6e895cd837e221b91(typescript@5.8.3)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/bba85c12a1ecd7c5a68ce49843e03d3f5ed20f81(typescript@5.8.3)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -28,8 +28,8 @@ importers:
         specifier: ^9.1.7
         version: 9.1.7
       npm-check-updates:
-        specifier: ^18.0.1
-        version: 18.0.1
+        specifier: ^18.0.2
+        version: 18.0.2
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -43,11 +43,11 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
       vite:
-        specifier: ^7.0.5
-        version: 7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
+        specifier: ^7.0.6
+        version: 7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
       vite-plugin-checker:
-        specifier: ^0.10.0
-        version: 0.10.0(typescript@5.8.3)(vite@7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3))
+        specifier: ^0.10.1
+        version: 0.10.1(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3))
 
 packages:
 
@@ -391,8 +391,8 @@ packages:
     resolution: {integrity: sha512-7HSX4QQb4CspciLpVFwyRe79O3xsIZDDLER21kERQ71oaPodF8jL725AgJMFAYbooIqolJoRLuM81SpeUkpkvA==}
     engines: {node: '>=12'}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/67cab64aa9a1d8eb4292fdb6e895cd837e221b91:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/67cab64aa9a1d8eb4292fdb6e895cd837e221b91}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/bba85c12a1ecd7c5a68ce49843e03d3f5ed20f81:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/bba85c12a1ecd7c5a68ce49843e03d3f5ed20f81}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -464,8 +464,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  npm-check-updates@18.0.1:
-    resolution: {integrity: sha512-MO7mLp/8nm6kZNLLyPgz4gHmr9tLoU+pWPLdXuGAx+oZydBHkHWN0ibTonsrfwC2WEQNIQxuZagYwB67JQpAuw==}
+  npm-check-updates@18.0.2:
+    resolution: {integrity: sha512-9uVFZUCg5oDOcbzdsrJ4BEvq2gikd23tXuF5mqpl4mxVl051lzB00Xmd7ZVjVWY3XNUF3BQKWlN/qmyD8/bwrA==}
     engines: {node: ^18.18.0 || >=20.0.0, npm: '>=8.12.1'}
     hasBin: true
 
@@ -482,6 +482,10 @@ packages:
 
   picomatch@4.0.2:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
+    engines: {node: '>=12'}
+
+  picomatch@4.0.3:
+    resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
 
   postcss@8.5.6:
@@ -574,8 +578,8 @@ packages:
       typescript:
         optional: true
 
-  vite-plugin-checker@0.10.0:
-    resolution: {integrity: sha512-EcAi4M5mzayH386Hc1xWi+vnfl4a+1vrDP9PVEQImUR6tIjItNK6R/98YNnJkaAq1ond2qkA6f+H49aprUgzGA==}
+  vite-plugin-checker@0.10.1:
+    resolution: {integrity: sha512-imiBsmYTPdjQHIZiEi5BhJ7K8Z/kCjTFMn+Qa4+5ao/a4Yql4yWFcf81FDJqlMiM57iY4Q3Z7PdoEe4KydULYQ==}
     engines: {node: '>=14.16'}
     peerDependencies:
       '@biomejs/biome': '>=1.7'
@@ -608,8 +612,8 @@ packages:
       vue-tsc:
         optional: true
 
-  vite@7.0.5:
-    resolution: {integrity: sha512-1mncVwJxy2C9ThLwz0+2GKZyEXuC3MyWtAAlNftlZZXZDP3AJt5FmwcMit/IGGaNZ8ZOB2BNO/HFUB+CpN0NQw==}
+  vite@7.0.6:
+    resolution: {integrity: sha512-MHFiOENNBd+Bd9uvc8GEsIzdkn1JxMmEeYX35tI3fv0sJBUTfW5tQsoaOwuY4KhBI09A3dUJ/DXf2yxPVPUceg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -898,7 +902,7 @@ snapshots:
 
   ansi-regex@6.1.0: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/67cab64aa9a1d8eb4292fdb6e895cd837e221b91(typescript@5.8.3):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/bba85c12a1ecd7c5a68ce49843e03d3f5ed20f81(typescript@5.8.3):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -951,9 +955,9 @@ snapshots:
       '@esbuild/win32-ia32': 0.25.6
       '@esbuild/win32-x64': 0.25.6
 
-  fdir@6.4.6(picomatch@4.0.2):
+  fdir@6.4.6(picomatch@4.0.3):
     optionalDependencies:
-      picomatch: 4.0.2
+      picomatch: 4.0.3
 
   fsevents@2.3.3:
     optional: true
@@ -974,7 +978,7 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  npm-check-updates@18.0.1: {}
+  npm-check-updates@18.0.2: {}
 
   npm-run-path@6.0.0:
     dependencies:
@@ -986,6 +990,8 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@4.0.2: {}
+
+  picomatch@4.0.3: {}
 
   postcss@8.5.6:
     dependencies:
@@ -1060,8 +1066,8 @@ snapshots:
 
   tinyglobby@0.2.14:
     dependencies:
-      fdir: 6.4.6(picomatch@4.0.2)
-      picomatch: 4.0.2
+      fdir: 6.4.6(picomatch@4.0.3)
+      picomatch: 4.0.3
 
   tsx@4.20.3:
     dependencies:
@@ -1080,7 +1086,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  vite-plugin-checker@0.10.0(typescript@5.8.3)(vite@7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)):
+  vite-plugin-checker@0.10.1(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)):
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
@@ -1090,16 +1096,16 @@ snapshots:
       strip-ansi: 7.1.0
       tiny-invariant: 1.3.3
       tinyglobby: 0.2.14
-      vite: 7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
+      vite: 7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
       vscode-uri: 3.1.0
     optionalDependencies:
       typescript: 5.8.3
 
-  vite@7.0.5(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3):
+  vite@7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3):
     dependencies:
       esbuild: 0.25.6
-      fdir: 6.4.6(picomatch@4.0.2)
-      picomatch: 4.0.2
+      fdir: 6.4.6(picomatch@4.0.3)
+      picomatch: 4.0.3
       postcss: 8.5.6
       rollup: 4.44.2
       tinyglobby: 0.2.14

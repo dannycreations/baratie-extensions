@@ -31,7 +31,7 @@ function makeCharSpices(idPrefix: CharType): SpiceDefinition {
   };
 }
 
-const passwordSpices: readonly SpiceDefinition[] = [
+const passwordSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'length',
     label: 'Password Length',

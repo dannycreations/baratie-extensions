@@ -6,7 +6,7 @@ interface UuidSpice {
   readonly uuidVersion: 'v1' | 'v4';
 }
 
-const uuidSpices: readonly SpiceDefinition[] = [
+const uuidSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'uuidVersion',
     label: 'UUID Version',
