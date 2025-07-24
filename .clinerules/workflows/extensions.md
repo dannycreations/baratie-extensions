@@ -353,26 +353,37 @@ const fetchIngredient = {
 Let's build a sophisticated ingredient that uses the Gemini API. This example assumes `@google/genai` has been loaded by another extension or is available globally.
 
 ```typescript
-const geminiPromptIngredient = {
+import { CATEGORY_WEB } from '../../core/constants';
+
+import type { IngredientDefinition, SpiceDefinition } from 'baratie';
+
+interface GeminiPromptSpice {
+  readonly model: string;
+  readonly systemInstruction: string;
+}
+
+const geminiPromptSpices: readonly SpiceDefinition[] = [
+  {
+    id: 'model',
+    label: 'Model',
+    type: 'select',
+    value: 'gemini-2.5-flash',
+    options: [{ label: 'Gemini 2.5 Flash', value: 'gemini-2.5-flash' }],
+  },
+  {
+    id: 'systemInstruction',
+    label: 'System Instruction',
+    type: 'textarea',
+    value: 'You are a helpful assistant.',
+    placeholder: 'Describe how the AI should behave.',
+  },
+];
+
+const geminiPromptDefinition: IngredientDefinition<GeminiPromptSpice> = {
   name: 'Gemini Prompt',
-  category: 'AI',
+  category: CATEGORY_WEB,
   description: 'Sends the input text to a Google Gemini model and returns the response.',
-  spices: [
-    {
-      id: 'model',
-      label: 'Model',
-      type: 'select',
-      value: 'gemini-2.5-flash',
-      options: [{ label: 'Gemini 2.5 Flash', value: 'gemini-2.5-flash' }],
-    },
-    {
-      id: 'systemInstruction',
-      label: 'System Instruction',
-      type: 'textarea',
-      value: 'You are a helpful assistant.',
-      placeholder: 'Describe how the AI should behave.',
-    },
-  ],
+  spices: geminiPromptSpices,
   run: async (input, spices) => {
     // 1. Get API Key from environment (A hard requirement for the framework)
     const apiKey = process.env.API_KEY;
@@ -383,7 +394,8 @@ const geminiPromptIngredient = {
     // 2. Get prompt text from input
     const prompt = input.cast('string').getValue();
     if (!prompt.trim()) {
-      return null; // Skip if there's no prompt
+      // Skip if there's no prompt
+      return null;
     }
 
     // 3. Use error handler for the API call
@@ -407,11 +419,23 @@ const geminiPromptIngredient = {
     return input.update(response.text);
   },
 };
+
+Baratie.ingredient.registerIngredient(geminiPromptDefinition);
 ```
 
 ---
 
-## 8. Allowed and Prohibited Practices
+## 8: Import the New Extension
+
+Open `src/index.ts` and add an import statement for your new extension file. This ensures that your extension is loaded when the application starts.
+
+```typescript
+import './extensions/web/geminiPromptDefinition';
+```
+
+---
+
+## 9. Allowed and Prohibited Practices
 
 Follow these rules to create high-quality, stable ingredients.
 
@@ -434,21 +458,3 @@ Follow these rules to create high-quality, stable ingredients.
 - **DO NOT** access global objects like `window`, `localStorage`, or `sessionStorage` for storing state. This can lead to conflicts and instability. All state should be managed via the recipe's data flow.
 - **DO NOT** mutate the `input` or `context` objects passed to your `run` function. They should be treated as immutable. Use `input.update()` to return new data.
 - **DO NOT** create overly complex `dependsOn` chains. If a component's options are too convoluted, it might be a sign that it should be broken into multiple, simpler ingredients.
-
-## 9. Registering Your Ingredient
-
-Once you have defined your ingredient, you must register it with the framework to make it available in the UI.
-
-```typescript
-Baratie.ingredient.registerIngredient(geminiPromptIngredient);
-```
-
-## 10: Import the New Extension
-
-Open `src/index.ts` and add an import statement for your new extension file. This ensures that your extension is loaded when the application starts.
-
-```typescript
-import './extensions/AI/geminiPromptIngredient';
-```
-
-After your extension is loaded, "Gemini Prompt" will appear in the "Ingredients" panel under the "AI" category, ready to be used in a recipe!
