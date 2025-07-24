@@ -21,7 +21,7 @@ const urlSpices: readonly SpiceDefinition[] = [
 ];
 
 const urlDefinition: IngredientDefinition<URLSpice> = {
-  name: 'Url',
+  name: 'URL',
   category: CATEGORY_CODEC,
   description: 'Encodes or decodes URL components.',
   spices: urlSpices,

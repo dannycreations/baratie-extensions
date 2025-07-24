@@ -21,21 +21,26 @@ const uuidSpices: readonly SpiceDefinition[] = [
 ];
 
 function generateUuidV1(): string {
+  if (typeof crypto === 'undefined' || !crypto.getRandomValues) {
+    throw new Error('Cryptographically secure random number generator not available.');
+  }
+
   let dt = new Date().getTime();
-  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (dt + Math.random() * 16) % 16 | 0;
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const randomBytes = new Uint8Array(1);
+    crypto.getRandomValues(randomBytes);
+    const r = (dt + (randomBytes[0] % 16)) % 16 | 0;
     dt = Math.floor(dt / 16);
     return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
-  return uuid;
 }
 
 function generateUuidV4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+  if (typeof crypto === 'undefined' || !crypto.randomUUID) {
+    throw new Error('Cryptographically secure random number generator not available.');
+  }
+
+  return crypto.randomUUID();
 }
 
 const uuidDefinition: IngredientDefinition<UuidSpice> = {
