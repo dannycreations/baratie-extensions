@@ -53,6 +53,16 @@ const jsonSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
+function sortObjectKeys<T extends object>(obj: T): T {
+  const sorted: { [key: string]: unknown } = {};
+  Object.keys(obj)
+    .sort()
+    .forEach((key) => {
+      sorted[key] = (obj as { [key: string]: unknown })[key];
+    });
+  return sorted as T;
+}
+
 const jsonDefinition: IngredientDefinition<JsonSpice> = {
   name: 'Json',
   category: CATEGORY_FORMATTER,
@@ -71,12 +81,7 @@ const jsonDefinition: IngredientDefinition<JsonSpice> = {
         replacer: spices.sortKeys
           ? (_key: string, value: unknown) => {
               if (value && typeof value === 'object' && !Array.isArray(value)) {
-                return Object.keys(value)
-                  .sort()
-                  .reduce((sorted: { [key: string]: unknown }, k) => {
-                    sorted[k] = (value as { [key: string]: unknown })[k];
-                    return sorted;
-                  }, {});
+                return sortObjectKeys(value);
               }
               return value;
             }

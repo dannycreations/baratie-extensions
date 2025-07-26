@@ -69,14 +69,29 @@ const mdDefinition: IngredientDefinition<MdSpice> = {
       return null;
     }
 
-    const keyBytes = spices.key ? new TextEncoder().encode(spices.key) : new Uint8Array();
+    // Prepare options for the tryHash function, ensuring correct types and conditional inclusion.
+    const hashOptions: {
+      rounds?: number;
+      size?: number;
+      levels?: number;
+      key?: Uint8Array;
+    } = {};
 
-    const result = tryHash(spices.algorithm, inputValue, {
-      rounds: spices.rounds,
-      size: spices.size,
-      levels: spices.levels,
-      key: keyBytes,
-    });
+    if (spices.rounds !== undefined) {
+      hashOptions.rounds = spices.rounds;
+    }
+    if (spices.size !== undefined) {
+      hashOptions.size = spices.size;
+    }
+    if (spices.levels !== undefined) {
+      hashOptions.levels = spices.levels;
+    }
+    // Encode the key to Uint8Array if provided.
+    if (spices.key !== undefined && spices.key.length > 0) {
+      hashOptions.key = new TextEncoder().encode(spices.key);
+    }
+
+    const result = tryHash(spices.algorithm, inputValue, hashOptions);
     return input.update(result).cast('hex');
   },
 };

@@ -101,10 +101,45 @@ const passwordDefinition: IngredientDefinition<PasswordSpice> = {
     }
 
     const passwordChars: string[] = [];
-    const randomIndices = new Uint32Array(spices.length);
-    crypto.getRandomValues(randomIndices);
-    for (let i = 0; i < spices.length; i++) {
-      passwordChars.push(charPool[randomIndices[i] % charPool.length]);
+    const requiredCharSets: string[] = [];
+
+    // Ensure at least one character from each selected type is included.
+    if (spices.hasUppercase) {
+      requiredCharSets.push(DEFAULT_CHARS.uppercase);
+    }
+    if (spices.hasLowercase) {
+      requiredCharSets.push(DEFAULT_CHARS.lowercase);
+    }
+    if (spices.hasNumbers) {
+      requiredCharSets.push(DEFAULT_CHARS.numbers);
+    }
+    if (spices.hasSymbols) {
+      requiredCharSets.push(DEFAULT_CHARS.symbols);
+    }
+
+    // Add one character from each required set to the password, if possible.
+    for (const requiredSet of requiredCharSets) {
+      const filteredSet = requiredSet.split('').filter((char) => !exclusionSet.has(char));
+      if (filteredSet.length > 0) {
+        const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % filteredSet.length;
+        passwordChars.push(filteredSet[randomIndex]);
+      }
+    }
+
+    // Fill the rest of the password length with random characters from the general pool.
+    const remainingLength = spices.length - passwordChars.length;
+    if (remainingLength > 0) {
+      const randomIndices = new Uint32Array(remainingLength);
+      crypto.getRandomValues(randomIndices);
+      for (let i = 0; i < remainingLength; i++) {
+        passwordChars.push(charPool[randomIndices[i] % charPool.length]);
+      }
+    }
+
+    // Shuffle the password characters to ensure randomness.
+    for (let i = passwordChars.length - 1; i > 0; i--) {
+      const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1);
+      [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
     }
 
     return input.update(passwordChars.join(''));

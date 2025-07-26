@@ -94,22 +94,11 @@ const identityDefinition: IngredientDefinition<IdentitySpice> = {
   description: 'Generates a random full fake name and optional identification, address, phone, and country.',
   spices: identitySpices,
   run: (input, spices) => {
-    let firstName: string;
-    let lastName: string;
-
-    if (spices.gender === 'male') {
-      firstName = faker.person.firstName('male');
-      lastName = faker.person.lastName('male');
-    } else if (spices.gender === 'female') {
-      firstName = faker.person.firstName('female');
-      lastName = faker.person.lastName('female');
-    } else {
-      firstName = faker.person.firstName();
-      lastName = faker.person.lastName();
-    }
+    const genderParam = spices.gender === 'male' ? 'male' : spices.gender === 'female' ? 'female' : undefined;
+    const firstName = faker.person.firstName(genderParam);
+    const lastName = faker.person.lastName(genderParam);
 
     const generatedIdentity = [`Name: ${firstName} ${lastName}`];
-
     if (spices.includeId) {
       generatedIdentity.push(`ID: ${faker.string.numeric(9)}`);
     }

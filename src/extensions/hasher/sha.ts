@@ -2,7 +2,7 @@ import { CATEGORY_HASHER } from '../../core/constants';
 
 import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
-interface shaSpice {
+interface ShaSpice {
   readonly algorithm: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
 }
 
@@ -21,7 +21,7 @@ const shaSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const shaDefinition: IngredientDefinition<shaSpice> = {
+const shaDefinition: IngredientDefinition<ShaSpice> = {
   name: 'SHA',
   category: CATEGORY_HASHER,
   description: 'Calculates the message digest (hash) of the input using various algorithms.',
@@ -40,7 +40,7 @@ const shaDefinition: IngredientDefinition<shaSpice> = {
     }, `${spices.algorithm} Calculation`);
 
     if (error || !hashBuffer) {
-      return input.update(`Error calculating digest: ${error ? error.message : 'Unknown error'}`);
+      return input.update(`Error calculating digest: ${error ? error.message : 'An unknown error occurred'}`);
     }
     return input.update(new Uint8Array(hashBuffer)).cast('hex');
   },

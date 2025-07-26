@@ -231,20 +231,56 @@ const googleDorkSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-function buildAllInTerm(value: string, prefix: string): string[] {
-  const trimmed = value.trim();
-  return trimmed ? [`${prefix}${trimmed}`] : [];
-}
-
-function buildAnyInTerm(value: string, prefix: string): string[] {
-  const trimmed = value.trim();
+// Builds a search query part with a given prefix if the value is not empty.
+function buildTermOperator(value: string | undefined, prefix: string, isExact: boolean = false): string[] {
+  const trimmed = (value || '').trim();
   if (!trimmed) {
     return [];
   }
-  return trimmed
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((term: string): string => `${prefix}${term}`);
+  if (isExact) {
+    return [`${prefix}"${trimmed}"`];
+  }
+  // For 'any' type operators like intitle:, intext:, etc.
+  if (prefix.endsWith(':') && prefix !== 'allintitle:' && prefix !== 'allintext:' && prefix !== 'allinurl:' && prefix !== 'allinanchor:') {
+    return trimmed
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((term) => `${prefix}${term}`);
+  }
+  return [`${prefix}${trimmed}`];
+}
+
+// Builds the AROUND operator query part.
+function buildAroundOperator(spices: GoogleDorkSpice): string[] {
+  const term1 = (spices.aroundTerm1 || '').trim();
+  const term2 = (spices.aroundTerm2 || '').trim();
+  if (spices.isAround && term1 && term2 && spices.aroundDistance !== undefined && spices.aroundDistance > 0) {
+    return [`${term1} AROUND(${spices.aroundDistance}) ${term2}`];
+  }
+  return [];
+}
+
+// Builds the date filter query parts (before: and after:).
+function buildDateFilters(spices: GoogleDorkSpice): string[] {
+  const parts: string[] = [];
+  if (spices.isDateFiltered) {
+    const dateBefore = (spices.dateBefore || '').trim();
+    if (dateBefore) parts.push(`before:${dateBefore}`);
+    const dateAfter = (spices.dateAfter || '').trim();
+    if (dateAfter) parts.push(`after:${dateAfter}`);
+  }
+  return parts;
+}
+
+// Builds the number range query part (e.g., 10..100).
+function buildNumberRange(spices: GoogleDorkSpice): string[] {
+  const start = (spices.numberRangeStart || '').trim();
+  const end = (spices.numberRangeEnd || '').trim();
+  if (spices.isNumberRange && start && end) {
+    const prefix = (spices.numberRangePrefix || '').trim();
+    return [`${prefix ? prefix + ' ' : ''}${start}..${end}`];
+  }
+  return [];
 }
 
 const googleDorkDefinition: IngredientDefinition<GoogleDorkSpice> = {
@@ -255,64 +291,54 @@ const googleDorkDefinition: IngredientDefinition<GoogleDorkSpice> = {
   run: (input, spices) => {
     const queryParts: string[] = [];
 
-    const mainQueryTrimmed = spices.mainQuery.trim();
-    if (mainQueryTrimmed) {
-      queryParts.push(mainQueryTrimmed);
-    }
+    // Main query and exact phrase.
+    queryParts.push(...buildTermOperator(spices.mainQuery, ''));
+    queryParts.push(...buildTermOperator(spices.exactPhrase, '', true));
 
-    const exactPhraseTrimmed = spices.exactPhrase.trim();
-    if (exactPhraseTrimmed) {
-      queryParts.push(`"${exactPhraseTrimmed}"`);
-    }
+    // Title operators.
+    queryParts.push(...buildTermOperator(spices.allInTitle, 'allintitle:'));
+    queryParts.push(...buildTermOperator(spices.anyInTitle, 'intitle:'));
 
-    queryParts.push(...buildAllInTerm(spices.allInTitle, 'allintitle:'));
-    queryParts.push(...buildAnyInTerm(spices.anyInTitle, 'intitle:'));
-    queryParts.push(...buildAllInTerm(spices.allInText, 'allintext:'));
-    queryParts.push(...buildAnyInTerm(spices.anyInText, 'intext:'));
-    queryParts.push(...buildAllInTerm(spices.allInUrl, 'allinurl:'));
-    queryParts.push(...buildAnyInTerm(spices.anyInUrl, 'inurl:'));
-    queryParts.push(...buildAllInTerm(spices.allInAnchor, 'allinanchor:'));
-    queryParts.push(...buildAnyInTerm(spices.anyInAnchor, 'inanchor:'));
-    queryParts.push(...buildAnyInTerm(spices.excludedTerms, '-'));
+    // Text operators.
+    queryParts.push(...buildTermOperator(spices.allInText, 'allintext:'));
+    queryParts.push(...buildTermOperator(spices.anyInText, 'intext:'));
 
-    const siteFilterTrimmed = spices.siteFilter.trim();
-    if (siteFilterTrimmed) {
-      queryParts.push(`site:${siteFilterTrimmed}`);
-    }
+    // URL operators.
+    queryParts.push(...buildTermOperator(spices.allInUrl, 'allinurl:'));
+    queryParts.push(...buildTermOperator(spices.anyInUrl, 'inurl:'));
 
-    const aroundTerm1Trimmed = spices.aroundTerm1.trim();
-    const aroundTerm2Trimmed = spices.aroundTerm2.trim();
-    if (spices.isAround && aroundTerm1Trimmed && aroundTerm2Trimmed && spices.aroundDistance && spices.aroundDistance > 0) {
-      queryParts.push(`${aroundTerm1Trimmed} AROUND(${spices.aroundDistance}) ${aroundTerm2Trimmed}`);
-    }
+    // Anchor operators.
+    queryParts.push(...buildTermOperator(spices.allInAnchor, 'allinanchor:'));
+    queryParts.push(...buildTermOperator(spices.anyInAnchor, 'inanchor:'));
 
-    if (spices.isDateFiltered) {
-      const dateBeforeTrimmed = spices.dateBefore.trim();
-      if (dateBeforeTrimmed) queryParts.push(`before:${dateBeforeTrimmed}`);
-      const dateAfterTrimmed = spices.dateAfter.trim();
-      if (dateAfterTrimmed) queryParts.push(`after:${dateAfterTrimmed}`);
-    }
+    // Excluded terms.
+    queryParts.push(...buildTermOperator(spices.excludedTerms, '-'));
 
-    const defineTermTrimmed = spices.defineTerm.trim();
-    if (defineTermTrimmed) {
-      queryParts.push(`define:${defineTermTrimmed}`);
-    }
+    // Site filter.
+    queryParts.push(...buildTermOperator(spices.siteFilter, 'site:'));
 
-    const fileTypeTrimmed = spices.fileType.trim();
+    // AROUND operator.
+    queryParts.push(...buildAroundOperator(spices));
+
+    // Date filters.
+    queryParts.push(...buildDateFilters(spices));
+
+    // Define term.
+    queryParts.push(...buildTermOperator(spices.defineTerm, 'define:'));
+
+    // File type.
+    const fileTypeTrimmed = (spices.fileType || '').trim();
     if (fileTypeTrimmed) {
       queryParts.push(`filetype:${fileTypeTrimmed.replace(/^\./, '')}`);
     }
 
-    const numberRangeStartTrimmed = spices.numberRangeStart.trim();
-    const numberRangeEndTrimmed = spices.numberRangeEnd.trim();
-    if (spices.isNumberRange && numberRangeStartTrimmed && numberRangeEndTrimmed) {
-      const rangePrefixTrimmed = spices.numberRangePrefix.trim();
-      const rangePrefix = rangePrefixTrimmed ? `${rangePrefixTrimmed} ` : '';
-      queryParts.push(`${rangePrefix}${numberRangeStartTrimmed}..${numberRangeEndTrimmed}`);
-    }
+    // Number range.
+    queryParts.push(...buildNumberRange(spices));
 
+    // Join all parts and clean up extra spaces.
     return input.update(
       queryParts
+        .filter(Boolean)
         .join(' ')
         .trim()
         .replace(/\s{2,}/g, ' '),
