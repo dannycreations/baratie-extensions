@@ -41,8 +41,8 @@ const MANIFEST: ManifestContext = {
   entry: [],
 };
 
-const INPUT_DIR = resolve(process.cwd(), 'dist');
-const MANIFEST_PATH = resolve(process.cwd(), 'manifest.json');
+const INPUT_DIR = resolve('dist');
+const MANIFEST_PATH = resolve('manifest.json');
 
 async function main(): Promise<void> {
   const files = await getFiles(INPUT_DIR, ['.js']);

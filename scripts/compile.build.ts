@@ -1,6 +1,8 @@
 import { readdir, rm } from 'node:fs/promises';
 import { dirname, relative, resolve } from 'node:path';
-import { build, InlineConfig } from 'vite';
+import { build, InlineConfig, mergeConfig } from 'vite';
+
+import viteConfig from '../vite.config';
 
 interface TsFile {
   full: string;
@@ -24,8 +26,8 @@ async function getFiles(dir: string, extensions: string[], rootDir = dir, files:
   return files;
 }
 
-const INPUT_DIR = resolve(process.cwd(), 'src', 'extensions');
-const OUTPUT_DIR = resolve(process.cwd(), 'dist');
+const INPUT_DIR = resolve('src', 'extensions');
+const OUTPUT_DIR = resolve('dist');
 
 async function main(): Promise<void> {
   await rm(OUTPUT_DIR, { recursive: true, force: true });
@@ -36,29 +38,21 @@ async function main(): Promise<void> {
     files.map(async ({ full, relative }) => {
       try {
         const outDir = resolve(OUTPUT_DIR, dirname(relative));
-        const config: InlineConfig = {
-          build: {
-            emptyOutDir: false,
-            rollupOptions: {
-              input: full,
-              external: ['baratie'],
-              output: {
-                dir: outDir,
-                entryFileNames: '[name].js',
-                inlineDynamicImports: true,
+        await build(
+          mergeConfig(viteConfig, {
+            build: {
+              emptyOutDir: false,
+              rollupOptions: {
+                input: full,
+                output: {
+                  dir: outDir,
+                  entryFileNames: '[name].js',
+                  inlineDynamicImports: true,
+                },
               },
             },
-            minify: 'terser',
-            terserOptions: {
-              compress: true,
-              format: {
-                beautify: false,
-                comments: false,
-              },
-            },
-          },
-        };
-        await build(config);
+          } satisfies InlineConfig),
+        );
       } catch (err) {
         console.error(`Failed to build ${relative}:`, err);
       }
