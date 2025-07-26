@@ -207,11 +207,13 @@ const exampleSpices: ReadonlyArray<SpiceDefinition> = [
     type: 'string',
     value: '',
     placeholder: 'Enter your API key',
-    // This spice will only be visible if 'enableAuth' is true.
     dependsOn: [
       {
         spiceId: 'enableAuth',
+        // This spice will only be visible if 'enableAuth' is true.
         value: true,
+        // This spice will only be visible if 'enableAuth' is true or false.
+        value: [true, false],
       },
     ],
   },
