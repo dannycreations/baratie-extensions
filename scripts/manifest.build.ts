@@ -1,5 +1,5 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { posix, relative, resolve } from 'node:path';
+import { posix } from 'node:path';
 
 interface TsFile {
   full: string;
@@ -9,13 +9,13 @@ interface TsFile {
 async function getFiles(dir: string, extensions: string[], rootDir = dir, files: TsFile[] = []): Promise<TsFile[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   for (const entry of entries) {
-    const fullPath = resolve(dir, entry.name);
+    const fullPath = posix.resolve(dir, entry.name);
     if (entry.isDirectory()) {
       await getFiles(fullPath, extensions, rootDir, files);
     } else if (entry.isFile()) {
       const matchedExt = extensions.find((ext) => fullPath.endsWith(ext));
       if (matchedExt) {
-        const relativePath = relative(rootDir, fullPath).replace(/\\/g, '/');
+        const relativePath = posix.relative(rootDir, fullPath);
         files.push({ full: fullPath, relative: relativePath });
       }
     }
@@ -41,8 +41,8 @@ const MANIFEST: ManifestContext = {
   entry: [],
 };
 
-const INPUT_DIR = resolve('dist');
-const MANIFEST_PATH = resolve('manifest.json');
+const INPUT_DIR = posix.resolve('dist');
+const MANIFEST_PATH = posix.resolve('manifest.json');
 
 async function main(): Promise<void> {
   const files = await getFiles(INPUT_DIR, ['.js']);

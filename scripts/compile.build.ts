@@ -1,5 +1,5 @@
 import { readdir, rm } from 'node:fs/promises';
-import { dirname, relative, resolve } from 'node:path';
+import { posix } from 'node:path';
 import { build, InlineConfig, mergeConfig } from 'vite';
 
 import viteConfig from '../vite.config';
@@ -12,13 +12,13 @@ interface TsFile {
 async function getFiles(dir: string, extensions: string[], rootDir = dir, files: TsFile[] = []): Promise<TsFile[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   for (const entry of entries) {
-    const fullPath = resolve(dir, entry.name);
+    const fullPath = posix.resolve(dir, entry.name);
     if (entry.isDirectory()) {
       await getFiles(fullPath, extensions, rootDir, files);
     } else if (entry.isFile()) {
       const matchedExt = extensions.find((ext) => fullPath.endsWith(ext));
       if (matchedExt) {
-        const relativePath = relative(rootDir, fullPath).replace(/\\/g, '/');
+        const relativePath = posix.relative(rootDir, fullPath);
         files.push({ full: fullPath, relative: relativePath });
       }
     }
@@ -26,8 +26,8 @@ async function getFiles(dir: string, extensions: string[], rootDir = dir, files:
   return files;
 }
 
-const INPUT_DIR = resolve('src', 'extensions');
-const OUTPUT_DIR = resolve('dist');
+const INPUT_DIR = posix.resolve('src', 'extensions');
+const OUTPUT_DIR = posix.resolve('dist');
 
 async function main(): Promise<void> {
   await rm(OUTPUT_DIR, { recursive: true, force: true });
@@ -37,7 +37,7 @@ async function main(): Promise<void> {
   await Promise.all(
     files.map(async ({ full, relative }) => {
       try {
-        const outDir = resolve(OUTPUT_DIR, dirname(relative));
+        const outDir = posix.resolve(OUTPUT_DIR, posix.dirname(relative));
         await build(
           mergeConfig(viteConfig, {
             build: {
