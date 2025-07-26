@@ -12,16 +12,16 @@ interface UuidSpice {
 const uuidSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'version',
-    label: 'UUID Version',
+    label: 'Version',
     type: 'select',
     value: 'v4',
     options: [
-      { label: 'Version 1 (Time-based)', value: 'v1' },
-      { label: 'Version 3 (Name-based)', value: 'v3' },
-      { label: 'Version 4 (Random)', value: 'v4' },
-      { label: 'Version 5 (Name-based)', value: 'v5' },
-      { label: 'Version 6 (Time-based)', value: 'v6' },
-      { label: 'Version 7 (Time-based)', value: 'v7' },
+      { label: 'v1 (Time-based)', value: 'v1' },
+      { label: 'v3 (Name-based)', value: 'v3' },
+      { label: 'v4 (Random)', value: 'v4' },
+      { label: 'v5 (Name-based)', value: 'v5' },
+      { label: 'v6 (Time-based)', value: 'v6' },
+      { label: 'v7 (Time-based)', value: 'v7' },
     ],
     description: 'Choose the version of UUID to generate.',
   },
@@ -42,8 +42,6 @@ const uuidDefinition: IngredientDefinition<UuidSpice> = {
   description: 'Generates Universally Unique Identifiers (UUIDs).',
   spices: uuidSpices,
   run: (input, spices) => {
-    const name = input.cast('string').getValue();
-
     let result: string;
     switch (spices.version) {
       case 'v1':
@@ -52,6 +50,7 @@ const uuidDefinition: IngredientDefinition<UuidSpice> = {
       case 'v3':
       case 'v5': {
         if (validate(spices.namespace)) {
+          const name = input.cast('string').getValue();
           if (spices.version === 'v3') {
             result = v3(name, spices.namespace);
           } else {
