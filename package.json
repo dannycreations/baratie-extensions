@@ -24,7 +24,8 @@
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
     "baratie": "github:dannycreations/Baratie",
-    "json5": "^2.2.3"
+    "json5": "^2.2.3",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.5.1",
