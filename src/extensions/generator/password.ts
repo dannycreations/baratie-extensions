@@ -31,6 +31,38 @@ function makeCharSpices(idPrefix: CharType): SpiceDefinition {
   };
 }
 
+/**
+ * Generates a cryptographically secure random number within a specified range [min, max).
+ * This function avoids modulo bias by re-rolling if the generated number falls outside
+ * the largest multiple of the range that fits within the Uint32 range.
+ *
+ * @param min The minimum value (inclusive).
+ * @param max The maximum value (exclusive).
+ * @returns A cryptographically secure random number.
+ */
+function getRandomNumberBetween(min: number, max: number): number {
+  const range = max - min;
+  if (range <= 0) {
+    throw new Error('Max must be greater than min.');
+  }
+
+  const maxUint32 = 0xffffffff; // 2^32 - 1
+
+  // Find the largest multiple of 'range' that fits within maxUint32.
+  // This helps avoid modulo bias for numbers that are not a power of 2.
+  const usableRange = maxUint32 - (maxUint32 % range);
+
+  let randomNumber: number;
+  let uint32Array = new Uint32Array(1);
+
+  do {
+    crypto.getRandomValues(uint32Array);
+    randomNumber = uint32Array[0];
+  } while (randomNumber >= usableRange);
+
+  return min + (randomNumber % range);
+}
+
 const passwordSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'length',
@@ -121,7 +153,7 @@ const passwordDefinition: IngredientDefinition<PasswordSpice> = {
     for (const requiredSet of requiredCharSets) {
       const filteredSet = requiredSet.split('').filter((char) => !exclusionSet.has(char));
       if (filteredSet.length > 0) {
-        const randomIndex = crypto.getRandomValues(new Uint32Array(1))[0] % filteredSet.length;
+        const randomIndex = getRandomNumberBetween(0, filteredSet.length);
         passwordChars.push(filteredSet[randomIndex]);
       }
     }
@@ -129,16 +161,15 @@ const passwordDefinition: IngredientDefinition<PasswordSpice> = {
     // Fill the rest of the password length with random characters from the general pool.
     const remainingLength = spices.length - passwordChars.length;
     if (remainingLength > 0) {
-      const randomIndices = new Uint32Array(remainingLength);
-      crypto.getRandomValues(randomIndices);
       for (let i = 0; i < remainingLength; i++) {
-        passwordChars.push(charPool[randomIndices[i] % charPool.length]);
+        const randomIndex = getRandomNumberBetween(0, charPool.length);
+        passwordChars.push(charPool[randomIndex]);
       }
     }
 
     // Shuffle the password characters to ensure randomness.
     for (let i = passwordChars.length - 1; i > 0; i--) {
-      const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i + 1);
+      const j = getRandomNumberBetween(0, i + 1);
       [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
     }
 
