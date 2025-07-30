@@ -478,9 +478,9 @@ const textDefinition: IngredientDefinition<TextSpice> = {
   description: 'Performs various advanced text manipulation operations.',
   spices: textSpices,
   run: (input, spices) => {
-    const inputValue = input.cast('string').getValue();
+    const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
-      return null;
+      return input.warning();
     }
 
     switch (spices.operationType) {

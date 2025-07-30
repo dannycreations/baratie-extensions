@@ -26,9 +26,9 @@ const htmlEntitiesDefinition: IngredientDefinition<HtmlEntitiesSpice> = {
   description: 'Encodes or decodes HTML special characters to/from HTML entities.',
   spices: htmlEntitiesSpices,
   run: (input, spices) => {
-    const inputValue = input.cast('string').getValue();
+    const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
-      return null;
+      return input.warning();
     }
 
     let result = '';

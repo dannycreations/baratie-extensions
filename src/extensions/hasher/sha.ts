@@ -27,9 +27,9 @@ const shaDefinition: IngredientDefinition<ShaSpice> = {
   description: 'Calculates the message digest (hash) of the input using various algorithms.',
   spices: shaSpices,
   run: async (input, spices) => {
-    const text = input.cast('string').getValue();
+    const text = input.cast('string').value;
     if (!text.trim()) {
-      return null;
+      return input.warning();
     }
 
     const encoder = new TextEncoder();

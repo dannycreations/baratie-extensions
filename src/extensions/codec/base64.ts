@@ -26,9 +26,9 @@ const base64Definition: IngredientDefinition<Base64Spice> = {
   description: 'Encodes or decodes text using Base64.',
   spices: base64Spices,
   run: (input, spices) => {
-    const inputValue = input.cast('string').getValue();
+    const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
-      return null;
+      return input.warning();
     }
 
     let result = '';

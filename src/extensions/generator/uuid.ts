@@ -50,7 +50,7 @@ const uuidDefinition: IngredientDefinition<UuidSpice> = {
       case 'v3':
       case 'v5': {
         if (validate(spices.namespace)) {
-          const name = input.cast('string').getValue();
+          const name = input.cast('string').value;
           if (spices.version === 'v3') {
             result = v3(name, spices.namespace);
           } else {

@@ -64,9 +64,9 @@ const mdDefinition: IngredientDefinition<MdSpice> = {
   description: 'Calculates the message digest (hash) of the input using various algorithms.',
   spices: mdSpices,
   run: async (input, spices) => {
-    const inputValue = input.cast('string').getValue();
+    const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
-      return null;
+      return input.warning();
     }
 
     // Prepare options for the tryHash function, ensuring correct types and conditional inclusion.

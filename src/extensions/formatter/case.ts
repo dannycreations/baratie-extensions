@@ -59,9 +59,9 @@ const caseDefinition: IngredientDefinition<CaseSpice> = {
   description: 'Converts text between various case formats.',
   spices: caseSpices,
   run: (input, spices) => {
-    const inputValue = input.cast('string').getValue();
+    const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
-      return null;
+      return input.warning();
     }
 
     let result = inputValue;

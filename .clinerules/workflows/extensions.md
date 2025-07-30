@@ -34,7 +34,7 @@ export interface IngredientDefinition<T = unknown> {
   readonly spices?: ReadonlyArray<SpiceDefinition>;
 
   // The core logic of the ingredient. It can be synchronous or asynchronous.
-  readonly run: (input: InputType, spices: T, context: IngredientContext) => ResultType | Promise<ResultType>;
+  readonly run: (input: InputType, spices: T, context: IngredientContext) => InputType | Promise<InputType>;
 }
 ```
 
@@ -52,21 +52,21 @@ The `input` parameter is an `InputType` object that wraps the output from the _p
 
 `InputType` is a robust wrapper that helps you safely handle and convert data.
 
-- **Getting the value:** `input.getValue()` returns the raw value.
+- **Getting the value:** `input.value` returns the raw value.
 - **Updating the value:** `input.update(newData)` creates a _new_ `InputType` instance with the new data. This is the primary way you will create your return value.
 - **Casting data:** The most powerful feature is casting. `InputType` can intelligently convert its value to the type you need. If a cast fails, it will throw an error that the Baratie kitchen can handle.
 
 ```typescript
 // Example: Safely get a number, defaulting to 0 if input is invalid
-const count = input.cast('number', { value: 0 }).getValue();
+const count = input.cast('number', { value: 0 }).value;
 
 // Example: Get a string representation of any input
-const text = input.cast('string').getValue();
+const text = input.cast('string').value;
 
 // Example: Parse a JSON string into an array
 // This will throw if the input is not a valid JSON array string.
 try {
-  const list = input.cast('array').getValue();
+  const list = input.cast('array').value;
   console.log('We have an array!', list);
 } catch (e) {
   console.error('Input was not a valid array.');
@@ -224,93 +224,20 @@ const exampleSpices: ReadonlyArray<SpiceDefinition> = [
 
 ## 5. Controlling the Kitchen: Ingredient Outputs
 
-The value returned by your `run` function determines what happens next in the recipe.
-
-#### Returning `InputType`
-
-This is the most common return type. The `InputType` object you return becomes the `input` for the next ingredient.
+The `InputType` object you return becomes the `input` for the next ingredient.
 
 ```typescript
 run: (input, spices, context) => {
-  const text = input.cast('string').getValue();
+  const text = input.cast('string').value;
+  if (!text.trim()) {
+    // This signify that ingredient has no output and should be skipped. The data flow is not interrupted; the next ingredient simply receives the same `input` that the current one did. This is useful for ingredients that only have side effects or act as filters. The ingredient's status in the UI will be marked as a "warning".
+    return input.warning();
+  }
+
   const reversedText = text.split('').reverse().join('');
+
   // Use the `update` method on the existing input object to create a new one.
   return input.update(reversedText);
-};
-```
-
-#### Returning `null`
-
-Return `null` to signify that this ingredient has no output and should be skipped. The data flow is not interrupted; the next ingredient simply receives the same `input` that the current one did. This is useful for ingredients that only have side effects or act as filters. The ingredient's status in the UI will be marked as a "warning".
-
-```typescript
-run: (input, spices, context) => {
-  const text = input.cast('string').getValue();
-  if (text.length === 0) {
-    // Skip this ingredient if there is no input.
-    return null;
-  }
-  // ... otherwise, process and return new InputType
-  return input.update(text.toUpperCase());
-};
-```
-
-#### Returning a `PanelControlSignal`
-
-For advanced UI interaction, you can return a `PanelControlSignal` object. This allows you to change the state of the "Input" or "Output" panels.
-
-The structure is: `{ output: InputType, panelControl?: PanelControlConfig }`
-
-- `output`: The `InputType` that will be passed to the next ingredient.
-- `panelControl`: An object defining the UI change.
-
-**Example: Displaying a custom message in the Output panel.**
-
-```typescript
-run: (input, spices, context) => {
-  const signal = {
-    // The original input is passed through untouched.
-    output: input,
-    panelControl: {
-      panelType: 'output',
-      providerId: context.ingredient.id, // Good practice to identify which ingredient set the panel
-      config: {
-        mode: 'textarea',
-        title: 'Status Report',
-        placeholder: 'All systems nominal.',
-      },
-    },
-  };
-  return signal;
-};
-```
-
-**Example: Turning the Input panel into a spice editor for the _next_ ingredient.**
-This is how the built-in "Custom Input" ingredient works.
-
-```typescript
-run: (input, spices, context) => {
-  const { recipe, currentIndex } = context;
-  const nextIngredient = recipe[currentIndex + 1];
-
-  if (!nextIngredient) {
-    // Handle case where this is the last ingredient.
-    return input;
-  }
-
-  const signal = {
-    output: input, // Pass data through
-    panelControl: {
-      panelType: 'input',
-      providerId: context.ingredient.id,
-      config: {
-        mode: 'spiceEditor',
-        targetIngredientId: nextIngredient.id, // The unique ID of the next ingredient instance
-        title: `Options for: ${nextIngredient.name}`,
-      },
-    },
-  };
-  return signal;
 };
 ```
 
@@ -394,7 +321,7 @@ const geminiPromptDefinition: IngredientDefinition<GeminiPromptSpice> = {
     }
 
     // 2. Get prompt text from input
-    const prompt = input.cast('string').getValue();
+    const prompt = input.cast('string').value;
     if (!prompt.trim()) {
       // Skip if there's no prompt
       return null;
@@ -454,9 +381,8 @@ Follow these rules to create high-quality, stable ingredients.
 
 #### Prohibited Practices (Don'ts)
 
-- **DO NOT** directly manipulate the DOM. If you need to change the UI, return a `PanelControlSignal`.
 - **DO NOT** store state within your ingredient's closure. Each `run` call should be independent.
 - **DO NOT** assume the `input` type. Always use `input.cast()` to safely get the data format you expect.
 - **DO NOT** access global objects like `window`, `localStorage`, or `sessionStorage` for storing state. This can lead to conflicts and instability. All state should be managed via the recipe's data flow.
 - **DO NOT** mutate the `input` or `context` objects passed to your `run` function. They should be treated as immutable. Use `input.update()` to return new data.
-- **DO NOT** create overly complex `dependsOn` chains. If a component's options are too convoluted, it might be a sign that it should be broken into multiple, simpler ingredients.
+- **DO NOT** create overly complex `dependsOn` chains. If a component's options are too convoluted, it might be a sign that it should be broken into multiple spices.

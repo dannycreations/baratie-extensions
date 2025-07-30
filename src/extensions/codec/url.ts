@@ -26,9 +26,9 @@ const urlDefinition: IngredientDefinition<URLSpice> = {
   description: 'Encodes or decodes URL components.',
   spices: urlSpices,
   run: (input, spices) => {
-    const inputValue = input.cast('string').getValue();
+    const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
-      return null;
+      return input.warning();
     }
 
     let result = '';

@@ -13,7 +13,7 @@ importers:
         version: 9.9.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/16d50873272733a914784a5ed5be2a8ff9f937ac(typescript@5.8.3)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/19697cb0277e36655d882760106c0c14f3d0ccfc(typescript@5.8.3)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -49,8 +49,8 @@ importers:
         specifier: ^7.0.6
         version: 7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
       vite-plugin-checker:
-        specifier: ^0.10.1
-        version: 0.10.1(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3))
+        specifier: ^0.10.2
+        version: 0.10.2(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3))
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)
@@ -436,8 +436,8 @@ packages:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
     engines: {node: '>=12'}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/16d50873272733a914784a5ed5be2a8ff9f937ac:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/16d50873272733a914784a5ed5be2a8ff9f937ac}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/19697cb0277e36655d882760106c0c14f3d0ccfc:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/19697cb0277e36655d882760106c0c14f3d0ccfc}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -566,10 +566,6 @@ packages:
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
-
-  picomatch@4.0.2:
-    resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
-    engines: {node: '>=12'}
 
   picomatch@4.0.3:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
@@ -704,8 +700,8 @@ packages:
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
-  vite-plugin-checker@0.10.1:
-    resolution: {integrity: sha512-imiBsmYTPdjQHIZiEi5BhJ7K8Z/kCjTFMn+Qa4+5ao/a4Yql4yWFcf81FDJqlMiM57iY4Q3Z7PdoEe4KydULYQ==}
+  vite-plugin-checker@0.10.2:
+    resolution: {integrity: sha512-FX9U8TnIS6AGOlqmC6O2YmkJzcZJRrjA03UF7FOhcUJ7it3HmCoxcIPMcoHliBP6EFOuNzle9K4c0JL4suRPow==}
     engines: {node: '>=14.16'}
     peerDependencies:
       '@biomejs/biome': '>=1.7'
@@ -1111,7 +1107,7 @@ snapshots:
 
   assertion-error@2.0.1: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/16d50873272733a914784a5ed5be2a8ff9f937ac(typescript@5.8.3):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/19697cb0277e36655d882760106c0c14f3d0ccfc(typescript@5.8.3):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -1231,8 +1227,6 @@ snapshots:
   pathval@2.0.1: {}
 
   picocolors@1.1.1: {}
-
-  picomatch@4.0.2: {}
 
   picomatch@4.0.3: {}
 
@@ -1372,13 +1366,13 @@ snapshots:
       - tsx
       - yaml
 
-  vite-plugin-checker@0.10.1(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)):
+  vite-plugin-checker@0.10.2(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(terser@5.43.1)(tsx@4.20.3)):
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
       npm-run-path: 6.0.0
       picocolors: 1.1.1
-      picomatch: 4.0.2
+      picomatch: 4.0.3
       strip-ansi: 7.1.0
       tiny-invariant: 1.3.3
       tinyglobby: 0.2.14
