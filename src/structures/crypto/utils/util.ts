@@ -12,7 +12,10 @@
  * @returns {string} The hexadecimal string representation of the byte array.
  */
 export function bytesToHex(bytes: Uint8Array): string {
-  return Array.from(bytes)
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
+  let hexString = '';
+  for (let i = 0; i < bytes.length; i++) {
+    const byte = bytes[i];
+    hexString += byte < 16 ? '0' + byte.toString(16) : byte.toString(16);
+  }
+  return hexString;
 }
