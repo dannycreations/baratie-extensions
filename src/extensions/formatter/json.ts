@@ -1,4 +1,5 @@
 import JSON5 from 'json5';
+import { jsonrepair } from 'jsonrepair';
 
 import { CATEGORY_FORMATTER } from '../../core/constants';
 
@@ -75,7 +76,8 @@ const jsonDefinition: IngredientDefinition<JsonSpice> = {
     }
 
     try {
-      const parsedData = JSON5.parse(inputValue);
+      const repairedValue = jsonrepair(inputValue);
+      const parsedData = JSON5.parse(repairedValue);
 
       const stringifyOptions = {
         replacer: spices.sortKeys
