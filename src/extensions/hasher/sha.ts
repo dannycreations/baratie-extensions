@@ -46,4 +46,4 @@ const shaDefinition: IngredientDefinition<ShaSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(shaDefinition);
+Baratie.ingredient.register(shaDefinition);

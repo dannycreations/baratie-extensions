@@ -130,4 +130,4 @@ const identityDefinition: IngredientDefinition<IdentitySpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(identityDefinition);
+Baratie.ingredient.register(identityDefinition);

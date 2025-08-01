@@ -100,4 +100,4 @@ const jsonDefinition: IngredientDefinition<JsonSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(jsonDefinition);
+Baratie.ingredient.register(jsonDefinition);

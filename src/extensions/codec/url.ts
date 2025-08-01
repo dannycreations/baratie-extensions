@@ -42,4 +42,4 @@ const urlDefinition: IngredientDefinition<URLSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(urlDefinition);
+Baratie.ingredient.register(urlDefinition);

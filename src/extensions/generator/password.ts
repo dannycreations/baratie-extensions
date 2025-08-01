@@ -177,4 +177,4 @@ const passwordDefinition: IngredientDefinition<PasswordSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(passwordDefinition);
+Baratie.ingredient.register(passwordDefinition);

@@ -76,4 +76,4 @@ const uuidDefinition: IngredientDefinition<UuidSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(uuidDefinition);
+Baratie.ingredient.register(uuidDefinition);

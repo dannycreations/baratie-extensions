@@ -349,7 +349,7 @@ const geminiPromptDefinition: IngredientDefinition<GeminiPromptSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(geminiPromptDefinition);
+Baratie.ingredient.register(geminiPromptDefinition);
 ```
 
 ---

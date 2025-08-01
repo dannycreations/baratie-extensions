@@ -45,4 +45,4 @@ const htmlEntitiesDefinition: IngredientDefinition<HtmlEntitiesSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(htmlEntitiesDefinition);
+Baratie.ingredient.register(htmlEntitiesDefinition);

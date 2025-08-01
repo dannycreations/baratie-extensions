@@ -346,4 +346,4 @@ const googleDorkDefinition: IngredientDefinition<GoogleDorkSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(googleDorkDefinition);
+Baratie.ingredient.register(googleDorkDefinition);

@@ -111,4 +111,4 @@ const caseDefinition: IngredientDefinition<CaseSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(caseDefinition);
+Baratie.ingredient.register(caseDefinition);

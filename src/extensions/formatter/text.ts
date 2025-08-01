@@ -502,4 +502,4 @@ const textDefinition: IngredientDefinition<TextSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(textDefinition);
+Baratie.ingredient.register(textDefinition);

@@ -81,4 +81,4 @@ const mdDefinition: IngredientDefinition<MdSpice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(mdDefinition);
+Baratie.ingredient.register(mdDefinition);

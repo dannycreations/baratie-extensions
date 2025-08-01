@@ -42,4 +42,4 @@ const base64Definition: IngredientDefinition<Base64Spice> = {
   },
 };
 
-Baratie.ingredient.registerIngredient(base64Definition);
+Baratie.ingredient.register(base64Definition);
