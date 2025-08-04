@@ -13,7 +13,7 @@ importers:
         version: 9.9.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/918bf7390cfa67fe64267be2d809aa81a9d336e1(typescript@5.9.2)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/97a14367172518db129350f9bd53ef90d630924b(typescript@5.9.2)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -439,8 +439,8 @@ packages:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
     engines: {node: '>=12'}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/918bf7390cfa67fe64267be2d809aa81a9d336e1:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/918bf7390cfa67fe64267be2d809aa81a9d336e1}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/97a14367172518db129350f9bd53ef90d630924b:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/97a14367172518db129350f9bd53ef90d630924b}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -587,13 +587,13 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  react-dom@19.1.0:
-    resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
+  react-dom@19.1.1:
+    resolution: {integrity: sha512-Dlq/5LAZgF0Gaz6yiqZCf6VCcZs1ghAJyrsu84Q/GT0gV+mCxbfmKNoGRKBYMJ8IEdGPqu49YWXD02GCknEDkw==}
     peerDependencies:
-      react: ^19.1.0
+      react: ^19.1.1
 
-  react@19.1.0:
-    resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
+  react@19.1.1:
+    resolution: {integrity: sha512-w8nqGImo45dmMIfljjMwOGtbmC/mk4CMYhWIicdSflH91J9TyCyczcPFXJzrZ/ZXcgGRFeP6BU0BEJTw6tZdfQ==}
     engines: {node: '>=0.10.0'}
 
   readdirp@4.1.2:
@@ -817,8 +817,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  zustand@5.0.6:
-    resolution: {integrity: sha512-ihAqNeUVhe0MAD+X8M5UzqyZ9k3FFZLBTtqo6JLPwV53cbRB/mJwBI0PxcIgqhBBHlEs8G45OTDTMq3gNcLq3A==}
+  zustand@5.0.7:
+    resolution: {integrity: sha512-Ot6uqHDW/O2VdYsKLLU8GQu8sCOM1LcoE8RwvLv9uuRT9s6SOHCKs0ZEOhxg+I1Ld+A1Q5lwx+UlKXXUoCZITg==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=18.0.0'
@@ -1114,12 +1114,12 @@ snapshots:
 
   assertion-error@2.0.1: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/918bf7390cfa67fe64267be2d809aa81a9d336e1(typescript@5.9.2):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/97a14367172518db129350f9bd53ef90d630924b(typescript@5.9.2):
     dependencies:
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
+      react: 19.1.1
+      react-dom: 19.1.1(react@19.1.1)
       valibot: 1.1.0(typescript@5.9.2)
-      zustand: 5.0.6(react@19.1.0)
+      zustand: 5.0.7(react@19.1.1)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -1247,12 +1247,12 @@ snapshots:
 
   prettier@3.6.2: {}
 
-  react-dom@19.1.0(react@19.1.0):
+  react-dom@19.1.1(react@19.1.1):
     dependencies:
-      react: 19.1.0
+      react: 19.1.1
       scheduler: 0.26.0
 
-  react@19.1.0: {}
+  react@19.1.1: {}
 
   readdirp@4.1.2: {}
 
@@ -1452,6 +1452,6 @@ snapshots:
       siginfo: 2.0.0
       stackback: 0.0.2
 
-  zustand@5.0.6(react@19.1.0):
+  zustand@5.0.7(react@19.1.1):
     optionalDependencies:
-      react: 19.1.0
+      react: 19.1.1
