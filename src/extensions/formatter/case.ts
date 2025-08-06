@@ -38,22 +38,10 @@ const caseSpices: ReadonlyArray<SpiceDefinition> = [
 ];
 
 function normalizeWords(str: string): string[] {
-  const result = str
-    // Replace all non-alphanumeric characters with spaces.
-    .replace(/[^a-zA-Z0-9]+/g, ' ')
-    // Add space between uppercase letters followed by another uppercase
-    // and then a lowercase letter (e.g., "HTTPResponse" -> "HTTP Response").
-    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
-    // Add space between a lowercase letter/digit and an uppercase letter (e.g., "camelCase" -> "camel Case").
-    .replace(/([a-z\d])([A-Z])/g, '$1 $2')
-    // Replace multiple spaces with a single space and trim leading/trailing spaces.
-    .replace(/\s+/g, ' ')
-    .trim();
-
-  return result
-    .split(' ')
-    .map((word) => word.toLowerCase())
-    .filter(Boolean);
+  return str
+    .split(/[^a-zA-Z0-9]+|(?<=[A-Z])(?=[A-Z][a-z])|(?<=[a-z\d])(?=[A-Z])/g)
+    .filter(Boolean)
+    .map((word) => word.toLowerCase());
 }
 
 const caseDefinition: IngredientDefinition<CaseSpice> = {
