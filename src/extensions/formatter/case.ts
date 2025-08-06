@@ -37,16 +37,19 @@ const caseSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-function splitIntoWords(str: string): string[] {
-  // Replace all non-alphanumeric characters with spaces.
-  let result = str.replace(/[^a-zA-Z0-9]+/g, ' ');
-  // Add space between uppercase letters followed by another uppercase
-  // and then a lowercase letter (e.g., "HTTPResponse" -> "HTTP Response").
-  result = result.replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
-  // Add space between a lowercase letter/digit and an uppercase letter (e.g., "camelCase" -> "camel Case").
-  result = result.replace(/([a-z\d])([A-Z])/g, '$1 $2');
-  // Replace multiple spaces with a single space and trim leading/trailing spaces.
-  result = result.replace(/\s+/g, ' ').trim();
+function normalizeWords(str: string): string[] {
+  const result = str
+    // Replace all non-alphanumeric characters with spaces.
+    .replace(/[^a-zA-Z0-9]+/g, ' ')
+    // Add space between uppercase letters followed by another uppercase
+    // and then a lowercase letter (e.g., "HTTPResponse" -> "HTTP Response").
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+    // Add space between a lowercase letter/digit and an uppercase letter (e.g., "camelCase" -> "camel Case").
+    .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+    // Replace multiple spaces with a single space and trim leading/trailing spaces.
+    .replace(/\s+/g, ' ')
+    .trim();
+
   return result
     .split(' ')
     .map((word) => word.toLowerCase())
@@ -73,35 +76,35 @@ const caseDefinition: IngredientDefinition<CaseSpice> = {
         result = inputValue.toLowerCase();
         break;
       case 'titleCase':
-        result = splitIntoWords(inputValue)
+        result = normalizeWords(inputValue)
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
         break;
       case 'camelCase': {
-        const words = splitIntoWords(inputValue);
+        const words = normalizeWords(inputValue);
         result = words.map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1))).join('');
         break;
       }
       case 'pascalCase':
-        result = splitIntoWords(inputValue)
+        result = normalizeWords(inputValue)
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join('');
         break;
       case 'snakeCase':
-        result = splitIntoWords(inputValue).join('_');
+        result = normalizeWords(inputValue).join('_');
         break;
       case 'kebabCase':
-        result = splitIntoWords(inputValue).join('-');
+        result = normalizeWords(inputValue).join('-');
         break;
       case 'constantCase':
-        result = splitIntoWords(inputValue).join('_').toUpperCase();
+        result = normalizeWords(inputValue).join('_').toUpperCase();
         break;
       case 'customCase': {
         const delimiter = spices.customDelimiter || '';
-        // Using split(/\s+/) instead of splitIntoWords to preserve original word
+        // Using split(/\s+/) instead of normalizeWords to preserve original word
         // boundaries and allow the custom delimiter to be applied directly to
         // the whitespace-separated segments of the input string.
-        // splitIntoWords performs additional normalization that is not desired here.
+        // normalizeWords performs additional normalization that is not desired here.
         result = inputValue.split(/\s+/).join(delimiter);
         break;
       }

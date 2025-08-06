@@ -54,14 +54,18 @@ const jsonSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-function sortObjectKeys<T extends object>(obj: T): T {
-  const sorted: { [key: string]: unknown } = {};
-  Object.keys(obj)
-    .sort()
-    .forEach((key) => {
-      sorted[key] = (obj as { [key: string]: unknown })[key];
-    });
-  return sorted as T;
+function sortObjectKeys(obj: object): object {
+  return Object.fromEntries(
+    Object.keys(obj)
+      .sort()
+      .map((key) => {
+        const value = (obj as { [key: string]: unknown })[key];
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+          return [key, sortObjectKeys(value)];
+        }
+        return [key, value];
+      }),
+  );
 }
 
 const jsonDefinition: IngredientDefinition<JsonSpice> = {
@@ -75,28 +79,19 @@ const jsonDefinition: IngredientDefinition<JsonSpice> = {
       return input.warning();
     }
 
-    try {
-      const repairedValue = jsonrepair(inputValue);
-      const parsedData = JSON5.parse(repairedValue);
+    const repairedValue = jsonrepair(inputValue);
+    let parsedData = JSON5.parse(repairedValue);
 
-      const stringifyOptions = {
-        replacer: spices.sortKeys
-          ? (_key: string, value: unknown) => {
-              if (value && typeof value === 'object' && !Array.isArray(value)) {
-                return sortObjectKeys(value);
-              }
-              return value;
-            }
-          : undefined,
-        space: spices.formatMode === 'beautify' ? spices.space : undefined,
-        quote: spices.quoteStyle === 'single' ? "'" : '"',
-      };
-
-      const result = JSON5.stringify(parsedData, stringifyOptions);
-      return input.update(result);
-    } catch (error) {
-      return input.update(`Error: ${(error as Error).message}.`);
+    if (spices.sortKeys) {
+      parsedData = sortObjectKeys(parsedData);
     }
+
+    const result = JSON5.stringify(parsedData, {
+      space: spices.formatMode === 'beautify' ? spices.space : undefined,
+      quote: spices.quoteStyle === 'single' ? "'" : '"',
+    });
+
+    return input.update(result);
   },
 };
 

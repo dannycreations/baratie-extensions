@@ -46,19 +46,13 @@ function getRandomNumberBetween(min: number, max: number): number {
     throw new Error('Max must be greater than min.');
   }
 
-  const maxUint32 = 0xffffffff; // 2^32 - 1
-
-  // Find the largest multiple of 'range' that fits within maxUint32.
-  // This helps avoid modulo bias for numbers that are not a power of 2.
-  const usableRange = maxUint32 - (maxUint32 % range);
-
-  let randomNumber: number;
-  let uint32Array = new Uint32Array(1);
+  const uint32Array = new Uint32Array(1);
+  let randomNumber;
 
   do {
     crypto.getRandomValues(uint32Array);
     randomNumber = uint32Array[0];
-  } while (randomNumber >= usableRange);
+  } while (randomNumber >= 0xffffffff - (0xffffffff % range));
 
   return min + (randomNumber % range);
 }
@@ -114,66 +108,34 @@ const passwordDefinition: IngredientDefinition<PasswordSpice> = {
       { include: spices.hasSymbols, source: DEFAULT_CHARS.symbols },
     ];
 
-    const charPoolArray: string[] = [];
-    for (const set of charSets) {
-      if (!set.include) {
-        continue;
-      }
+    const charPool: string[] = [];
+    const requiredChars: string[] = [];
 
-      for (const char of set.source) {
-        if (!exclusionSet.has(char)) {
-          charPoolArray.push(char);
+    for (const set of charSets) {
+      if (set.include) {
+        const filteredSet = set.source.split('').filter((char) => !exclusionSet.has(char));
+        if (filteredSet.length > 0) {
+          charPool.push(...filteredSet);
+          requiredChars.push(filteredSet[getRandomNumberBetween(0, filteredSet.length)]);
         }
       }
     }
 
-    const charPool = charPoolArray.join('');
-    if (!charPool) {
+    if (charPool.length === 0) {
       return input.update('Error: No character types selected. Please enable at least one character set.');
     }
 
-    const passwordChars: string[] = [];
-    const requiredCharSets: string[] = [];
-
-    // Ensure at least one character from each selected type is included.
-    if (spices.hasUppercase) {
-      requiredCharSets.push(DEFAULT_CHARS.uppercase);
-    }
-    if (spices.hasLowercase) {
-      requiredCharSets.push(DEFAULT_CHARS.lowercase);
-    }
-    if (spices.hasNumbers) {
-      requiredCharSets.push(DEFAULT_CHARS.numbers);
-    }
-    if (spices.hasSymbols) {
-      requiredCharSets.push(DEFAULT_CHARS.symbols);
+    const passwordChars = [...requiredChars];
+    for (let i = requiredChars.length; i < spices.length; i++) {
+      passwordChars.push(charPool[getRandomNumberBetween(0, charPool.length)]);
     }
 
-    // Add one character from each required set to the password, if possible.
-    for (const requiredSet of requiredCharSets) {
-      const filteredSet = requiredSet.split('').filter((char) => !exclusionSet.has(char));
-      if (filteredSet.length > 0) {
-        const randomIndex = getRandomNumberBetween(0, filteredSet.length);
-        passwordChars.push(filteredSet[randomIndex]);
-      }
-    }
-
-    // Fill the rest of the password length with random characters from the general pool.
-    const remainingLength = spices.length - passwordChars.length;
-    if (remainingLength > 0) {
-      for (let i = 0; i < remainingLength; i++) {
-        const randomIndex = getRandomNumberBetween(0, charPool.length);
-        passwordChars.push(charPool[randomIndex]);
-      }
-    }
-
-    // Shuffle the password characters to ensure randomness.
     for (let i = passwordChars.length - 1; i > 0; i--) {
       const j = getRandomNumberBetween(0, i + 1);
       [passwordChars[i], passwordChars[j]] = [passwordChars[j], passwordChars[i]];
     }
 
-    return input.update(passwordChars.join(''));
+    return input.update(passwordChars.slice(0, spices.length).join(''));
   },
 };
 
