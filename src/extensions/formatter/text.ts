@@ -4,7 +4,7 @@ import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface TextSpice {
   // Core Operation Type
-  readonly operationType: 'prefixSuffix' | 'findReplace' | 'cleanText' | 'reverseText' | 'extractLines' | 'extractByRegex';
+  readonly operationType: 'prefixSuffix' | 'findReplace' | 'cleanText' | 'reverseText' | 'extractText';
 
   // Prefix/Suffix Operation Spices
   readonly prefixText?: string;
@@ -22,11 +22,10 @@ interface TextSpice {
   // Reverse Text Operation Spices
   readonly reverseUnit?: 'character' | 'word' | 'line';
 
-  // Extract Lines Operation Spices
+  // Extract Text Operation Spices
+  readonly extractType?: 'byRange' | 'byRegex';
   readonly extractStartLine?: number;
   readonly extractEndLine?: number;
-
-  // Extract by Regex Operation Spices
   readonly regexPattern?: string;
   readonly regexFlags?: string;
   readonly outputFormat?: 'fullMatch' | 'captureGroup1' | 'allMatchesCommaSeparated' | 'allMatchesNewLine';
@@ -213,6 +212,88 @@ const cleanTextSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
+const extractTextSpices: ReadonlyArray<SpiceDefinition> = [
+  {
+    id: 'extractType',
+    label: 'Extraction Type',
+    type: 'select',
+    value: 'byRange',
+    options: [
+      { label: 'By Line Range', value: 'byRange' },
+      { label: 'By Regex', value: 'byRegex' },
+    ],
+    description: 'Select whether to extract text by line range or by regular expression.',
+    dependsOn: [{ spiceId: 'operationType', value: 'extractText' }],
+  },
+  {
+    id: 'extractStartLine',
+    label: 'Start Line (1-based)',
+    type: 'number',
+    value: 1,
+    min: 1,
+    step: 1,
+    description: 'The 1-based starting line number to extract.',
+    dependsOn: [
+      { spiceId: 'operationType', value: 'extractText' },
+      { spiceId: 'extractType', value: 'byRange' },
+    ],
+  },
+  {
+    id: 'extractEndLine',
+    label: 'End Line (1-based)',
+    type: 'number',
+    value: 10,
+    min: 1,
+    step: 1,
+    description: 'The 1-based ending line number to extract.',
+    dependsOn: [
+      { spiceId: 'operationType', value: 'extractText' },
+      { spiceId: 'extractType', value: 'byRange' },
+    ],
+  },
+  {
+    id: 'regexPattern',
+    label: 'Regex Pattern',
+    type: 'string',
+    value: '',
+    placeholder: 'e.g., \\d+',
+    description: 'The regular expression pattern to search for.',
+    dependsOn: [
+      { spiceId: 'operationType', value: 'extractText' },
+      { spiceId: 'extractType', value: 'byRegex' },
+    ],
+  },
+  {
+    id: 'regexFlags',
+    label: 'Regex Flags',
+    type: 'string',
+    value: 'g',
+    placeholder: 'e.g., gi',
+    description: 'Flags for the regular expression (e.g., g for global, i for case-insensitive, m for multiline).',
+    dependsOn: [
+      { spiceId: 'operationType', value: 'extractText' },
+      { spiceId: 'extractType', value: 'byRegex' },
+    ],
+  },
+  {
+    id: 'outputFormat',
+    label: 'Output Format',
+    type: 'select',
+    value: 'fullMatch',
+    options: [
+      { label: 'Full Match', value: 'fullMatch' },
+      { label: 'First Capture Group', value: 'captureGroup1' },
+      { label: 'All Matches (Comma Separated)', value: 'allMatchesCommaSeparated' },
+      { label: 'All Matches (New Line)', value: 'allMatchesNewLine' },
+    ],
+    description: 'How to format the extracted regex matches.',
+    dependsOn: [
+      { spiceId: 'operationType', value: 'extractText' },
+      { spiceId: 'extractType', value: 'byRegex' },
+    ],
+  },
+];
+
 const reverseTextSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'reverseUnit',
@@ -229,64 +310,6 @@ const reverseTextSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const extractLinesSpices: ReadonlyArray<SpiceDefinition> = [
-  {
-    id: 'extractStartLine',
-    label: 'Start Line (1-based)',
-    type: 'number',
-    value: 1,
-    min: 1,
-    step: 1,
-    description: 'The 1-based starting line number to extract.',
-    dependsOn: [{ spiceId: 'operationType', value: 'extractLines' }],
-  },
-  {
-    id: 'extractEndLine',
-    label: 'End Line (1-based)',
-    type: 'number',
-    value: 10,
-    min: 1,
-    step: 1,
-    description: 'The 1-based ending line number to extract.',
-    dependsOn: [{ spiceId: 'operationType', value: 'extractLines' }],
-  },
-];
-
-const extractByRegexSpices: ReadonlyArray<SpiceDefinition> = [
-  {
-    id: 'regexPattern',
-    label: 'Regex Pattern',
-    type: 'string',
-    value: '',
-    placeholder: 'e.g., \\d+',
-    description: 'The regular expression pattern to search for.',
-    dependsOn: [{ spiceId: 'operationType', value: 'extractByRegex' }],
-  },
-  {
-    id: 'regexFlags',
-    label: 'Regex Flags',
-    type: 'string',
-    value: 'g',
-    placeholder: 'e.g., gi',
-    description: 'Flags for the regular expression (e.g., g for global, i for case-insensitive, m for multiline).',
-    dependsOn: [{ spiceId: 'operationType', value: 'extractByRegex' }],
-  },
-  {
-    id: 'outputFormat',
-    label: 'Output Format',
-    type: 'select',
-    value: 'fullMatch',
-    options: [
-      { label: 'Full Match', value: 'fullMatch' },
-      { label: 'First Capture Group', value: 'captureGroup1' },
-      { label: 'All Matches (Comma Separated)', value: 'allMatchesCommaSeparated' },
-      { label: 'All Matches (New Line)', value: 'allMatchesNewLine' },
-    ],
-    description: 'How to format the extracted regex matches.',
-    dependsOn: [{ spiceId: 'operationType', value: 'extractByRegex' }],
-  },
-];
-
 const textSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'operationType',
@@ -297,9 +320,8 @@ const textSpices: ReadonlyArray<SpiceDefinition> = [
       { label: 'Add Prefix/Suffix', value: 'prefixSuffix' },
       { label: 'Find and Replace', value: 'findReplace' },
       { label: 'Clean Text', value: 'cleanText' },
+      { label: 'Extract Text', value: 'extractText' },
       { label: 'Reverse Text', value: 'reverseText' },
-      { label: 'Extract Lines by Range', value: 'extractLines' },
-      { label: 'Extract by Regex', value: 'extractByRegex' },
     ],
     description: 'Select the type of text manipulation to perform.',
   },
@@ -307,8 +329,7 @@ const textSpices: ReadonlyArray<SpiceDefinition> = [
   ...findReplaceSpices,
   ...cleanTextSpices,
   ...reverseTextSpices,
-  ...extractLinesSpices,
-  ...extractByRegexSpices,
+  ...extractTextSpices,
 ];
 
 // Handles prefix and suffix operations, including optional line numbering.
@@ -419,57 +440,54 @@ function applyReverseText(inputValue: string, spices: TextSpice): string {
   }
 }
 
-// Extracts lines from the input text based on a specified range.
-function applyExtractLines(inputValue: string, spices: TextSpice): string {
-  const allLines = inputValue.split('\n');
-  // Adjust to 0-indexed and handle potential undefined values gracefully
-  const startLine = Math.max(0, (spices.extractStartLine !== undefined ? spices.extractStartLine : 1) - 1);
-  const endLine = Math.min(allLines.length - 1, (spices.extractEndLine !== undefined ? spices.extractEndLine : allLines.length) - 1);
-  return allLines.slice(startLine, endLine + 1).join('\n');
-}
-
-// Extracts text using a regular expression, with various output formatting options.
-function applyExtractByRegex(inputValue: string, spices: TextSpice): string {
-  const pattern = spices.regexPattern || '';
-  if (!pattern) {
-    return '';
-  }
-
-  try {
-    const flags = spices.regexFlags || 'g';
-    const regex = new RegExp(pattern, flags);
-    const matches: string[] = [];
-    let match;
-    while ((match = regex.exec(inputValue)) !== null) {
-      if (spices.outputFormat === 'captureGroup1' && match[1] !== undefined) {
-        matches.push(match[1]);
-      } else {
-        // Full match
-        matches.push(match[0]);
-      }
-    }
-
-    if (spices.outputFormat === 'allMatchesCommaSeparated') {
-      return matches.join(', ');
-    } else if (spices.outputFormat === 'allMatchesNewLine') {
-      return matches.join('\n');
-    } else if (matches.length > 0) {
-      // For fullMatch and captureGroup1, just take the first
-      return matches[0];
-    } else {
+// Extracts text based on line range or regular expression.
+function applyExtractText(inputValue: string, spices: TextSpice): string {
+  if (spices.extractType === 'byRange') {
+    const allLines = inputValue.split('\n');
+    const startLine = Math.max(0, (spices.extractStartLine !== undefined ? spices.extractStartLine : 1) - 1);
+    const endLine = Math.min(allLines.length - 1, (spices.extractEndLine !== undefined ? spices.extractEndLine : allLines.length) - 1);
+    return allLines.slice(startLine, endLine + 1).join('\n');
+  } else if (spices.extractType === 'byRegex') {
+    const pattern = spices.regexPattern || '';
+    if (!pattern) {
       return '';
     }
-  } catch (e: unknown) {
-    let errorMessage = 'An unknown error occurred.';
-    if (e instanceof Error) {
-      errorMessage = e.message;
-    } else if (typeof e === 'string') {
-      errorMessage = e;
-    }
 
-    console.error('Invalid regex pattern or flags:', e);
-    return `Error: Invalid regex pattern or flags. ${errorMessage}`;
+    try {
+      const flags = spices.regexFlags || 'g';
+      const regex = new RegExp(pattern, flags);
+      const matches: string[] = [];
+      let match;
+      while ((match = regex.exec(inputValue)) !== null) {
+        if (spices.outputFormat === 'captureGroup1' && match[1] !== undefined) {
+          matches.push(match[1]);
+        } else {
+          matches.push(match[0]);
+        }
+      }
+
+      if (spices.outputFormat === 'allMatchesCommaSeparated') {
+        return matches.join(', ');
+      } else if (spices.outputFormat === 'allMatchesNewLine') {
+        return matches.join('\n');
+      } else if (matches.length > 0) {
+        return matches[0];
+      } else {
+        return '';
+      }
+    } catch (e: unknown) {
+      let errorMessage = 'An unknown error occurred.';
+      if (e instanceof Error) {
+        errorMessage = e.message;
+      } else if (typeof e === 'string') {
+        errorMessage = e;
+      }
+
+      console.error('Invalid regex pattern or flags:', e);
+      return `Error: Invalid regex pattern or flags. ${errorMessage}`;
+    }
   }
+  return inputValue;
 }
 
 const textDefinition: IngredientDefinition<TextSpice> = {
@@ -492,10 +510,8 @@ const textDefinition: IngredientDefinition<TextSpice> = {
         return input.update(applyCleanText(inputValue, spices));
       case 'reverseText':
         return input.update(applyReverseText(inputValue, spices));
-      case 'extractLines':
-        return input.update(applyExtractLines(inputValue, spices));
-      case 'extractByRegex':
-        return input.update(applyExtractByRegex(inputValue, spices));
+      case 'extractText':
+        return input.update(applyExtractText(inputValue, spices));
       default:
         return input.update(inputValue);
     }

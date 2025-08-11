@@ -13,7 +13,7 @@ importers:
         version: 9.9.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/d164d6b0bf629199caa4053fe1dcead399df1bef(typescript@5.9.2)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/76ac1a7c9b5aa5c8c6de14407f46798b31594e83(typescript@5.9.2)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -445,8 +445,8 @@ packages:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
     engines: {node: '>=12'}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/d164d6b0bf629199caa4053fe1dcead399df1bef:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/d164d6b0bf629199caa4053fe1dcead399df1bef}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/76ac1a7c9b5aa5c8c6de14407f46798b31594e83:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/76ac1a7c9b5aa5c8c6de14407f46798b31594e83}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -1120,7 +1120,7 @@ snapshots:
 
   assertion-error@2.0.1: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/d164d6b0bf629199caa4053fe1dcead399df1bef(typescript@5.9.2):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/76ac1a7c9b5aa5c8c6de14407f46798b31594e83(typescript@5.9.2):
     dependencies:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
