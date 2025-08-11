@@ -3,8 +3,7 @@ import { CATEGORY_FORMATTER } from '../../core/constants';
 import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface TextSpice {
-  // Core Operation Type
-  readonly operationType: 'prefixSuffix' | 'findReplace' | 'cleanText' | 'reverseText' | 'extractText';
+  readonly operationType: 'prefixSuffix' | 'findReplace' | 'cleanText' | 'reverseText' | 'extractText' | 'sortText';
 
   // Prefix/Suffix Operation Spices
   readonly prefixText?: string;
@@ -49,9 +48,15 @@ interface TextSpice {
   readonly trimCharacters?: 'trimWhitespace' | 'removeLeftCharacters' | 'removeRightCharacters';
   readonly trimCharacterAmount?: number;
   readonly numberOfSpaces?: number;
+
+  // Sort Text Operation Spices
+  readonly sortType?: 'alphabetical' | 'length' | 'numeric';
+  readonly sortOrder?: 'ascending' | 'descending';
+  readonly caseSensitiveSort?: boolean;
+  readonly removeDuplicatesBeforeSort?: boolean;
 }
 
-const prefixSuffixSpices: ReadonlyArray<SpiceDefinition> = [
+const PREFIX_SUFFIX_SPICES: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'prefixText',
     label: 'Prefix Text',
@@ -105,7 +110,7 @@ const prefixSuffixSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const findReplaceSpices: ReadonlyArray<SpiceDefinition> = [
+const FIND_REPLACE_SPICES: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'findText',
     label: 'Find Text',
@@ -142,7 +147,7 @@ const findReplaceSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const cleanTextSpices: ReadonlyArray<SpiceDefinition> = [
+const CLEAN_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'cleanText',
     label: 'Cleaning Operation',
@@ -157,12 +162,21 @@ const cleanTextSpices: ReadonlyArray<SpiceDefinition> = [
       { label: 'Remove Blank/Empty Lines', value: 'removeBlankEmptyLines' },
       { label: 'Replace Line Break with Space', value: 'replaceLineBreakWithSpace' },
       { label: 'Multiple Spaces to Single', value: 'multipleSpacesToSingle' },
-      { label: 'Multiple Blank Lines to Single', value: 'multipleBlankLinesToSingle' },
+      {
+        label: 'Multiple Blank Lines to Single',
+        value: 'multipleBlankLinesToSingle',
+      },
       { label: 'Remove All Line Breaks', value: 'removeAllLineBreaks' },
-      { label: 'Remove Duplicate Lines/Paragraphs', value: 'removeDuplicateLines' },
+      {
+        label: 'Remove Duplicate Lines/Paragraphs',
+        value: 'removeDuplicateLines',
+      },
       { label: 'Remove Repeating Words', value: 'removeRepeatingWords' },
       { label: 'Remove Non-ASCII Characters', value: 'removeNonAscii' },
-      { label: 'Remove Non-Alphanumeric Characters', value: 'removeNonAlphanumeric' },
+      {
+        label: 'Remove Non-Alphanumeric Characters',
+        value: 'removeNonAlphanumeric',
+      },
     ],
     description: 'Select the specific cleaning operation to perform.',
     dependsOn: [{ spiceId: 'operationType', value: 'cleanText' }],
@@ -194,7 +208,10 @@ const cleanTextSpices: ReadonlyArray<SpiceDefinition> = [
     dependsOn: [
       { spiceId: 'operationType', value: 'cleanText' },
       { spiceId: 'cleanText', value: 'trimCharacters' },
-      { spiceId: 'trimCharacters', value: ['removeLeftCharacters', 'removeRightCharacters'] },
+      {
+        spiceId: 'trimCharacters',
+        value: ['removeLeftCharacters', 'removeRightCharacters'],
+      },
     ],
   },
   {
@@ -207,12 +224,15 @@ const cleanTextSpices: ReadonlyArray<SpiceDefinition> = [
     description: 'Number of spaces for tab/space conversion.',
     dependsOn: [
       { spiceId: 'operationType', value: 'cleanText' },
-      { spiceId: 'cleanText', value: ['replaceSpacesWithTabs', 'replaceTabsWithSpaces'] },
+      {
+        spiceId: 'cleanText',
+        value: ['replaceSpacesWithTabs', 'replaceTabsWithSpaces'],
+      },
     ],
   },
 ];
 
-const extractTextSpices: ReadonlyArray<SpiceDefinition> = [
+const EXTRACT_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'extractType',
     label: 'Extraction Type',
@@ -283,7 +303,10 @@ const extractTextSpices: ReadonlyArray<SpiceDefinition> = [
     options: [
       { label: 'Full Match', value: 'fullMatch' },
       { label: 'First Capture Group', value: 'captureGroup1' },
-      { label: 'All Matches (Comma Separated)', value: 'allMatchesCommaSeparated' },
+      {
+        label: 'All Matches (Comma Separated)',
+        value: 'allMatchesCommaSeparated',
+      },
       { label: 'All Matches (New Line)', value: 'allMatchesNewLine' },
     ],
     description: 'How to format the extracted regex matches.',
@@ -294,7 +317,7 @@ const extractTextSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const reverseTextSpices: ReadonlyArray<SpiceDefinition> = [
+const REVERSE_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'reverseUnit',
     label: 'Reverse By',
@@ -310,7 +333,51 @@ const reverseTextSpices: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const textSpices: ReadonlyArray<SpiceDefinition> = [
+const SORT_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
+  {
+    id: 'sortType',
+    label: 'Sort By',
+    type: 'select',
+    value: 'alphabetical',
+    options: [
+      { label: 'Alphabetical', value: 'alphabetical' },
+      { label: 'Length', value: 'length' },
+      { label: 'Numeric', value: 'numeric' },
+    ],
+    description: 'Determines how lines are sorted.',
+    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
+  },
+  {
+    id: 'sortOrder',
+    label: 'Order',
+    type: 'select',
+    value: 'ascending',
+    options: [
+      { label: 'Ascending', value: 'ascending' },
+      { label: 'Descending', value: 'descending' },
+    ],
+    description: 'Determines the sort order.',
+    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
+  },
+  {
+    id: 'caseSensitiveSort',
+    label: 'Case Sensitive',
+    type: 'boolean',
+    value: false,
+    description: 'Perform a case-sensitive sort.',
+    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
+  },
+  {
+    id: 'removeDuplicatesBeforeSort',
+    label: 'Remove Duplicates Before Sort',
+    type: 'boolean',
+    value: false,
+    description: 'Remove duplicate lines before sorting.',
+    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
+  },
+];
+
+const TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'operationType',
     label: 'Operation Type',
@@ -322,84 +389,88 @@ const textSpices: ReadonlyArray<SpiceDefinition> = [
       { label: 'Clean Text', value: 'cleanText' },
       { label: 'Extract Text', value: 'extractText' },
       { label: 'Reverse Text', value: 'reverseText' },
+      { label: 'Sort Text', value: 'sortText' },
     ],
     description: 'Select the type of text manipulation to perform.',
   },
-  ...prefixSuffixSpices,
-  ...findReplaceSpices,
-  ...cleanTextSpices,
-  ...reverseTextSpices,
-  ...extractTextSpices,
+  ...PREFIX_SUFFIX_SPICES,
+  ...FIND_REPLACE_SPICES,
+  ...CLEAN_TEXT_SPICES,
+  ...REVERSE_TEXT_SPICES,
+  ...EXTRACT_TEXT_SPICES,
+  ...SORT_TEXT_SPICES,
 ];
 
-// Handles prefix and suffix operations, including optional line numbering.
 function applyPrefixSuffix(inputValue: string, spices: TextSpice): string {
-  const prefix = spices.prefixText || '';
-  const suffix = spices.suffixText || '';
+  const prefix = spices.prefixText ?? '';
+  const suffix = spices.suffixText ?? '';
   let processedValue = inputValue;
 
   if (spices.addNumbers) {
     const lines = inputValue.split('\n');
-    const startNum = spices.startNumber !== undefined ? spices.startNumber : 1;
-    const separator = spices.lineNumberSeparator || '. ';
+    const startNum = spices.startNumber ?? 1;
+    const separator = spices.lineNumberSeparator ?? '. ';
     processedValue = lines.map((line, index) => `${startNum + index}${separator}${line}`).join('\n');
   }
+
   return `${prefix}${processedValue}${suffix}`;
 }
 
-// Handles find and replace operations, supporting regex and case sensitivity.
 function applyFindReplace(inputValue: string, spices: TextSpice): string {
-  const find = spices.findText || '';
-  const replace = spices.replaceText || '';
+  const find = spices.findText ?? '';
+  const replace = spices.replaceText ?? '';
   if (!find) {
     return inputValue;
   }
 
-  // Always global for find/replace
+  // Always use the global flag for find/replace.
   let flags = 'g';
-  let searchPattern = find;
-
-  if (spices.isRegex) {
-    // If it's a regex, caseSensitive controls 'i' flag
-    flags += spices.caseSensitive ? '' : 'i';
-  } else {
-    // If not regex, escape special characters
-    searchPattern = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    if (!spices.caseSensitive) {
-      // Add 'i' flag if not case sensitive for plain text search
-      flags += 'i';
-    }
+  if (!spices.caseSensitive) {
+    flags += 'i';
   }
-  const regex = new RegExp(searchPattern, flags);
-  return inputValue.replace(regex, replace);
+
+  const searchPattern = spices.isRegex ? find : find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  try {
+    const regex = new RegExp(searchPattern, flags);
+    return inputValue.replace(regex, replace);
+  } catch (error: unknown) {
+    console.error('Invalid regex pattern for find/replace:', error);
+    const message = error instanceof Error ? error.message : String(error);
+    return `Error: Invalid regex pattern for find/replace. ${message}`;
+  }
 }
 
-// Handles various text cleaning operations.
 function applyCleanText(inputValue: string, spices: TextSpice): string {
   switch (spices.cleanText) {
-    case 'trimCharacters':
+    case 'trimCharacters': {
       switch (spices.trimCharacters) {
         case 'trimWhitespace':
           return inputValue.trim();
-        case 'removeLeftCharacters':
-          const leftAmount = spices.trimCharacterAmount !== undefined ? spices.trimCharacterAmount : 0;
-          return inputValue.substring(leftAmount);
-        case 'removeRightCharacters':
-          const rightAmount = spices.trimCharacterAmount !== undefined ? spices.trimCharacterAmount : 0;
-          return inputValue.substring(0, inputValue.length - rightAmount);
+        case 'removeLeftCharacters': {
+          const amount = spices.trimCharacterAmount ?? 0;
+          return inputValue.substring(amount);
+        }
+        case 'removeRightCharacters': {
+          const amount = spices.trimCharacterAmount ?? 0;
+          return inputValue.substring(0, inputValue.length - amount);
+        }
         default:
           return inputValue;
       }
+    }
     case 'removeLeadingSpaces':
       return inputValue.replace(/^[ \t]+/gm, '');
     case 'removeTrailingSpaces':
       return inputValue.replace(/[ \t]+$/gm, '');
-    case 'replaceSpacesWithTabs':
-      const spacesForTab = spices.numberOfSpaces !== undefined ? spices.numberOfSpaces : 4;
+    case 'replaceSpacesWithTabs': {
+      const spacesForTab = spices.numberOfSpaces ?? 4;
       return inputValue.replace(new RegExp(` {${spacesForTab}}`, 'g'), '\t');
-    case 'replaceTabsWithSpaces':
-      const spacesForSpace = spices.numberOfSpaces !== undefined ? spices.numberOfSpaces : 4;
-      return inputValue.replace(/\t/g, ' '.repeat(spacesForSpace));
+    }
+    case 'replaceTabsWithSpaces': {
+      const spacesForTab = spices.numberOfSpaces ?? 4;
+      return inputValue.replace(/\t/g, ' '.repeat(spacesForTab));
+    }
     case 'removeBlankEmptyLines':
       return inputValue
         .split('\n')
@@ -413,10 +484,10 @@ function applyCleanText(inputValue: string, spices: TextSpice): string {
       return inputValue.replace(/(\r\n|\n|\r){2,}/g, '\n\n');
     case 'removeAllLineBreaks':
       return inputValue.replace(/(\r\n|\n|\r)/gm, '');
-    case 'removeDuplicateLines':
+    case 'removeDuplicateLines': {
       const lines = inputValue.split('\n');
-      const uniqueLines = Array.from(new Set(lines)).join('\n');
-      return uniqueLines;
+      return Array.from(new Set(lines)).join('\n');
+    }
     case 'removeRepeatingWords':
       return inputValue.replace(/\b(\w+)(?:\s+\1\b)+/g, '$1');
     case 'removeNonAscii':
@@ -428,36 +499,34 @@ function applyCleanText(inputValue: string, spices: TextSpice): string {
   }
 }
 
-// Reverses text by character, word, or line.
 function applyReverseText(inputValue: string, spices: TextSpice): string {
   if (spices.reverseUnit === 'word') {
     return inputValue.split(/\s+/).reverse().join(' ');
   } else if (spices.reverseUnit === 'line') {
     return inputValue.split('\n').reverse().join('\n');
   } else {
-    // character
     return inputValue.split('').reverse().join('');
   }
 }
 
-// Extracts text based on line range or regular expression.
 function applyExtractText(inputValue: string, spices: TextSpice): string {
   if (spices.extractType === 'byRange') {
     const allLines = inputValue.split('\n');
-    const startLine = Math.max(0, (spices.extractStartLine !== undefined ? spices.extractStartLine : 1) - 1);
-    const endLine = Math.min(allLines.length - 1, (spices.extractEndLine !== undefined ? spices.extractEndLine : allLines.length) - 1);
-    return allLines.slice(startLine, endLine + 1).join('\n');
+    const startLine = Math.max(0, (spices.extractStartLine ?? 1) - 1);
+    const endLine = Math.min(allLines.length, spices.extractEndLine ?? allLines.length);
+    return allLines.slice(startLine, endLine).join('\n');
   } else if (spices.extractType === 'byRegex') {
-    const pattern = spices.regexPattern || '';
+    const pattern = spices.regexPattern ?? '';
     if (!pattern) {
       return '';
     }
 
     try {
-      const flags = spices.regexFlags || 'g';
+      const flags = spices.regexFlags ?? 'g';
       const regex = new RegExp(pattern, flags);
       const matches: string[] = [];
       let match;
+
       while ((match = regex.exec(inputValue)) !== null) {
         if (spices.outputFormat === 'captureGroup1' && match[1] !== undefined) {
           matches.push(match[1]);
@@ -470,31 +539,55 @@ function applyExtractText(inputValue: string, spices: TextSpice): string {
         return matches.join(', ');
       } else if (spices.outputFormat === 'allMatchesNewLine') {
         return matches.join('\n');
-      } else if (matches.length > 0) {
-        return matches[0];
       } else {
-        return '';
+        return matches[0] ?? '';
       }
-    } catch (e: unknown) {
-      let errorMessage = 'An unknown error occurred.';
-      if (e instanceof Error) {
-        errorMessage = e.message;
-      } else if (typeof e === 'string') {
-        errorMessage = e;
-      }
-
-      console.error('Invalid regex pattern or flags:', e);
-      return `Error: Invalid regex pattern or flags. ${errorMessage}`;
+    } catch (error: unknown) {
+      console.error('Invalid regex pattern or flags:', error);
+      const message = error instanceof Error ? error.message : String(error);
+      return `Error: Invalid regex pattern or flags. ${message}`;
     }
   }
   return inputValue;
 }
 
-const textDefinition: IngredientDefinition<TextSpice> = {
+function applySortText(inputValue: string, spices: TextSpice): string {
+  let lines = inputValue.split('\n');
+
+  if (spices.removeDuplicatesBeforeSort) {
+    lines = Array.from(new Set(lines));
+  }
+
+  lines.sort((a: string, b: string): number => {
+    let compareResult = 0;
+
+    const valA = spices.caseSensitiveSort ? a : a.toLowerCase();
+    const valB = spices.caseSensitiveSort ? b : b.toLowerCase();
+
+    switch (spices.sortType) {
+      case 'length':
+        compareResult = valA.length - valB.length;
+        break;
+      case 'numeric':
+        compareResult = parseFloat(valA) - parseFloat(valB);
+        break;
+      case 'alphabetical':
+      default:
+        compareResult = valA.localeCompare(valB);
+        break;
+    }
+
+    return spices.sortOrder === 'descending' ? -compareResult : compareResult;
+  });
+
+  return lines.join('\n');
+}
+
+const TEXT_DEFINITION: IngredientDefinition<TextSpice> = {
   name: 'Text',
   category: CATEGORY_FORMATTER,
   description: 'Performs various advanced text manipulation operations.',
-  spices: textSpices,
+  spices: TEXT_SPICES,
   run: (input, spices) => {
     const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
@@ -512,10 +605,12 @@ const textDefinition: IngredientDefinition<TextSpice> = {
         return input.update(applyReverseText(inputValue, spices));
       case 'extractText':
         return input.update(applyExtractText(inputValue, spices));
+      case 'sortText':
+        return input.update(applySortText(inputValue, spices));
       default:
         return input.update(inputValue);
     }
   },
 };
 
-Baratie.ingredient.register(textDefinition);
+Baratie.ingredient.register(TEXT_DEFINITION);
