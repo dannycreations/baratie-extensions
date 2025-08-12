@@ -3,7 +3,7 @@ import { CATEGORY_FORMATTER } from '../../core/constants';
 import type { IngredientDefinition, SpiceDefinition } from 'baratie';
 
 interface TextSpice {
-  readonly operationType: 'prefixSuffix' | 'findReplace' | 'cleanText' | 'reverseText' | 'extractText' | 'sortText';
+  readonly operationType: 'prefixSuffix' | 'findReplace' | 'cleanText' | 'reverseText' | 'extractText';
 
   // Prefix/Suffix Operation Spices
   readonly prefixText?: string;
@@ -48,15 +48,9 @@ interface TextSpice {
   readonly trimCharacters?: 'trimWhitespace' | 'removeLeftCharacters' | 'removeRightCharacters';
   readonly trimCharacterAmount?: number;
   readonly numberOfSpaces?: number;
-
-  // Sort Text Operation Spices
-  readonly sortType?: 'alphabetical' | 'length' | 'numeric';
-  readonly sortOrder?: 'ascending' | 'descending';
-  readonly caseSensitiveSort?: boolean;
-  readonly removeDuplicatesBeforeSort?: boolean;
 }
 
-const PREFIX_SUFFIX_SPICES: ReadonlyArray<SpiceDefinition> = [
+const prefixSuffixSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'prefixText',
     label: 'Prefix Text',
@@ -110,7 +104,7 @@ const PREFIX_SUFFIX_SPICES: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const FIND_REPLACE_SPICES: ReadonlyArray<SpiceDefinition> = [
+const findReplaceSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'findText',
     label: 'Find Text',
@@ -147,7 +141,7 @@ const FIND_REPLACE_SPICES: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const CLEAN_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
+const cleanTextSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'cleanText',
     label: 'Cleaning Operation',
@@ -232,7 +226,7 @@ const CLEAN_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const EXTRACT_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
+const extractTextSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'extractType',
     label: 'Extraction Type',
@@ -317,7 +311,7 @@ const EXTRACT_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const REVERSE_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
+const reverseTextSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'reverseUnit',
     label: 'Reverse By',
@@ -333,51 +327,7 @@ const REVERSE_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
   },
 ];
 
-const SORT_TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
-  {
-    id: 'sortType',
-    label: 'Sort By',
-    type: 'select',
-    value: 'alphabetical',
-    options: [
-      { label: 'Alphabetical', value: 'alphabetical' },
-      { label: 'Length', value: 'length' },
-      { label: 'Numeric', value: 'numeric' },
-    ],
-    description: 'Determines how lines are sorted.',
-    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
-  },
-  {
-    id: 'sortOrder',
-    label: 'Order',
-    type: 'select',
-    value: 'ascending',
-    options: [
-      { label: 'Ascending', value: 'ascending' },
-      { label: 'Descending', value: 'descending' },
-    ],
-    description: 'Determines the sort order.',
-    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
-  },
-  {
-    id: 'caseSensitiveSort',
-    label: 'Case Sensitive',
-    type: 'boolean',
-    value: false,
-    description: 'Perform a case-sensitive sort.',
-    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
-  },
-  {
-    id: 'removeDuplicatesBeforeSort',
-    label: 'Remove Duplicates Before Sort',
-    type: 'boolean',
-    value: false,
-    description: 'Remove duplicate lines before sorting.',
-    dependsOn: [{ spiceId: 'operationType', value: 'sortText' }],
-  },
-];
-
-const TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
+const textSpices: ReadonlyArray<SpiceDefinition> = [
   {
     id: 'operationType',
     label: 'Operation Type',
@@ -389,16 +339,14 @@ const TEXT_SPICES: ReadonlyArray<SpiceDefinition> = [
       { label: 'Clean Text', value: 'cleanText' },
       { label: 'Extract Text', value: 'extractText' },
       { label: 'Reverse Text', value: 'reverseText' },
-      { label: 'Sort Text', value: 'sortText' },
     ],
     description: 'Select the type of text manipulation to perform.',
   },
-  ...PREFIX_SUFFIX_SPICES,
-  ...FIND_REPLACE_SPICES,
-  ...CLEAN_TEXT_SPICES,
-  ...REVERSE_TEXT_SPICES,
-  ...EXTRACT_TEXT_SPICES,
-  ...SORT_TEXT_SPICES,
+  ...prefixSuffixSpices,
+  ...findReplaceSpices,
+  ...cleanTextSpices,
+  ...reverseTextSpices,
+  ...extractTextSpices,
 ];
 
 function applyPrefixSuffix(inputValue: string, spices: TextSpice): string {
@@ -551,43 +499,11 @@ function applyExtractText(inputValue: string, spices: TextSpice): string {
   return inputValue;
 }
 
-function applySortText(inputValue: string, spices: TextSpice): string {
-  let lines = inputValue.split('\n');
-
-  if (spices.removeDuplicatesBeforeSort) {
-    lines = Array.from(new Set(lines));
-  }
-
-  lines.sort((a: string, b: string): number => {
-    let compareResult = 0;
-
-    const valA = spices.caseSensitiveSort ? a : a.toLowerCase();
-    const valB = spices.caseSensitiveSort ? b : b.toLowerCase();
-
-    switch (spices.sortType) {
-      case 'length':
-        compareResult = valA.length - valB.length;
-        break;
-      case 'numeric':
-        compareResult = parseFloat(valA) - parseFloat(valB);
-        break;
-      case 'alphabetical':
-      default:
-        compareResult = valA.localeCompare(valB);
-        break;
-    }
-
-    return spices.sortOrder === 'descending' ? -compareResult : compareResult;
-  });
-
-  return lines.join('\n');
-}
-
-const TEXT_DEFINITION: IngredientDefinition<TextSpice> = {
+const textDefinition: IngredientDefinition<TextSpice> = {
   name: 'Text',
   category: CATEGORY_FORMATTER,
   description: 'Performs various advanced text manipulation operations.',
-  spices: TEXT_SPICES,
+  spices: textSpices,
   run: (input, spices) => {
     const inputValue = input.cast('string').value;
     if (!inputValue.trim()) {
@@ -605,12 +521,10 @@ const TEXT_DEFINITION: IngredientDefinition<TextSpice> = {
         return input.update(applyReverseText(inputValue, spices));
       case 'extractText':
         return input.update(applyExtractText(inputValue, spices));
-      case 'sortText':
-        return input.update(applySortText(inputValue, spices));
       default:
         return input.update(inputValue);
     }
   },
 };
 
-Baratie.ingredient.register(TEXT_DEFINITION);
+Baratie.ingredient.register(textDefinition);
