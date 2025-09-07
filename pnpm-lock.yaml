@@ -13,7 +13,7 @@ importers:
         version: 10.0.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/d31fd5b12153abff06439501d6fbff0f8ecdcaff(typescript@5.9.2)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/5b28baba6c98dd14ad09a59119c134b4a8ddbf31(typescript@5.9.2)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -21,8 +21,8 @@ importers:
         specifier: ^3.13.0
         version: 3.13.0
       uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
+        specifier: ^12.0.0
+        version: 12.0.0
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.7.0
@@ -445,8 +445,8 @@ packages:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
     engines: {node: '>=12'}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/d31fd5b12153abff06439501d6fbff0f8ecdcaff:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/d31fd5b12153abff06439501d6fbff0f8ecdcaff}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/5b28baba6c98dd14ad09a59119c134b4a8ddbf31:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/5b28baba6c98dd14ad09a59119c134b4a8ddbf31}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -697,8 +697,8 @@ packages:
     resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
     engines: {node: '>=18'}
 
-  uuid@11.1.0:
-    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+  uuid@12.0.0:
+    resolution: {integrity: sha512-USe1zesMYh4fjCA8ZH5+X5WIVD0J4V1Jksm1bFTVBX2F/cwSXt0RO5w/3UXbdLKmZX65MiWV+hwhSS8p6oBTGA==}
     hasBin: true
 
   valibot@1.1.0:
@@ -1121,7 +1121,7 @@ snapshots:
 
   assertion-error@2.0.1: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/d31fd5b12153abff06439501d6fbff0f8ecdcaff(typescript@5.9.2):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/5b28baba6c98dd14ad09a59119c134b4a8ddbf31(typescript@5.9.2):
     dependencies:
       react: 19.1.1
       react-dom: 19.1.1(react@19.1.1)
@@ -1355,7 +1355,7 @@ snapshots:
 
   unicorn-magic@0.3.0: {}
 
-  uuid@11.1.0: {}
+  uuid@12.0.0: {}
 
   valibot@1.1.0(typescript@5.9.2):
     optionalDependencies:
