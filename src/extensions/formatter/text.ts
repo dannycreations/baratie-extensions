@@ -22,12 +22,14 @@ interface TextSpice {
   readonly reverseUnit?: 'character' | 'word' | 'line';
 
   // Extract Text Operation Spices
-  readonly extractType?: 'byRange' | 'byRegex';
+  readonly extractType?: 'byRange' | 'byRegex' | 'byCharAmount';
   readonly extractStartLine?: number;
   readonly extractEndLine?: number;
   readonly regexPattern?: string;
   readonly regexFlags?: string;
   readonly outputFormat?: 'fullMatch' | 'captureGroup1' | 'allMatchesCommaSeparated' | 'allMatchesNewLine';
+  readonly extractCharAmount?: number;
+  readonly extractCharFrom?: 'start' | 'end';
 
   // Clean Text Operation Spices
   readonly cleanText?:
@@ -235,6 +237,7 @@ const extractTextSpices: ReadonlyArray<SpiceDefinition> = [
     options: [
       { label: 'By Line Range', value: 'byRange' },
       { label: 'By Regex', value: 'byRegex' },
+      { label: 'By Character Amount', value: 'byCharAmount' },
     ],
     description: 'Select whether to extract text by line range or by regular expression.',
     dependsOn: [{ spiceId: 'operationType', value: 'extractText' }],
@@ -263,6 +266,34 @@ const extractTextSpices: ReadonlyArray<SpiceDefinition> = [
     dependsOn: [
       { spiceId: 'operationType', value: 'extractText' },
       { spiceId: 'extractType', value: 'byRange' },
+    ],
+  },
+  {
+    id: 'extractCharAmount',
+    label: 'Character Amount',
+    type: 'number',
+    value: 10,
+    min: 1,
+    step: 1,
+    description: 'The number of characters to extract from the start or end of the text.',
+    dependsOn: [
+      { spiceId: 'operationType', value: 'extractText' },
+      { spiceId: 'extractType', value: 'byCharAmount' },
+    ],
+  },
+  {
+    id: 'extractCharFrom',
+    label: 'Extract From',
+    type: 'select',
+    value: 'start',
+    options: [
+      { label: 'Start of Text', value: 'start' },
+      { label: 'End of Text', value: 'end' },
+    ],
+    description: 'Specify whether to extract characters from the start or end of the text.',
+    dependsOn: [
+      { spiceId: 'operationType', value: 'extractText' },
+      { spiceId: 'extractType', value: 'byCharAmount' },
     ],
   },
   {
@@ -463,6 +494,15 @@ function applyExtractText(inputValue: string, spices: TextSpice): string {
     const startLine = Math.max(0, (spices.extractStartLine ?? 1) - 1);
     const endLine = Math.min(allLines.length, spices.extractEndLine ?? allLines.length);
     return allLines.slice(startLine, endLine).join('\n');
+  } else if (spices.extractType === 'byCharAmount') {
+    const amount = spices.extractCharAmount ?? 0;
+    if (amount <= 0) {
+      return inputValue;
+    }
+    if (spices.extractCharFrom === 'end') {
+      return inputValue.slice(-amount);
+    }
+    return inputValue.slice(0, amount);
   } else if (spices.extractType === 'byRegex') {
     const pattern = spices.regexPattern ?? '';
     if (!pattern) {
