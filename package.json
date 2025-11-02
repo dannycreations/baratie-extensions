@@ -30,21 +30,21 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
-    "@types/node": "22.18.12",
+    "@types/node": "22.18.13",
     "husky": "^9.1.7",
-    "npm-check-updates": "^19.1.1",
+    "npm-check-updates": "^19.1.2",
     "prettier": "^3.6.2",
     "terser": "^5.44.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vite": "^7.1.12",
     "vite-plugin-checker": "^0.11.0",
-    "vitest": "^4.0.3"
+    "vitest": "^4.0.6"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"
     ]
   },
-  "packageManager": "pnpm@10.19.0"
+  "packageManager": "pnpm@10.20.0"
 }
