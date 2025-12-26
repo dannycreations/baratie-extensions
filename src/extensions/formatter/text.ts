@@ -11,6 +11,7 @@ interface TextSpice {
   readonly addNumbers?: boolean;
   readonly startNumber?: number;
   readonly lineNumberSeparator?: string;
+  readonly applyPerLine?: boolean;
 
   // Find and Replace Operation Spices
   readonly findText?: string;
@@ -103,6 +104,14 @@ const prefixSuffixSpices: ReadonlyArray<SpiceDefinition> = [
       { spiceId: 'operationType', value: 'prefixSuffix' },
       { spiceId: 'addNumbers', value: true },
     ],
+  },
+  {
+    id: 'applyPerLine',
+    label: 'Apply Per Line',
+    type: 'boolean',
+    value: false,
+    description: 'If enabled, prefix and suffix will be applied to every line individually.',
+    dependsOn: [{ spiceId: 'operationType', value: 'prefixSuffix' }],
   },
 ];
 
@@ -383,16 +392,21 @@ const textSpices: ReadonlyArray<SpiceDefinition> = [
 function applyPrefixSuffix(inputValue: string, spices: TextSpice): string {
   const prefix = spices.prefixText ?? '';
   const suffix = spices.suffixText ?? '';
-  let processedValue = inputValue;
+  const lines = inputValue.split('\n');
+  let processedLines = lines;
 
   if (spices.addNumbers) {
-    const lines = inputValue.split('\n');
     const startNum = spices.startNumber ?? 1;
     const separator = spices.lineNumberSeparator ?? '. ';
-    processedValue = lines.map((line, index) => `${startNum + index}${separator}${line}`).join('\n');
+    processedLines = processedLines.map((line, index) => `${startNum + index}${separator}${line}`);
   }
 
-  return `${prefix}${processedValue}${suffix}`;
+  if (spices.applyPerLine) {
+    processedLines = processedLines.map((line) => `${prefix}${line}${suffix}`);
+    return processedLines.join('\n');
+  }
+
+  return `${prefix}${processedLines.join('\n')}${suffix}`;
 }
 
 function applyFindReplace(inputValue: string, spices: TextSpice): string {
