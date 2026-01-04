@@ -13,7 +13,7 @@ importers:
         version: 10.1.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/114bec97a2910d751b942643e962eb84a0ffa9c4(typescript@5.9.3)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780(typescript@5.9.3)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -34,8 +34,8 @@ importers:
         specifier: ^9.1.7
         version: 9.1.7
       npm-check-updates:
-        specifier: ^19.2.0
-        version: 19.2.0
+        specifier: ^19.2.1
+        version: 19.2.1
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
@@ -440,8 +440,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/114bec97a2910d751b942643e962eb84a0ffa9c4:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/114bec97a2910d751b942643e962eb84a0ffa9c4}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -535,8 +535,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  npm-check-updates@19.2.0:
-    resolution: {integrity: sha512-XSIuL0FNgzXPDZa4lje7+OwHjiyEt84qQm6QMsQRbixNY5EHEM9nhgOjxjlK9jIbN+ysvSqOV8DKNS0zydwbdg==}
+  npm-check-updates@19.2.1:
+    resolution: {integrity: sha512-jWIMuE6K+DSDXfjXpM3SlJ+Gg07ZV57dlFKPr2EZTpimFk9y+gt138+kmP3Uocdqk1PZlOKpTpFvAx7Z1QCeog==}
     engines: {node: '>=20.0.0', npm: '>=8.12.1'}
     hasBin: true
 
@@ -1082,7 +1082,7 @@ snapshots:
 
   acorn@8.15.0: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/114bec97a2910d751b942643e962eb84a0ffa9c4(typescript@5.9.3):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780(typescript@5.9.3):
     dependencies:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
@@ -1174,7 +1174,7 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  npm-check-updates@19.2.0: {}
+  npm-check-updates@19.2.1: {}
 
   npm-run-path@6.0.0:
     dependencies:
