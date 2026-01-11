@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@faker-js/faker':
-        specifier: ^10.1.0
-        version: 10.1.0
+        specifier: ^10.2.0
+        version: 10.2.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780(typescript@5.9.3)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/8d9dbb4091bcf46e87fa6318e6bb6c14dec1e4e6(typescript@5.9.3)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -28,14 +28,14 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0(prettier@3.7.4)
       '@types/node':
-        specifier: 22.19.3
-        version: 22.19.3
+        specifier: 22.19.5
+        version: 22.19.5
       husky:
         specifier: ^9.1.7
         version: 9.1.7
       npm-check-updates:
-        specifier: ^19.2.1
-        version: 19.2.1
+        specifier: ^19.3.1
+        version: 19.3.1
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
@@ -49,14 +49,14 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       vite:
-        specifier: ^7.3.0
-        version: 7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0)
+        specifier: ^7.3.1
+        version: 7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0)
       vite-plugin-checker:
         specifier: ^0.12.0
-        version: 0.12.0(typescript@5.9.3)(vite@7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0))
+        version: 0.12.0(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0))
       vitest:
         specifier: ^4.0.16
-        version: 4.0.16(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0)
+        version: 4.0.16(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0)
 
 packages:
 
@@ -253,8 +253,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@faker-js/faker@10.1.0':
-    resolution: {integrity: sha512-C3mrr3b5dRVlKPJdfrAXS8+dq+rq8Qm5SNRazca0JKgw1HQERFmrVb0towvMmw5uu8hHKNiQasMaR/tydf3Zsg==}
+  '@faker-js/faker@10.2.0':
+    resolution: {integrity: sha512-rTXwAsIxpCqzUnZvrxVh3L0QA0NzToqWBLAhV+zDV3MIIwiQhAZHMdPCIaj5n/yADu/tyk12wIPgL6YHGXJP+g==}
     engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
 
   '@ianvs/prettier-plugin-sort-imports@4.7.0':
@@ -403,8 +403,8 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/node@22.19.3':
-    resolution: {integrity: sha512-1N9SBnWYOJTrNZCdh/yJE+t910Y128BoyY+zBLWhL3r0TYzlTmFdXrPwHL9DyFZmlEXNQQolTZh3KHV31QDhyA==}
+  '@types/node@22.19.5':
+    resolution: {integrity: sha512-HfF8+mYcHPcPypui3w3mvzuIErlNOh2OAG+BCeBZCEwyiD5ls2SiCwEyT47OELtf7M3nHxBdu0FsmzdKxkN52Q==}
 
   '@vitest/expect@4.0.16':
     resolution: {integrity: sha512-eshqULT2It7McaJkQGLkPjPjNph+uevROGuIMJdG3V+0BSR2w9u6J9Lwu+E8cK5TETlfou8GRijhafIMhXsimA==}
@@ -440,8 +440,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/8d9dbb4091bcf46e87fa6318e6bb6c14dec1e4e6:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/8d9dbb4091bcf46e87fa6318e6bb6c14dec1e4e6}
     version: 0.0.1
     bundledDependencies:
       - '@types/react'
@@ -535,8 +535,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  npm-check-updates@19.2.1:
-    resolution: {integrity: sha512-jWIMuE6K+DSDXfjXpM3SlJ+Gg07ZV57dlFKPr2EZTpimFk9y+gt138+kmP3Uocdqk1PZlOKpTpFvAx7Z1QCeog==}
+  npm-check-updates@19.3.1:
+    resolution: {integrity: sha512-v92fHH8fmf9VVmQwwL5JWpX8GDEe8BDyrz4w3GF6D6JBUZKpQNcTfBBgxVkCcAPzVUjCHSZEXYmZAAKfLTsDBA==}
     engines: {node: '>=20.0.0', npm: '>=8.12.1'}
     hasBin: true
 
@@ -708,8 +708,8 @@ packages:
       vue-tsc:
         optional: true
 
-  vite@7.3.0:
-    resolution: {integrity: sha512-dZwN5L1VlUBewiP6H9s2+B3e3Jg96D0vzN+Ry73sOefebhYr9f94wwkMNN/9ouoU8pV1BqA1d1zGk8928cx0rg==}
+  vite@7.3.1:
+    resolution: {integrity: sha512-w+N7Hifpc3gRjZ63vYBXA56dvvRlNWRczTdmCBBa+CotUzAPf5b7YMdMR/8CQoeYE5LX3W4wj6RYTgonm1b9DA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -935,7 +935,7 @@ snapshots:
   '@esbuild/win32-x64@0.27.1':
     optional: true
 
-  '@faker-js/faker@10.1.0': {}
+  '@faker-js/faker@10.2.0': {}
 
   '@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.7.4)':
     dependencies:
@@ -1037,7 +1037,7 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
-  '@types/node@22.19.3':
+  '@types/node@22.19.5':
     dependencies:
       undici-types: 6.21.0
 
@@ -1050,13 +1050,13 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.16(vite@7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0))':
+  '@vitest/mocker@4.0.16(vite@7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0))':
     dependencies:
       '@vitest/spy': 4.0.16
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0)
+      vite: 7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0)
 
   '@vitest/pretty-format@4.0.16':
     dependencies:
@@ -1082,7 +1082,7 @@ snapshots:
 
   acorn@8.15.0: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/2b02e8b99621ac518fabbc155fb84a17dae06780(typescript@5.9.3):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/8d9dbb4091bcf46e87fa6318e6bb6c14dec1e4e6(typescript@5.9.3):
     dependencies:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
@@ -1174,7 +1174,7 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  npm-check-updates@19.2.1: {}
+  npm-check-updates@19.3.1: {}
 
   npm-run-path@6.0.0:
     dependencies:
@@ -1294,7 +1294,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  vite-plugin-checker@0.12.0(typescript@5.9.3)(vite@7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0)):
+  vite-plugin-checker@0.12.0(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0)):
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
@@ -1303,12 +1303,12 @@ snapshots:
       picomatch: 4.0.3
       tiny-invariant: 1.3.3
       tinyglobby: 0.2.15
-      vite: 7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0)
+      vite: 7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0)
       vscode-uri: 3.1.0
     optionalDependencies:
       typescript: 5.9.3
 
-  vite@7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0):
+  vite@7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0):
     dependencies:
       esbuild: 0.27.1
       fdir: 6.5.0(picomatch@4.0.3)
@@ -1317,15 +1317,15 @@ snapshots:
       rollup: 4.44.2
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 22.19.3
+      '@types/node': 22.19.5
       fsevents: 2.3.3
       terser: 5.44.1
       tsx: 4.21.0
 
-  vitest@4.0.16(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0):
+  vitest@4.0.16(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0):
     dependencies:
       '@vitest/expect': 4.0.16
-      '@vitest/mocker': 4.0.16(vite@7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0))
+      '@vitest/mocker': 4.0.16(vite@7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0))
       '@vitest/pretty-format': 4.0.16
       '@vitest/runner': 4.0.16
       '@vitest/snapshot': 4.0.16
@@ -1342,10 +1342,10 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.3.0(@types/node@22.19.3)(terser@5.44.1)(tsx@4.21.0)
+      vite: 7.3.1(@types/node@22.19.5)(terser@5.44.1)(tsx@4.21.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.19.3
+      '@types/node': 22.19.5
     transitivePeerDependencies:
       - jiti
       - less
