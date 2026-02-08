@@ -22,15 +22,15 @@
   },
   "homepage": "https://github.com/dannycreations/baratie-extensions",
   "dependencies": {
-    "@faker-js/faker": "^10.2.0",
+    "@faker-js/faker": "^10.3.0",
     "baratie": "github:dannycreations/Baratie",
     "json5": "^2.2.3",
     "jsonrepair": "^3.13.2",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
-    "@types/node": "22.19.7",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@types/node": "22.19.10",
     "husky": "^9.1.7",
     "npm-check-updates": "^19.3.2",
     "prettier": "^3.8.1",
@@ -47,5 +47,5 @@
       "esbuild"
     ]
   },
-  "packageManager": "pnpm@10.28.2"
+  "packageManager": "pnpm@10.29.1"
 }
