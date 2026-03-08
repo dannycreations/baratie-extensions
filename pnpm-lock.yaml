@@ -13,7 +13,7 @@ importers:
         version: 10.3.0
       baratie:
         specifier: github:dannycreations/Baratie
-        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/d1148932e34b893f7b2defee3f4fc72645e13a58(typescript@5.9.3)
+        version: https://codeload.github.com/dannycreations/Baratie/tar.gz/2f74cf880467e60cd55b9e37a82dd15d74dc23fc(typescript@5.9.3)
       json5:
         specifier: ^2.2.3
         version: 2.2.3
@@ -28,14 +28,14 @@ importers:
         specifier: ^4.7.1
         version: 4.7.1(prettier@3.8.1)
       '@types/node':
-        specifier: 22.19.10
-        version: 22.19.10
+        specifier: 22.19.15
+        version: 22.19.15
       husky:
         specifier: ^9.1.7
         version: 9.1.7
       npm-check-updates:
-        specifier: ^19.3.2
-        version: 19.3.2
+        specifier: ^19.6.3
+        version: 19.6.3
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -50,13 +50,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^7.3.1
-        version: 7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0)
+        version: 7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0)
       vite-plugin-checker:
         specifier: ^0.12.0
-        version: 0.12.0(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0))
+        version: 0.12.0(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0))
       vitest:
         specifier: ^4.0.18
-        version: 4.0.18(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0)
+        version: 4.0.18(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0)
 
 packages:
 
@@ -414,8 +414,8 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/node@22.19.10':
-    resolution: {integrity: sha512-tF5VOugLS/EuDlTBijk0MqABfP8UxgYazTLo3uIn3b4yJgg26QRbVYJYsDtHrjdDUIRfP70+VfhTTc+CE1yskw==}
+  '@types/node@22.19.15':
+    resolution: {integrity: sha512-F0R/h2+dsy5wJAUe3tAU6oqa2qbWY5TpNfL/RGmo1y38hiyO1w3x2jPtt76wmuaJI4DQnOBu21cNXQ2STIUUWg==}
 
   '@vitest/expect@4.0.18':
     resolution: {integrity: sha512-8sCWUyckXXYvx4opfzVY03EOiYVxyNrHS5QxX3DAIi5dpJAAkyJezHCP77VMX4HKA2LDT/Jpfo8i2r5BE3GnQQ==}
@@ -451,8 +451,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/d1148932e34b893f7b2defee3f4fc72645e13a58:
-    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/d1148932e34b893f7b2defee3f4fc72645e13a58}
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/2f74cf880467e60cd55b9e37a82dd15d74dc23fc:
+    resolution: {tarball: https://codeload.github.com/dannycreations/Baratie/tar.gz/2f74cf880467e60cd55b9e37a82dd15d74dc23fc}
     version: 0.0.1
 
   buffer-from@1.1.2:
@@ -536,6 +536,11 @@ packages:
     resolution: {integrity: sha512-Leuly0nbM4R+S5SVJk3VHfw1oxnlEK9KygdZvfUtEtTawNDyzB4qa1xWTmFt1aeoA7sXZkVTRuIixJ8bAvqVUg==}
     hasBin: true
 
+  lucide-react@0.577.0:
+    resolution: {integrity: sha512-4LjoFv2eEPwYDPg/CUdBJQSDfPyzXCRrVW1X7jrx/trgxnxkHFjnVZINbzvzxjN70dxychOfg+FTYwBiS3pQ5A==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -547,8 +552,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  npm-check-updates@19.3.2:
-    resolution: {integrity: sha512-9rr3z7znFjCSuaFxHGTFR2ZBOvLWaJcpLKmIquoTbDBNrwAGiHhv4MZyty6EJ9Xo/aMn35+2ISPSMgWIXx5Xkg==}
+  npm-check-updates@19.6.3:
+    resolution: {integrity: sha512-VAt9Bp26eLaymZ0nZyh5n/by+YZIuegXlvWR0yv1zBqd984f8VnEnBbn+1lS3nN5LyEjn62BJ+yYgzNSpb6Gzg==}
     engines: {node: '>=20.0.0', npm: '>=8.12.1'}
     hasBin: true
 
@@ -1049,7 +1054,7 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
-  '@types/node@22.19.10':
+  '@types/node@22.19.15':
     dependencies:
       undici-types: 6.21.0
 
@@ -1062,13 +1067,13 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.18(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0))':
+  '@vitest/mocker@4.0.18(vite@7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0))':
     dependencies:
       '@vitest/spy': 4.0.18
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0)
+      vite: 7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0)
 
   '@vitest/pretty-format@4.0.18':
     dependencies:
@@ -1094,9 +1099,10 @@ snapshots:
 
   acorn@8.15.0: {}
 
-  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/d1148932e34b893f7b2defee3f4fc72645e13a58(typescript@5.9.3):
+  baratie@https://codeload.github.com/dannycreations/Baratie/tar.gz/2f74cf880467e60cd55b9e37a82dd15d74dc23fc(typescript@5.9.3):
     dependencies:
       clsx: 2.1.1
+      lucide-react: 0.577.0(react@19.2.4)
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
       valibot: 1.2.0(typescript@5.9.3)
@@ -1181,6 +1187,10 @@ snapshots:
 
   jsonrepair@3.13.2: {}
 
+  lucide-react@0.577.0(react@19.2.4):
+    dependencies:
+      react: 19.2.4
+
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -1189,7 +1199,7 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  npm-check-updates@19.3.2: {}
+  npm-check-updates@19.6.3: {}
 
   npm-run-path@6.0.0:
     dependencies:
@@ -1309,7 +1319,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
-  vite-plugin-checker@0.12.0(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0)):
+  vite-plugin-checker@0.12.0(typescript@5.9.3)(vite@7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0)):
     dependencies:
       '@babel/code-frame': 7.27.1
       chokidar: 4.0.3
@@ -1318,12 +1328,12 @@ snapshots:
       picomatch: 4.0.3
       tiny-invariant: 1.3.3
       tinyglobby: 0.2.15
-      vite: 7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0)
+      vite: 7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0)
       vscode-uri: 3.1.0
     optionalDependencies:
       typescript: 5.9.3
 
-  vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0):
+  vite@7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0):
     dependencies:
       esbuild: 0.27.1
       fdir: 6.5.0(picomatch@4.0.3)
@@ -1332,15 +1342,15 @@ snapshots:
       rollup: 4.44.2
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 22.19.10
+      '@types/node': 22.19.15
       fsevents: 2.3.3
       terser: 5.46.0
       tsx: 4.21.0
 
-  vitest@4.0.18(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0):
+  vitest@4.0.18(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0):
     dependencies:
       '@vitest/expect': 4.0.18
-      '@vitest/mocker': 4.0.18(vite@7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0))
+      '@vitest/mocker': 4.0.18(vite@7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0))
       '@vitest/pretty-format': 4.0.18
       '@vitest/runner': 4.0.18
       '@vitest/snapshot': 4.0.18
@@ -1357,10 +1367,10 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.3.1(@types/node@22.19.10)(terser@5.46.0)(tsx@4.21.0)
+      vite: 7.3.1(@types/node@22.19.15)(terser@5.46.0)(tsx@4.21.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 22.19.10
+      '@types/node': 22.19.15
     transitivePeerDependencies:
       - jiti
       - less
