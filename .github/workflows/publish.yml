@@ -19,19 +19,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 'lts/*'
+          bun-version: latest
 
       - name: Install and build
         run: |
-          npm install -g tsx
-          pnpm install
-          tsx scripts/compile.build.ts
-          tsx scripts/manifest.build.ts
+          bun install
+          bun scripts/compile.build.ts
+          bun scripts/manifest.build.ts
 
       - name: Prepare deployment directory
         run: |

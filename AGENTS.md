@@ -2,7 +2,7 @@
 
 ## Guidelines
 
-- Node is used as runtime and pnpm as package manager.
+- Bun is used as both the runtime and package manager.
 
 ## Commands
 

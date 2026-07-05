@@ -34,12 +34,16 @@ async function main(): Promise<void> {
 
   const files = await getFiles(INPUT_DIR, ['.ts']);
 
-  await Promise.all(
-    files.map(async ({ full, relative }) => {
-      try {
-        const outDir = posix.resolve(OUTPUT_DIR, posix.dirname(relative));
-        await build(
-          mergeConfig(viteConfig, {
+  for (const { full, relative } of files) {
+    try {
+      const outDir = posix.resolve(OUTPUT_DIR, posix.dirname(relative));
+      await build(
+        mergeConfig(
+          viteConfig({
+            mode: 'production',
+            command: 'build',
+          }),
+          {
             build: {
               emptyOutDir: false,
               rollupOptions: {
@@ -51,13 +55,13 @@ async function main(): Promise<void> {
                 },
               },
             },
-          } satisfies InlineConfig),
-        );
-      } catch (err) {
-        console.error(`Failed to build ${relative}:`, err);
-      }
-    }),
-  );
+          } satisfies InlineConfig,
+        ),
+      );
+    } catch (err) {
+      console.error(`Failed to build ${relative}:`, err);
+    }
+  }
 
   console.log('All builds successfully.');
 }

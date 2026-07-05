@@ -9,6 +9,7 @@
 
     "noEmit": false,
     "declaration": true,
+    "rootDir": "src",
     "outDir": "dist",
 
     "experimentalDecorators": true,
@@ -21,7 +22,8 @@
     "noUncheckedSideEffectImports": true,
 
     "allowJs": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   },
   "include": ["src"],
   "exclude": ["**/*.test.ts", "**/*.spec.ts"]
